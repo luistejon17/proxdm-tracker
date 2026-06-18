@@ -1,6 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Proximal → ProxDM · Study Tracker</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23b03828'/%3E%3Cpath d='M6 8.5c3-1.4 5.8-1.4 9.4 0V25c-3.6-1.4-6.4-1.4-9.4 0V8.5z' fill='%23fbf7ee'/%3E%3Cpath d='M26 8.5c-3-1.4-5.8-1.4-9.4 0V25c3.6-1.4 6.4-1.4 9.4 0V8.5z' fill='%23f3eddf'/%3E%3Cpath d='M16 8.6V25' stroke='%23b03828' stroke-width='1.3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Spline+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -28,7 +29,11 @@
   a{color:var(--C)}
 
   /* ---------- Header ---------- */
-  header{padding:38px 0 18px}
+  header{padding:38px 0 18px; position:relative}
+  .langswitch{position:absolute; top:24px; right:0; display:inline-flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; background:var(--card); box-shadow:var(--shadow)}
+  .langbtn{font:600 11.5px/1 "IBM Plex Mono",monospace; letter-spacing:.06em; padding:7px 12px; border:none; background:none; cursor:pointer; color:var(--softink); transition:.15s}
+  .langbtn:hover{color:var(--ink)}
+  .langbtn[aria-pressed="true"]{background:var(--P); color:#fff}
   .kicker{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--softink)}
   h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(30px,5vw,50px); line-height:1.02; margin:.18em 0 .12em; letter-spacing:-.01em}
   h1 em{font-style:italic; color:var(--P)}
@@ -148,47 +153,49 @@
 
 <div class="wrap">
   <header>
-    <div class="kicker">Intersemester · 30 h/week · 17 Jun – 17 Aug 2026</div>
+    <div class="langswitch" id="langswitch">
+      <button class="langbtn" data-lang="es">ES</button>
+      <button class="langbtn" data-lang="en">EN</button>
+    </div>
+    <div class="kicker" data-i18n="kicker">Intersemester · 30 h/week · 17 Jun – 17 Aug 2026</div>
     <h1>Proximal&nbsp;Core&nbsp;→&nbsp;<em>ProxDM</em></h1>
-    <div class="sub">The proximal operator at three levels — resolvent of the subdifferential, Moreau–Yosida limit, and JKO in Wasserstein space — threaded through nine weeks toward the ProxDM paper and a thesis problem.</div>
+    <div class="sub" data-i18n="sub">The proximal operator at three levels — resolvent of the subdifferential, Moreau–Yosida limit, and JKO in Wasserstein space — threaded through nine weeks toward the ProxDM paper and a thesis problem.</div>
     <div id="nowline" class="nowline"><span class="nowdot"></span><span id="nowtext">—</span></div>
   </header>
 
-  <div id="savehint" class="savehint"></div>
-
   <div class="overall">
     <div class="top">
-      <div><span id="opct" class="pct">0%</span> <span class="lbl">complete</span></div>
-      <div class="lbl"><span id="ocount">0 / 0</span> tasks</div>
+      <div><span id="opct" class="pct">0%</span> <span class="lbl" data-i18n="complete">complete</span></div>
+      <div class="lbl"><span id="ocount">0 / 0</span> <span data-i18n="tasks">tasks</span></div>
     </div>
     <div class="bar"><span id="obar"></span></div>
   </div>
 
   <section class="panel">
     <div class="ph">
-      <div><h2>Parallel tracks</h2><div class="pdesc">Only A and B overlap (weeks 2–4); C and D run after.</div></div>
+      <div><h2 data-i18n="parallelTracks">Parallel tracks</h2><div class="pdesc" data-i18n="parallelDesc">Only A and B overlap (weeks 2–4); C and D run after.</div></div>
     </div>
     <div class="gantt"><div id="grid"></div></div>
   </section>
 
   <div class="controls">
     <div class="cgroup">
-      <span class="clab">Tracks</span>
+      <span class="clab" data-i18n="tracks">Tracks</span>
       <div id="trackchips" class="chips"></div>
     </div>
     <div class="cgroup">
-      <span class="clab">Objectives</span>
+      <span class="clab" data-i18n="objectives">Objectives</span>
       <div id="objchips" class="chips"></div>
     </div>
     <div class="cgroup">
-      <span class="clab">View</span>
+      <span class="clab" data-i18n="view">View</span>
       <div class="chips">
-        <button id="hidedone" class="chip" aria-pressed="false">Hide completed</button>
-        <button id="expand" class="btn">Expand all</button>
-        <button id="collapse" class="btn">Collapse all</button>
-        <button id="export" class="btn">Export backup</button>
-        <button id="import" class="btn">Import backup</button>
-        <button id="reset" class="btn">Reset progress</button>
+        <button id="hidedone" class="chip" aria-pressed="false" data-i18n="hideCompleted">Hide completed</button>
+        <button id="expand" class="btn" data-i18n="expandAll">Expand all</button>
+        <button id="collapse" class="btn" data-i18n="collapseAll">Collapse all</button>
+        <button id="export" class="btn" data-i18n="exportBackup">Export backup</button>
+        <button id="import" class="btn" data-i18n="importBackup">Import backup</button>
+        <button id="reset" class="btn" data-i18n="resetProgress">Reset progress</button>
         <input id="importfile" type="file" accept="application/json,.json" class="hidden">
       </div>
     </div>
@@ -197,22 +204,93 @@
   <div id="weeks"></div>
 
   <section class="panel" style="margin-top:26px">
-    <h2>Reading list &amp; downloads</h2>
-    <div class="pdesc" style="margin-bottom:12px">Books are the four uploaded texts + Nesterov; papers link to free PDFs.</div>
+    <h2 data-i18n="readingList">Reading list &amp; downloads</h2>
+    <div class="pdesc" style="margin-bottom:12px" data-i18n="readingDesc">Books are the four uploaded texts + Nesterov; papers link to free PDFs.</div>
     <div class="reslist" id="reslist"></div>
   </section>
 
   <section class="panel notes" style="margin-top:18px">
-    <h2>Notes</h2>
-    <p><b>Beck &amp; B&amp;C are complementary.</b> B&amp;C gives the abstract Hilbert-space view (prox = resolvent, monotone operators); Beck gives explicit prox computations + FISTA in ℝⁿ. Read both prox chapters — they do different jobs.</p>
-    <p><b>Week 8 is the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence). Use R&amp;W's *-marked sections to skip on first reading if you fall behind.</p>
-    <p><b>If time runs short, cut in this order</b> (dashed badges mark cuttable items): (1) static OT beyond Ch. 1 core — already excluded; (2) depth of Track D; (3) Nesterov Ch. 2; (4) survey 2nd half. <b>Never cut</b> Track A, Track B, or Santambrogio 5/7/8 — they close O1 and serve O4 + O2 at once.</p>
+    <h2 data-i18n="notes">Notes</h2>
+    <p data-i18n="note1"><b>Beck &amp; B&amp;C are complementary.</b> B&amp;C gives the abstract Hilbert-space view (prox = resolvent, monotone operators); Beck gives explicit prox computations + FISTA in ℝⁿ. Read both prox chapters — they do different jobs.</p>
+    <p data-i18n="note2"><b>Week 8 is the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence). Use R&amp;W's *-marked sections to skip on first reading if you fall behind.</p>
+    <p data-i18n="note3"><b>If time runs short, cut in this order</b> (dashed badges mark cuttable items): (1) static OT beyond Ch. 1 core — already excluded; (2) depth of Track D; (3) Nesterov Ch. 2; (4) survey 2nd half. <b>Never cut</b> Track A, Track B, or Santambrogio 5/7/8 — they close O1 and serve O4 + O2 at once.</p>
   </section>
 
-  <footer>Progress is saved automatically on this device · O1 understand ProxDM · O2 thesis problem · O3 Convex Optimization course · O4 Optimal Transport course</footer>
+  <footer data-i18n="footer">Progress is saved automatically on this device · O1 understand ProxDM · O2 thesis problem · O3 Convex Optimization course · O4 Optimal Transport course</footer>
 </div>
 
 <script>
+// ===================== i18n =====================
+const I18N = {
+  en:{
+    kicker:"Intersemester · 30 h/week · 17 Jun – 17 Aug 2026",
+    sub:"The proximal operator at three levels — resolvent of the subdifferential, Moreau–Yosida limit, and JKO in Wasserstein space — threaded through nine weeks toward the ProxDM paper and a thesis problem.",
+    complete:"complete", tasks:"tasks",
+    parallelTracks:"Parallel tracks", parallelDesc:"Only A and B overlap (weeks 2–4); C and D run after.",
+    tracks:"Tracks", objectives:"Objectives", view:"View",
+    hideCompleted:"Hide completed", expandAll:"Expand all", collapseAll:"Collapse all",
+    exportBackup:"Export backup", importBackup:"Import backup", resetProgress:"Reset progress",
+    readingList:"Reading list & downloads", readingDesc:"Books are the four uploaded texts + Nesterov; papers link to free PDFs.",
+    notes:"Notes",
+    note1:"<b>Beck &amp; B&amp;C are complementary.</b> B&amp;C gives the abstract Hilbert-space view (prox = resolvent, monotone operators); Beck gives explicit prox computations + FISTA in ℝⁿ. Read both prox chapters — they do different jobs.",
+    note2:"<b>Week 8 is the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence). Use R&amp;W's *-marked sections to skip on first reading if you fall behind.",
+    note3:"<b>If time runs short, cut in this order</b> (dashed badges mark cuttable items): (1) static OT beyond Ch. 1 core — already excluded; (2) depth of Track D; (3) Nesterov Ch. 2; (4) survey 2nd half. <b>Never cut</b> Track A, Track B, or Santambrogio 5/7/8 — they close O1 and serve O4 + O2 at once.",
+    footer:"Progress is saved automatically on this device · O1 understand ProxDM · O2 thesis problem · O3 Convex Optimization course · O4 Optimal Transport course",
+    // dynamic
+    track_A:"Proximal core", track_B:"Diffusion / SDE", track_C:"Wasserstein", track_D:"Γ-convergence", track_P:"ProxDM + synthesis",
+    obj_O1:"understand ProxDM", obj_O2:"thesis", obj_O3:"Convex Opt.", obj_O4:"Optimal Transport",
+    done:"done", thisWeek:"THIS WEEK", cutFirst:"cut-first", wAbbr:"W", hours:"30 h", uploadedPDF:"uploaded PDF",
+    noTasks:"No visible tasks under current filters.", noWeeks:"No weeks match the current filters.",
+    skim:"SKIM", optional:"OPTIONAL", cuttable:"CUTTABLE",
+    nowThisWeek:(n,dates,title)=>`This week: Week ${n} · ${dates} — ${title}`,
+    nowStart:(d)=>`Plan starts Jun 17 · ${d} days to go`,
+    nowFinished:"Plan window finished — synthesis time.",
+    confirmReset:"Clear all checkmarks? This can't be undone.",
+    importedOk:"Progress imported ✓", importErr:"That file couldn't be read as a progress backup."
+  },
+  es:{
+    kicker:"Intersemestral · 30 h/semana · 17 jun – 17 ago 2026",
+    sub:"El operador proximal en tres niveles — resolvente del subdiferencial, límite de Moreau–Yosida y JKO en el espacio de Wasserstein — hilados a lo largo de nueve semanas hacia el paper ProxDM y un problema de tesis.",
+    complete:"completado", tasks:"tareas",
+    parallelTracks:"Pistas paralelas", parallelDesc:"Solo A y B se solapan (semanas 2–4); C y D van después.",
+    tracks:"Pistas", objectives:"Objetivos", view:"Vista",
+    hideCompleted:"Ocultar completadas", expandAll:"Expandir todo", collapseAll:"Colapsar todo",
+    exportBackup:"Exportar respaldo", importBackup:"Importar respaldo", resetProgress:"Reiniciar progreso",
+    readingList:"Lecturas y descargas", readingDesc:"Los libros son los cuatro textos subidos + Nesterov; los papers enlazan a PDFs gratuitos.",
+    notes:"Notas",
+    note1:"<b>Beck y B&amp;C son complementarios.</b> B&amp;C da la visión abstracta en espacios de Hilbert (prox = resolvente, operadores monótonos); Beck da cálculos explícitos de prox + FISTA en ℝⁿ. Lee ambos capítulos de prox — hacen cosas distintas.",
+    note2:"<b>La semana 8 es la más apretada.</b> El cap. 7 de R&amp;W (epi-convergencia) requiere de verdad el cap. 4 (convergencia de conjuntos). Usa las secciones marcadas con * de R&amp;W para saltártelas en una primera lectura si te atrasas.",
+    note3:"<b>Si falta tiempo, recorta en este orden</b> (las insignias punteadas marcan lo recortable): (1) TO estático más allá del núcleo del cap. 1 — ya excluido; (2) profundidad de la pista D; (3) Nesterov cap. 2; (4) segunda mitad del survey. <b>Nunca recortes</b> la pista A, la pista B ni Santambrogio 5/7/8 — cierran O1 y sirven a O4 + O2 a la vez.",
+    footer:"El progreso se guarda automáticamente en este dispositivo · O1 entender ProxDM · O2 problema de tesis · O3 curso de Optimización Convexa · O4 curso de Transporte Óptimo",
+    track_A:"Núcleo proximal", track_B:"Difusión / EDE", track_C:"Wasserstein", track_D:"Γ-convergencia", track_P:"ProxDM + síntesis",
+    obj_O1:"entender ProxDM", obj_O2:"tesis", obj_O3:"Opt. Convexa", obj_O4:"Transporte Óptimo",
+    done:"hechas", thisWeek:"ESTA SEMANA", cutFirst:"recortar-primero", wAbbr:"S", hours:"30 h", uploadedPDF:"PDF subido",
+    noTasks:"No hay tareas visibles con los filtros actuales.", noWeeks:"Ninguna semana coincide con los filtros actuales.",
+    skim:"OJEAR", optional:"OPCIONAL", cuttable:"RECORTABLE",
+    nowThisWeek:(n,dates,title)=>`Esta semana: Semana ${n} · ${dates} — ${title}`,
+    nowStart:(d)=>`El plan empieza el 17 jun · faltan ${d} días`,
+    nowFinished:"Ventana del plan terminada — hora de la síntesis.",
+    confirmReset:"¿Borrar todas las marcas? Esto no se puede deshacer.",
+    importedOk:"Progreso importado ✓", importErr:"No se pudo leer ese archivo como respaldo de progreso."
+  }
+};
+let LANG = (function(){ try{ return localStorage.getItem("proxdm_lang")||"es"; }catch(e){ return "es"; } })();
+const TT = (k)=> (I18N[LANG] && I18N[LANG][k]!=null) ? I18N[LANG][k] : (I18N.en[k]!=null?I18N.en[k]:k);
+
+function applyStaticI18n(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const v=TT(el.getAttribute("data-i18n"));
+    if(typeof v==="string") el.innerHTML=v;
+  });
+  document.querySelectorAll(".langbtn").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lang===LANG?"true":"false"));
+}
+function setLang(l){
+  LANG=l; try{ localStorage.setItem("proxdm_lang",l); }catch(e){}
+  applyStaticI18n(); buildGantt(); buildChips(); buildResources(); setNowline(); renderWeeks();
+}
+// ===================== /i18n =====================
+
 const TRACKS = {
   A:{name:"Proximal core", color:"var(--A)", raw:"#1b7f73"},
   B:{name:"Diffusion / SDE", color:"var(--B)", raw:"#c8772e"},
@@ -536,7 +614,7 @@ function buildGantt(){
   html += `<div class="grow"><div class="gcell ghead"></div>`;
   for(let i=1;i<=9;i++){
     const now = i===cw;
-    html += `<div class="gcell ghead ${now?'gnow-head':''}"><b>W${i}</b><span>${DATELBL[i-1].replace('–','‑')}</span></div>`;
+    html += `<div class="gcell ghead ${now?'gnow-head':''}"><b>${TT('wAbbr')}${i}</b><span>${DATELBL[i-1].replace('–','‑')}</span></div>`;
   }
   html += `</div>`;
   // track rows
@@ -558,14 +636,13 @@ function buildGantt(){
 function buildChips(){
   const tc = document.getElementById("trackchips");
   tc.innerHTML = Object.keys(TRACKS).map(k=>
-    `<button class="chip" data-track="${k}" aria-pressed="${trackFilter[k]?'true':'false'}"><span class="cd" style="background:${TRACKS[k].raw}"></span>${k==='P'?'ProxDM':k} · ${TRACKS[k].name}</button>`).join("");
+    `<button class="chip" data-track="${k}" aria-pressed="${trackFilter[k]?'true':'false'}"><span class="cd" style="background:${TRACKS[k].raw}"></span>${k==='P'?'ProxDM':k} · ${TT('track_'+k)}</button>`).join("");
   tc.querySelectorAll("[data-track]").forEach(b=>b.onclick=()=>{
     const k=b.dataset.track; trackFilter[k]=trackFilter[k]?0:1; b.setAttribute("aria-pressed",trackFilter[k]?'true':'false'); save(); renderWeeks();
   });
   const oc = document.getElementById("objchips");
-  const OBJ={O1:"understand ProxDM",O2:"thesis",O3:"Convex Opt.",O4:"Optimal Transport"};
-  oc.innerHTML = Object.keys(OBJ).map(k=>
-    `<button class="chip" data-obj="${k}" aria-pressed="${objFilter[k]?'true':'false'}">${k} · ${OBJ[k]}</button>`).join("");
+  oc.innerHTML = ["O1","O2","O3","O4"].map(k=>
+    `<button class="chip" data-obj="${k}" aria-pressed="${objFilter[k]?'true':'false'}">${k} · ${TT('obj_'+k)}</button>`).join("");
   oc.querySelectorAll("[data-obj]").forEach(b=>b.onclick=()=>{
     const k=b.dataset.obj; objFilter[k]=objFilter[k]?0:1; b.setAttribute("aria-pressed",objFilter[k]?'true':'false'); save(); renderWeeks();
   });
@@ -581,7 +658,7 @@ function taskRow(task){
   const dc = doneCount(ids), tot=ids.length;
   const allDone = dc===tot, someDone = dc>0 && dc<tot;
   if(hideDone && allDone) return "";
-  const badges = (o)=> (o.skim?'<span class="minibadge b-skim">SKIM</span>':'')+(o.opt?'<span class="minibadge b-opt">OPTIONAL</span>':'')+(o.cut?'<span class="minibadge b-cut">CUTTABLE</span>':'');
+  const badges = (o)=> (o.skim?`<span class="minibadge b-skim">${TT('skim')}</span>`:'')+(o.opt?`<span class="minibadge b-opt">${TT('optional')}</span>`:'')+(o.cut?`<span class="minibadge b-cut">${TT('cuttable')}</span>`:'');
   const fmt = (lab)=>{ const i=lab.indexOf(':'); if(i>0 && i<7){ return `<span class="code" style="--ck:${ck}">${lab.slice(0,i+1)}</span>${lab.slice(i+1).replace(/\(([^)]+)\)\s*$/,'<span class="auth">($1)</span>')}`;} return lab.replace(/\(([^)]+)\)\s*$/,'<span class="auth">($1)</span>'); };
 
   if(!task.subs || !task.subs.length){
@@ -630,23 +707,23 @@ function renderWeeks(){
     // tasks (respecting track filter + hideDone)
     let tasksHtml = w.tasks.filter(t=>trackFilter[t.track]).map(taskRow).join("");
     if(hideDone && dc===tot) return; // whole week complete & hidden
-    if(!tasksHtml.trim()) tasksHtml = `<div class="row"><span class="twist spacer"></span><div class="tlabel" style="color:var(--softink)">No visible tasks under current filters.</div></div>`;
+    if(!tasksHtml.trim()) tasksHtml = `<div class="row"><span class="twist spacer"></span><div class="tlabel" style="color:var(--softink)">${TT('noTasks')}</div></div>`;
     const isNow = w.n===cw;
     const collapsed = collapsedW[w.n];
     const tags = w.tracks.map(t=>`<span class="tag" style="background:${trackColor(t)}">${t==='P'?'ProxDM':t}</span>`).join("")
       + w.obj.map(o=>`<span class="tag obj">${o}</span>`).join("")
-      + (w.tasks.some(t=>t.cut)?`<span class="tag cut">cut-first</span>`:"")
-      + (isNow?`<span class="tag now">THIS WEEK</span>`:"");
+      + (w.tasks.some(t=>t.cut)?`<span class="tag cut">${TT('cutFirst')}</span>`:"")
+      + (isNow?`<span class="tag now">${TT('thisWeek')}</span>`:"");
     html += `<div class="week ${collapsed?'collapsed':''} ${isNow?'now':''}" style="--wk:${wk}" data-week="${w.n}">
       <div class="whead" data-weektoggle="${w.n}">
         <div class="wnum">${w.n}</div>
         <div class="wmid">
           <div class="wtitle">${w.title}</div>
-          <div class="wdates">${w.dates} · 30 h</div>
+          <div class="wdates">${w.dates} · ${TT('hours')}</div>
           <div class="wtags">${tags}</div>
         </div>
         <div class="wright">
-          <span class="wcount">${dc} / ${tot} done</span>
+          <span class="wcount">${dc} / ${tot} ${TT('done')}</span>
           <div class="wbar"><span style="width:${pct}%"></span></div>
           <span class="chev">▾</span>
         </div>
@@ -655,7 +732,7 @@ function renderWeeks(){
       <div class="wbody">${tasksHtml}</div>
     </div>`;
   });
-  host.innerHTML = html || `<div class="week" style="padding:24px;text-align:center;color:var(--softink)">No weeks match the current filters.</div>`;
+  host.innerHTML = html || `<div class="week" style="padding:24px;text-align:center;color:var(--softink)">${TT('noWeeks')}</div>`;
   bindWeekEvents();
   updateParents();
   updateOverall();
@@ -704,7 +781,7 @@ function updateWeekBars(){
     const n=el.dataset.week; const w=WEEKS.find(x=>String(x.n)===String(n)); if(!w) return;
     const ids=weekLeaves(w); const dc=doneCount(ids), tot=ids.length;
     const bar=el.querySelector(".wbar>span"); if(bar) bar.style.width=(tot?Math.round(dc/tot*100):0)+"%";
-    const c=el.querySelector(".wcount"); if(c) c.textContent=`${dc} / ${tot} done`;
+    const c=el.querySelector(".wcount"); if(c) c.textContent=`${dc} / ${tot} ${TT('done')}`;
   });
 }
 function updateOverall(){
@@ -712,40 +789,28 @@ function updateOverall(){
   document.getElementById("opct").textContent=Math.round(dc/TOTAL*100)+"%";
   document.getElementById("ocount").textContent=`${dc} / ${TOTAL}`;
   document.getElementById("obar").style.width=Math.round(dc/TOTAL*100)+"%";
-  setSaveHint(); // keep the "N done" hint in sync
 }
 
 function buildResources(){
   document.getElementById("reslist").innerHTML = RESOURCES.map(r=>{
-    const inner=`<div class="rt">${r.t}</div><div class="rl">${r.l}</div>`;
+    const label = r.l==="uploaded PDF" ? TT('uploadedPDF') : r.l;
+    const inner=`<div class="rt">${r.t}</div><div class="rl">${label}</div>`;
     return r.u ? `<a class="res" href="${r.u}" target="_blank" rel="noopener">${inner}</a>` : `<div class="res" style="cursor:default">${inner}</div>`;
   }).join("");
 }
 
-function setSaveHint(){
-  const el=document.getElementById("savehint");
-  if(!el) return;
-  const onHttp = location.protocol.startsWith("http");
-  const dc=doneCount(ALLLEAVES);
-  if(onHttp){
-    el.className="savehint ok";
-    el.innerHTML='<span class="si">\u2713</span><div><b>Progress lives in this page\u2019s URL</b> ('+dc+' done) and is saved on this device. Keep this tab in your synced Edge workspace and it follows you to any PC \u2014 just reopen the workspace. <b>Bookmark</b> the page (or copy its URL) anytime to snapshot your progress.</div>';
-  } else {
-    el.className="savehint warn";
-    el.innerHTML='<span class="si">\u26A0</span><div><b>You\u2019re opening this as a local file</b> \u2014 progress saves on this device only. To sync across PCs, open the hosted version (luistejon17.github.io/proxdm-tracker) inside your Edge workspace so the URL syncs.</div>';
-  }
-}
+function setSaveHint(){ /* progress hint intentionally hidden \u2014 sync is handled silently via the URL */ }
 function setNowline(){
   const cw=currentWeek(); const el=document.getElementById("nowtext");
-  if(cw===0){ el.textContent=`Plan starts Jun 17 · ${Math.max(0,Math.ceil((STARTS[0]-new Date())/864e5))} days to go`; }
-  else if(cw===10){ el.textContent="Plan window finished — synthesis time."; }
-  else { const w=WEEKS[cw-1]; el.textContent=`This week: Week ${cw} · ${w.dates} — ${w.title}`; }
+  if(cw===0){ el.textContent=TT('nowStart')(Math.max(0,Math.ceil((STARTS[0]-new Date())/864e5))); }
+  else if(cw===10){ el.textContent=TT('nowFinished'); }
+  else { const w=WEEKS[cw-1]; el.textContent=TT('nowThisWeek')(cw, w.dates, w.title); }
 }
 
 // ---------- buttons ----------
 document.getElementById("expand").onclick=()=>{ WEEKS.forEach(w=>collapsedW[w.n]=false); document.querySelectorAll(".task").forEach(t=>{}); WEEKS.forEach(w=>w.tasks.forEach(t=>{if(t.subs)delete closedT[t.id];})); save(); renderWeeks(); };
 document.getElementById("collapse").onclick=()=>{ WEEKS.forEach(w=>collapsedW[w.n]=true); save(); renderWeeks(); };
-document.getElementById("reset").onclick=()=>{ if(confirm("Clear all checkmarks? This can't be undone.")){ done={}; save(); renderWeeks(); } };
+document.getElementById("reset").onclick=()=>{ if(confirm(TT('confirmReset'))){ done={}; save(); renderWeeks(); } };
 document.getElementById("export").onclick=()=>{
   const data=JSON.stringify({version:1, savedAt:new Date().toISOString(), progress:done, ui:{collapsedW,closedT,trackFilter,objFilter,hideDone}}, null, 2);
   const blob=new Blob([data],{type:"application/json"});
@@ -761,9 +826,9 @@ document.getElementById("importfile").onchange=(e)=>{
     const o=JSON.parse(r.result);
     if(o.progress) done=o.progress;
     if(o.ui){ collapsedW=o.ui.collapsedW||{}; closedT=o.ui.closedT||{}; if(o.ui.trackFilter)trackFilter=o.ui.trackFilter; if(o.ui.objFilter)objFilter=o.ui.objFilter; hideDone=!!o.ui.hideDone; }
-    save(); buildChips(); renderWeeks(); // save() also pushes to cloud if configured
-    alert("Progress imported \u2713");
-  }catch(err){ alert("That file couldn't be read as a progress backup."); } };
+    save(); buildChips(); renderWeeks();
+    alert(TT('importedOk'));
+  }catch(err){ alert(TT('importErr')); } };
   r.readAsText(f); e.target.value="";
 };
 
@@ -787,6 +852,8 @@ document.getElementById("importfile").onchange=(e)=>{
   // so a fresh ?s= is present even before the first click (Edge can then sync it).
   syncURL();
 
+  applyStaticI18n();
+  document.querySelectorAll(".langbtn").forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
   buildGantt(); buildChips(); buildResources(); setNowline(); setSaveHint(); renderWeeks();
 })();
 </script>
