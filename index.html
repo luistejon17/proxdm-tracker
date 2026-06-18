@@ -470,78 +470,62 @@ let trackFilter = {A:1,B:1,C:1,D:1,P:1};
 let objFilter = {O1:1,O2:1,O3:1,O4:1};
 let hideDone = false;
 
-// ---------- storage (localStorage = fast local cache; JSONBin = cloud sync across devices) ----------
-const LS_KEY = "proxdm_tracker_v1";
-const Store = {
-  mem:{},
-  _ls(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)||"{}"); }catch(e){ return {}; } },
-  _haveLS(){ try{ localStorage.setItem("__t","1"); localStorage.removeItem("__t"); return true; }catch(e){ return false; } },
-  async get(k){
-    try{ const ls=this._ls(); if(Object.prototype.hasOwnProperty.call(ls,k)) return ls[k]; }catch(e){}
-    return this.mem[k] ?? null;
-  },
-  async set(k,v){
-    this.mem[k]=v;
-    try{ const ls=this._ls(); ls[k]=v; localStorage.setItem(LS_KEY,JSON.stringify(ls)); }catch(e){}
-  },
-  async del(k){
-    delete this.mem[k];
-    try{ const ls=this._ls(); delete ls[k]; localStorage.setItem(LS_KEY,JSON.stringify(ls)); }catch(e){}
-  }
-};
-
-// ---------- JSONBin cloud sync ----------
-const Cloud = {
-  CFG_KEY:"proxdm_jsonbin_cfg",
-  _cfg(){ try{ return JSON.parse(localStorage.getItem(this.CFG_KEY)||"{}"); }catch(e){ return {}; } },
-  configured(){ const c=this._cfg(); return !!(c.binId && c.key); },
-  setCfg(binId,key){ localStorage.setItem(this.CFG_KEY,JSON.stringify({binId:binId.trim(),key:key.trim()})); },
-  status:"idle", // idle | loading | saving | ok | error | off
-  _url(){ const c=this._cfg(); return `https://api.jsonbin.io/v3/b/${c.binId}`; },
-  _headers(){ const c=this._cfg(); return {"Content-Type":"application/json","X-Master-Key":c.key}; },
-  async load(){
-    if(!this.configured()){ this.status="off"; return null; }
-    this.status="loading"; cloudBadge();
-    try{
-      const r=await fetch(this._url()+"/latest",{headers:this._headers()});
-      if(!r.ok) throw new Error("HTTP "+r.status);
-      const j=await r.json();
-      this.status="ok"; cloudBadge();
-      return j.record || null;
-    }catch(e){ this.status="error"; this._err=e.message; cloudBadge(); return null; }
-  },
-  _pending:null, _timer:null,
-  save(payload){
-    if(!this.configured()){ this.status="off"; cloudBadge(); return; }
-    this._pending=payload;
-    clearTimeout(this._timer);
-    // debounce: rapid clicks coalesce into one PUT
-    this._timer=setTimeout(()=>this._flush(),700);
-  },
-  async _flush(){
-    if(!this._pending) return;
-    const body=JSON.stringify(this._pending); this._pending=null;
-    this.status="saving"; cloudBadge();
-    try{
-      const r=await fetch(this._url(),{method:"PUT",headers:this._headers(),body});
-      if(!r.ok) throw new Error("HTTP "+r.status);
-      this.status="ok"; cloudBadge();
-    }catch(e){ this.status="error"; this._err=e.message; cloudBadge(); }
-  }
-};
-
-function snapshot(){ return {version:1, savedAt:new Date().toISOString(), progress:done, ui:{collapsedW,closedT,trackFilter,objFilter,hideDone}}; }
-const save = () => {
-  Store.set("progress",done); Store.set("ui",{collapsedW,closedT,trackFilter,objFilter,hideDone});
-  Cloud.save(snapshot());
-};
-
 // ---------- leaf helpers ----------
 function leavesOf(task){ return (task.subs && task.subs.length) ? task.subs.map(s=>s.id) : [task.id]; }
 function weekLeaves(w){ let a=[]; w.tasks.forEach(t=>a=a.concat(leavesOf(t))); return a; }
 const ALLLEAVES = (()=>{ let a=[]; WEEKS.forEach(w=>a=a.concat(weekLeaves(w))); return a; })();
 const TOTAL = ALLLEAVES.length;
 function doneCount(ids){ return ids.filter(id=>done[id]).length; }
+
+// ---------- persistence (progress lives in the URL — chess-puzzles style — so Edge tab-sync carries it across PCs; localStorage is a per-device safety net) ----------
+const LS_KEY = "proxdm_tracker_v1";
+const Store = {  // local UI prefs only (collapse state / filters); not synced via URL
+  _ls(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)||"{}"); }catch(e){ return {}; } },
+  _haveLS(){ try{ localStorage.setItem("__t","1"); localStorage.removeItem("__t"); return true; }catch(e){ return false; } },
+  get(k){ const ls=this._ls(); return Object.prototype.hasOwnProperty.call(ls,k)?ls[k]:null; },
+  set(k,v){ try{ const ls=this._ls(); ls[k]=v; localStorage.setItem(LS_KEY,JSON.stringify(ls)); }catch(e){} }
+};
+
+// bitfield <-> base64url. Each leaf has a fixed index = position in ALLLEAVES.
+const B64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+function encodeProgress(){
+  const n=ALLLEAVES.length, bytes=new Uint8Array(Math.ceil(n/8));
+  for(let i=0;i<n;i++){ if(done[ALLLEAVES[i]]) bytes[i>>3] |= (1<<(i&7)); }
+  // base64url of the raw bytes
+  let bin=""; bytes.forEach(b=>bin+=String.fromCharCode(b));
+  return btoa(bin).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function decodeProgress(s){
+  const d={};
+  try{
+    const b64=s.replace(/-/g,"+").replace(/_/g,"/");
+    const bin=atob(b64);
+    for(let i=0;i<ALLLEAVES.length;i++){
+      const byte=bin.charCodeAt(i>>3)||0;
+      if(byte & (1<<(i&7))) d[ALLLEAVES[i]]=true;
+    }
+  }catch(e){}
+  return d;
+}
+
+// Reflect current progress into the URL (?s=...) without reloading — exactly like the chess tracker bumping ?id=.
+const URL_SAVED = !location.protocol.startsWith("http") ? false : true; // file:// can't pushState reliably, but localStorage still covers it
+function syncURL(){
+  try{
+    const u=new URL(location.href);
+    const code=encodeProgress();
+    if(code) u.searchParams.set("s",code); else u.searchParams.delete("s");
+    history.replaceState(null,"",u);
+  }catch(e){}
+}
+
+const save = () => {
+  // 1) URL: the synced source of truth (Edge workspace carries the tab/URL between PCs)
+  syncURL();
+  // 2) localStorage: per-device safety net (progress + UI prefs)
+  Store.set("progress",done);
+  Store.set("ui",{collapsedW,closedT,trackFilter,objFilter,hideDone});
+};
 
 // ---------- render gantt ----------
 function buildGantt(){
@@ -728,6 +712,7 @@ function updateOverall(){
   document.getElementById("opct").textContent=Math.round(dc/TOTAL*100)+"%";
   document.getElementById("ocount").textContent=`${dc} / ${TOTAL}`;
   document.getElementById("obar").style.width=Math.round(dc/TOTAL*100)+"%";
+  setSaveHint(); // keep the "N done" hint in sync
 }
 
 function buildResources(){
@@ -737,59 +722,19 @@ function buildResources(){
   }).join("");
 }
 
-function cloudBadge(){
+function setSaveHint(){
   const el=document.getElementById("savehint");
   if(!el) return;
-  const open='<button id="cfgbin" class="btn" style="margin-left:auto">Cloud sync setup</button>';
-  if(Cloud.configured()){
-    const s=Cloud.status;
-    const map={
-      loading:["ok","\u21BB","<b>Loading your progress from the cloud\u2026</b>"],
-      saving:["ok","\u21BA","<b>Saving to the cloud\u2026</b> Your checkmarks sync across all your devices."],
-      ok:["ok","\u2713","<b>Synced to the cloud.</b> Open this page on any device and your progress follows you."],
-      error:["warn","\u26A0","<b>Cloud sync error</b> ("+(Cloud._err||"?")+"). Saved locally for now \u2014 check your Bin ID / API key in setup."],
-      idle:["ok","\u2713","<b>Cloud sync is on.</b>"]
-    };
-    const [cls,si,msg]=map[s]||map.idle;
-    el.className="savehint "+cls;
-    el.innerHTML=`<span class="si">${si}</span><div>${msg}</div>${open}`;
+  const onHttp = location.protocol.startsWith("http");
+  const dc=doneCount(ALLLEAVES);
+  if(onHttp){
+    el.className="savehint ok";
+    el.innerHTML='<span class="si">\u2713</span><div><b>Progress lives in this page\u2019s URL</b> ('+dc+' done) and is saved on this device. Keep this tab in your synced Edge workspace and it follows you to any PC \u2014 just reopen the workspace. <b>Bookmark</b> the page (or copy its URL) anytime to snapshot your progress.</div>';
   } else {
     el.className="savehint warn";
-    el.innerHTML='<span class="si">\u2601</span><div><b>Cloud sync is not set up yet.</b> Right now progress only saves in this one browser. Click <b>Cloud sync setup</b> and paste your JSONBin Bin&nbsp;ID + API key to sync across devices.</div>'+open;
+    el.innerHTML='<span class="si">\u26A0</span><div><b>You\u2019re opening this as a local file</b> \u2014 progress saves on this device only. To sync across PCs, open the hosted version (luistejon17.github.io/proxdm-tracker) inside your Edge workspace so the URL syncs.</div>';
   }
-  const btn=document.getElementById("cfgbin");
-  if(btn) btn.onclick=openCfgDialog;
 }
-
-function openCfgDialog(){
-  const c=Cloud._cfg();
-  const binId=prompt("JSONBin \u2014 Bin ID\n(the ID of your bin, e.g. 665f1a2c...):", c.binId||"");
-  if(binId===null) return;
-  const key=prompt("JSONBin \u2014 Master Key (X-Master-Key)\n(from your JSONBin account \u2192 API Keys):", c.key||"");
-  if(key===null) return;
-  if(!binId.trim() || !key.trim()){ alert("Both Bin ID and Master Key are required."); return; }
-  Cloud.setCfg(binId,key);
-  cloudBadge();
-  // pull whatever is in the cloud and merge it in
-  (async()=>{
-    const rec=await Cloud.load();
-    if(rec){
-      if(rec.progress) done=rec.progress;
-      if(rec.ui){ collapsedW=rec.ui.collapsedW||{}; closedT=rec.ui.closedT||{}; if(rec.ui.trackFilter)trackFilter=rec.ui.trackFilter; if(rec.ui.objFilter)objFilter=rec.ui.objFilter; hideDone=!!rec.ui.hideDone; }
-      Store.set("progress",done); Store.set("ui",{collapsedW,closedT,trackFilter,objFilter,hideDone});
-      buildChips(); renderWeeks();
-      alert("Connected \u2713  Pulled your latest progress from the cloud.");
-    } else if(Cloud.status==="ok"){
-      // bin exists but is empty -> push current local state up
-      Cloud.save(snapshot());
-      alert("Connected \u2713  This bin was empty, so your current progress was uploaded to it.");
-    } else {
-      alert("Saved the keys, but couldn't reach the bin. Double-check the Bin ID and Master Key.");
-    }
-  })();
-}
-
-function setSaveHint(){ cloudBadge(); }
 function setNowline(){
   const cw=currentWeek(); const el=document.getElementById("nowtext");
   if(cw===0){ el.textContent=`Plan starts Jun 17 · ${Math.max(0,Math.ceil((STARTS[0]-new Date())/864e5))} days to go`; }
@@ -823,24 +768,25 @@ document.getElementById("importfile").onchange=(e)=>{
 };
 
 // ---------- init ----------
-(async function init(){
-  // 1) load local cache first (instant render, offline fallback)
-  const p=await Store.get("progress"); if(p && typeof p==="object") done=p;
-  const ui=await Store.get("ui");
+(function init(){
+  // PROGRESS — the URL wins (it's what Edge syncs between PCs); fall back to this device's localStorage.
+  const fromURL = new URLSearchParams(location.search).get("s");
+  if(fromURL){
+    done = decodeProgress(fromURL);
+  } else {
+    const p=Store.get("progress"); if(p && typeof p==="object") done=p;
+  }
+
+  // UI PREFS — local to each device (not in the URL): collapse state + filters.
+  const ui=Store.get("ui");
   if(ui){ collapsedW=ui.collapsedW||{}; closedT=ui.closedT||{}; if(ui.trackFilter)trackFilter=ui.trackFilter; if(ui.objFilter)objFilter=ui.objFilter; hideDone=!!ui.hideDone; }
   // default: collapse everything except current week
   if(!ui){ const cw=currentWeek(); WEEKS.forEach(w=>{ collapsedW[w.n] = !(w.n===cw); }); if(cw===0||cw===10){ collapsedW[1]=false; } }
-  buildGantt(); buildChips(); buildResources(); setNowline(); setSaveHint(); renderWeeks();
 
-  // 2) if cloud is configured, pull the canonical state and re-render
-  if(Cloud.configured()){
-    const rec=await Cloud.load();
-    if(rec){
-      if(rec.progress) done=rec.progress;
-      if(rec.ui){ collapsedW=rec.ui.collapsedW||{}; closedT=rec.ui.closedT||{}; if(rec.ui.trackFilter)trackFilter=rec.ui.trackFilter; if(rec.ui.objFilter)objFilter=rec.ui.objFilter; hideDone=!!rec.ui.hideDone; }
-      Store.set("progress",done); Store.set("ui",{collapsedW,closedT,trackFilter,objFilter,hideDone});
-      buildChips(); renderWeeks();
-    }
-  }
+  // Make sure the URL reflects the loaded progress from the very first paint,
+  // so a fresh ?s= is present even before the first click (Edge can then sync it).
+  syncURL();
+
+  buildGantt(); buildChips(); buildResources(); setNowline(); setSaveHint(); renderWeeks();
 })();
 </script>
