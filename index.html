@@ -331,7 +331,7 @@ const chap = (id,label,track,subs,opts={}) => ({id,label,track,subs,...opts});
 const leaf = (id,label,track,opts={}) => ({id,label,track,...opts}); // no subs
 
 const WEEKS = [
- {n:1, dates:DATELBL[0], title:"Foundation — convex analysis", tracks:["A"], obj:["O3"],
+ {n:1, dates:DATELBL[0], title:"Foundation — convex analysis", titleEs:"Fundamentos — análisis convexo", tracks:["A"], obj:["O3"],
   tasks:[
    leaf("w1-beck1","1: Vector Spaces (Beck)","A",{skim:true}),
    chap("w1-beck2","2: Extended Real-Valued Functions (Beck)","A",[
@@ -363,7 +363,7 @@ const WEEKS = [
    leaf("w1-proxdm1","ProxDM — Pass 1: orient (skim the whole paper) (ProxDM)","P")
   ]},
 
- {n:2, dates:DATELBL[1], title:"Build the proximal operator + diffusion on-ramp", tracks:["A","B"], obj:["O1","O3","O4"],
+ {n:2, dates:DATELBL[1], title:"Build the proximal operator + diffusion on-ramp", titleEs:"Construir el operador proximal + rampa de difusión", tracks:["A","B"], obj:["O1","O3","O4"],
   tasks:[
    chap("w2-beck4","4: Conjugate Functions (Beck)","A",[
      sub("w2-beck4-1","4.1: Definition and Basic Properties (Beck)"),
@@ -404,7 +404,7 @@ const WEEKS = [
      sub("w2-sbs-4","§4: Flow Matching (Step-by-Step Diffusion)",{skim:true})])
   ]},
 
- {n:3, dates:DATELBL[2], title:"Close A: prox = resolvent · FISTA · score-SDE", tracks:["A","B"], obj:["O1","O3"],
+ {n:3, dates:DATELBL[2], title:"Close A: prox = resolvent · FISTA · score-SDE", titleEs:"Cerrar A: prox = resolvente · FISTA · score-SDE", tracks:["A","B"], obj:["O1","O3"],
   tasks:[
    chap("w3-bc16","16: Subdifferentiability of Convex Functions (Bauschke & Combettes)","A",[
      sub("w3-bc16-1","16.1: Basic Properties (Bauschke & Combettes)"),
@@ -442,7 +442,7 @@ const WEEKS = [
      sub("w3-song-5","§5: Controllable generation / inverse problems (Song et al. 2021)",{skim:true})])
   ]},
 
- {n:4, dates:DATELBL[3], title:"Finish diffusion · Nesterov acceleration", tracks:["B","A"], obj:["O1","O2","O3"],
+ {n:4, dates:DATELBL[3], title:"Finish diffusion · Nesterov acceleration", titleEs:"Terminar difusión · aceleración de Nesterov", tracks:["B","A"], obj:["O1","O2","O3"],
   tasks:[
    chap("w4-rwt","Random Walks with Tweedie — unified diffusion framework","B",[
      sub("w4-rwt-1","Part 1: Tweedie's formula & the denoiser ↔ score connection (Random Walks with Tweedie)"),
@@ -458,8 +458,8 @@ const WEEKS = [
    leaf("w4-proxdm2","ProxDM — Pass 2: medium, careful read following score ↔ prox (ProxDM)","P")
   ]},
 
- {n:5, dates:DATELBL[4], title:"Minimum static OT before Wasserstein", tracks:["C"], obj:["O4","O2"],
-  note:"This is the floor of static OT — don't expand Ch. 2–4. Everything here is a prerequisite for Week 6.",
+ {n:5, dates:DATELBL[4], title:"Minimum static OT before Wasserstein", titleEs:"TO estático mínimo antes de Wasserstein", tracks:["C"], obj:["O4","O2"],
+  note:"This is the floor of static OT — don't expand Ch. 2–4. Everything here is a prerequisite for Week 6.", noteEs:"Este es el piso de TO estático — no amplíes los caps. 2–4. Todo aquí es prerrequisito para la semana 6.",
   tasks:[
    chap("w5-santa1","1: Primal and Dual Problems (Santambrogio)","C",[
      sub("w5-s1-1","1.1: Kantorovich and Monge Problems (Santambrogio)"),
@@ -469,7 +469,7 @@ const WEEKS = [
    leaf("w5-santa412","4.1.2: The Continuity Equation (Santambrogio)","C")
   ]},
 
- {n:6, dates:DATELBL[5], title:"Wasserstein spaces", tracks:["C"], obj:["O4","O2","O1"],
+ {n:6, dates:DATELBL[5], title:"Wasserstein spaces", titleEs:"Espacios de Wasserstein", tracks:["C"], obj:["O4","O2","O1"],
   tasks:[
    chap("w6-santa5","5: Wasserstein Spaces (Santambrogio)","C",[
      sub("w6-s5-1","5.1: Definition and Triangle Inequality (Santambrogio)"),
@@ -481,7 +481,7 @@ const WEEKS = [
      sub("w6-sv-2","Gradient flows in metric spaces (Survey)")])
   ]},
 
- {n:7, dates:DATELBL[6], title:"Climax — gradient flows & JKO (closes O1)", tracks:["C"], obj:["O4","O2","O1"],
+ {n:7, dates:DATELBL[6], title:"Climax — gradient flows & JKO (closes O1)", titleEs:"Clímax — flujos gradiente y JKO (cierra O1)", tracks:["C"], obj:["O4","O2","O1"],
   tasks:[
    chap("w7-santa7","7: Functionals over Probabilities (Santambrogio)","C",[
      sub("w7-s7-1","7.1: Semi-continuity (Santambrogio)"),
@@ -494,8 +494,8 @@ const WEEKS = [
    leaf("w7-survey2","Survey — Wasserstein gradient flows, 2nd half (Santambrogio)","C",{cut:true})
   ]},
 
- {n:8, dates:DATELBL[7], title:"Γ / epi-convergence (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
-  note:"Tightest week. C7 needs C4 — that's why both are here. First cut if behind: read 7.A–E + 1.G, skim C4 without proofs.",
+ {n:8, dates:DATELBL[7], title:"Γ / epi-convergence (Rockafellar & Wets)", titleEs:"Γ / epi-convergencia (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
+  note:"Tightest week. C7 needs C4 — that's why both are here. First cut if behind: read 7.A–E + 1.G, skim C4 without proofs.", noteEs:"La semana más apretada. C7 necesita C4 — por eso están ambos aquí. Primer recorte si vas atrasado: lee 7.A–E + 1.G, ojea C4 sin demostraciones.",
   tasks:[
    chap("w8-rw1","1: Max and Min — targeted sections (Rockafellar & Wets)","D",[
      sub("w8-rw1-b","1.B: Epigraphs and Semicontinuity (Rockafellar & Wets)"),
@@ -516,7 +516,7 @@ const WEEKS = [
      sub("w8-rw12-d","12.D: Graphical Convergence (Rockafellar & Wets)")], {cut:true})
   ]},
 
- {n:9, dates:DATELBL[8], title:"ProxDM deep read · frontier · thesis", tracks:["P"], obj:["O1","O2"],
+ {n:9, dates:DATELBL[8], title:"ProxDM deep read · frontier · thesis", titleEs:"Lectura profunda ProxDM · frontera · tesis", tracks:["P"], obj:["O1","O2"],
   tasks:[
    leaf("w9-proxdm3","ProxDM — Pass 3: deep, rigorous read with all three prox levels in hand (ProxDM)","P"),
    chap("w9-frontier","Frontier / open-problem tracking","P",[
@@ -718,7 +718,7 @@ function renderWeeks(){
       <div class="whead" data-weektoggle="${w.n}">
         <div class="wnum">${w.n}</div>
         <div class="wmid">
-          <div class="wtitle">${w.title}</div>
+          <div class="wtitle">${LANG==='es' && w.titleEs ? w.titleEs : w.title}</div>
           <div class="wdates">${w.dates} · ${TT('hours')}</div>
           <div class="wtags">${tags}</div>
         </div>
@@ -728,7 +728,7 @@ function renderWeeks(){
           <span class="chev">▾</span>
         </div>
       </div>
-      ${w.note?`<div class="wnote">${w.note}</div>`:""}
+      ${w.note?`<div class="wnote">${LANG==='es' && w.noteEs ? w.noteEs : w.note}</div>`:""}
       <div class="wbody">${tasksHtml}</div>
     </div>`;
   });
@@ -804,7 +804,7 @@ function setNowline(){
   const cw=currentWeek(); const el=document.getElementById("nowtext");
   if(cw===0){ el.textContent=TT('nowStart')(Math.max(0,Math.ceil((STARTS[0]-new Date())/864e5))); }
   else if(cw===10){ el.textContent=TT('nowFinished'); }
-  else { const w=WEEKS[cw-1]; el.textContent=TT('nowThisWeek')(cw, w.dates, w.title); }
+  else { const w=WEEKS[cw-1]; const wtitle=LANG==='es'&&w.titleEs?w.titleEs:w.title; el.textContent=TT('nowThisWeek')(cw, w.dates, wtitle); }
 }
 
 // ---------- buttons ----------
