@@ -1,0 +1,846 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proximal → ProxDM · Study Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Spline+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ece5d6; --bg2:#f6f1e6; --card:#fbf7ee; --ink:#211c15; --soft:#75695539; --softink:#6f6453;
+    --line:#d9cfba; --line2:#e7dfcd;
+    --A:#1b7f73; --B:#c8772e; --C:#2f6db5; --D:#8a55a4; --P:#b03828; --S:#5d6d3a;
+    --shadow:0 1px 0 #fff8 inset, 0 2px 8px #3a2f1c14, 0 14px 40px -22px #3a2f1c33;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:"Spline Sans",system-ui,sans-serif; color:var(--ink);
+    background:
+      radial-gradient(120% 80% at 0% 0%, #f3eddf 0%, transparent 55%),
+      radial-gradient(120% 90% at 100% 0%, #efe7d6 0%, transparent 50%),
+      var(--bg);
+    background-attachment:fixed;
+    line-height:1.45; padding:0 0 80px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px}
+  a{color:var(--C)}
+
+  /* ---------- Header ---------- */
+  header{padding:38px 0 18px}
+  .kicker{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--softink)}
+  h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(30px,5vw,50px); line-height:1.02; margin:.18em 0 .12em; letter-spacing:-.01em}
+  h1 em{font-style:italic; color:var(--P)}
+  .sub{color:var(--softink); font-size:15px; max-width:62ch}
+  .nowline{margin-top:14px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink);
+    background:var(--card); border:1px solid var(--line); border-radius:999px; display:inline-flex; gap:9px; align-items:center; padding:7px 14px; box-shadow:var(--shadow)}
+  .nowdot{width:8px;height:8px;border-radius:50%;background:var(--P);box-shadow:0 0 0 4px #b0382822}
+
+  /* ---------- Overall progress ---------- */
+  .overall{margin-top:22px; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow)}
+  .overall .top{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap}
+  .overall .pct{font-family:"Fraunces",serif; font-size:34px; font-weight:600; line-height:1}
+  .overall .lbl{font-size:13px; color:var(--softink)}
+  .bar{height:11px; border-radius:999px; background:#e3d9c4; overflow:hidden; margin-top:12px; box-shadow:inset 0 1px 2px #00000012}
+  .bar>span{display:block; height:100%; width:0; border-radius:999px;
+    background:linear-gradient(90deg,var(--A),var(--C) 55%, var(--P)); transition:width .5s cubic-bezier(.2,.7,.2,1)}
+
+  /* ---------- Gantt ---------- */
+  section.panel{margin-top:26px; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px 18px 20px; box-shadow:var(--shadow)}
+  .panel h2{font-family:"Fraunces",serif; font-weight:600; font-size:19px; margin:0 0 3px}
+  .panel .ph{display:flex; align-items:center; gap:10px; justify-content:space-between; flex-wrap:wrap; margin-bottom:14px}
+  .panel .pdesc{font-size:13px; color:var(--softink)}
+  .gantt{display:grid; gap:6px; overflow-x:auto}
+  .grow{display:grid; grid-template-columns:118px repeat(9,1fr); gap:6px; align-items:center; min-width:680px}
+  .gcell{height:30px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-family:"IBM Plex Mono",monospace; font-size:11px; color:#fff; position:relative}
+  .ghead{height:auto; color:var(--softink); font-size:11px; flex-direction:column; gap:1px; line-height:1.1}
+  .ghead b{font-family:"IBM Plex Mono",monospace; color:var(--ink); font-size:12px; font-weight:600}
+  .glabel{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink); font-weight:600; display:flex; align-items:center; gap:7px}
+  .gdot{width:10px;height:10px;border-radius:3px}
+  .gempty{background:#e8dfcc7a; border-radius:7px}
+  .gfull{box-shadow:0 1px 3px #0002}
+  .gfade{opacity:.45}
+  .gpass{background:var(--P); font-weight:600; letter-spacing:.04em}
+  .gcol-now{outline:2px solid var(--P); outline-offset:1px; border-radius:8px}
+  .gnow-head{color:var(--P)!important}
+
+  /* ---------- Controls ---------- */
+  .controls{display:flex; flex-wrap:wrap; gap:18px; align-items:flex-end; margin-top:24px}
+  .cgroup{display:flex; flex-direction:column; gap:7px}
+  .clab{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--softink)}
+  .chips{display:flex; gap:6px; flex-wrap:wrap}
+  .chip{font:500 12.5px/1 "Spline Sans",sans-serif; padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:var(--bg2); cursor:pointer; color:var(--ink); display:inline-flex; gap:7px; align-items:center; transition:.15s; user-select:none}
+  .chip .cd{width:9px;height:9px;border-radius:50%}
+  .chip[aria-pressed="false"]{opacity:.4; filter:grayscale(.4)}
+  .chip:hover{transform:translateY(-1px)}
+  .btn{font:500 12.5px/1 "Spline Sans",sans-serif; padding:8px 13px; border-radius:9px; border:1px solid var(--line); background:var(--bg2); cursor:pointer; color:var(--ink)}
+  .btn:hover{background:#fff}
+
+  /* ---------- Weeks ---------- */
+  #weeks{margin-top:8px; display:flex; flex-direction:column; gap:16px}
+  .week{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; position:relative}
+  .week::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--wk,#ccc)}
+  .week.now{border-color:#b0382866; box-shadow:var(--shadow),0 0 0 2px #b0382822}
+  .whead{display:flex; align-items:flex-start; gap:14px; padding:16px 18px 16px 22px; cursor:pointer; user-select:none}
+  .wnum{font-family:"Fraunces",serif; font-weight:600; font-size:30px; line-height:.9; color:var(--wk,#444); min-width:46px}
+  .wmid{flex:1; min-width:0}
+  .wtitle{font-family:"Fraunces",serif; font-weight:500; font-size:18px; line-height:1.15}
+  .wdates{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--softink); margin-top:1px}
+  .wtags{display:flex; gap:6px; flex-wrap:wrap; margin-top:9px}
+  .tag{font:600 10.5px/1 "IBM Plex Mono",monospace; letter-spacing:.04em; padding:5px 8px; border-radius:6px; color:#fff}
+  .tag.obj{background:#0000; color:var(--ink); border:1px solid var(--line)}
+  .tag.cut{background:#0000; color:var(--P); border:1px dashed #b0382877}
+  .tag.now{background:var(--P); color:#fff}
+  .wright{display:flex; flex-direction:column; align-items:flex-end; gap:7px; min-width:128px}
+  .wcount{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--softink)}
+  .wbar{width:128px; height:7px; border-radius:999px; background:#e3d9c4; overflow:hidden}
+  .wbar>span{display:block; height:100%; width:0; background:var(--wk,#888); border-radius:999px; transition:width .45s ease}
+  .chev{font-size:14px; color:var(--softink); transition:transform .25s; margin-top:3px}
+  .week.collapsed .chev{transform:rotate(-90deg)}
+  .week.collapsed .wbody{display:none}
+  .wnote{margin:0 18px 14px 22px; font-size:12.5px; color:var(--softink); background:var(--bg2); border:1px solid var(--line2); border-left:3px solid var(--wk,#ccc); padding:9px 12px; border-radius:8px}
+
+  .wbody{padding:2px 16px 16px 22px; display:flex; flex-direction:column; gap:4px}
+  .task{border-top:1px solid var(--line2)}
+  .task:first-child{border-top:none}
+  .row{display:flex; align-items:flex-start; gap:11px; padding:10px 4px}
+  .row.sub{padding-left:38px; padding-top:7px; padding-bottom:7px}
+  .row.parent{cursor:default}
+  .twist{background:none;border:none;cursor:pointer;color:var(--softink);font-size:11px;padding:4px;margin:-2px 0 0 -2px;transition:transform .2s; line-height:1}
+  .task.closed .twist{transform:rotate(-90deg)}
+  .task.closed .subs{display:none}
+  .twist.spacer{visibility:hidden}
+  /* checkbox */
+  .cb{appearance:none;-webkit-appearance:none; width:19px;height:19px; border:1.8px solid #bcae93; border-radius:6px; background:var(--bg2); cursor:pointer; margin-top:1px; flex:none; position:relative; transition:.15s}
+  .cb:hover{border-color:var(--ck,#888)}
+  .cb:checked{background:var(--ck,#444); border-color:var(--ck,#444)}
+  .cb:checked::after{content:"";position:absolute; left:5.5px; top:1.5px; width:5px; height:10px; border:solid #fff; border-width:0 2.4px 2.4px 0; transform:rotate(43deg)}
+  .cb:indeterminate{background:var(--ck,#444); border-color:var(--ck,#444)}
+  .cb:indeterminate::after{content:"";position:absolute; left:3.5px; top:7.5px; width:10px; height:0; border-top:2.4px solid #fff; border-radius:2px}
+  .tlabel{font-size:14px; flex:1; min-width:0}
+  .row.parent .tlabel{font-weight:600; font-size:14.5px}
+  .code{font-family:"IBM Plex Mono",monospace; font-weight:600; color:var(--ck,#333)}
+  .auth{color:var(--softink)}
+  .done .tlabel{text-decoration:line-through; color:#a89c85}
+  .minibadge{display:inline-block; font:600 9.5px/1 "IBM Plex Mono",monospace; padding:3px 6px; border-radius:5px; margin-left:8px; vertical-align:1px; letter-spacing:.03em}
+  .b-skim{background:#e9e1cf; color:#7a6f57}
+  .b-opt{background:#0000; color:#9b8f76; border:1px solid var(--line)}
+  .b-cut{background:#0000; color:var(--P); border:1px dashed #b0382866}
+  .tpct{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--softink); margin-left:auto; padding-left:10px; white-space:nowrap}
+
+  /* resources + notes */
+  .reslist{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:10px}
+  .res{display:block; padding:12px 14px; border:1px solid var(--line); border-radius:10px; background:var(--bg2); text-decoration:none; color:var(--ink); transition:.15s}
+  .res:hover{background:#fff; transform:translateY(-1px); box-shadow:var(--shadow)}
+  .res .rt{font-weight:600; font-size:13.5px}
+  .res .rl{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--C); margin-top:3px; word-break:break-all}
+  .notes p{font-size:13.5px; color:#4a4235; margin:0 0 10px}
+  .notes b{color:var(--ink)}
+  .savehint{margin-top:16px; display:flex; gap:11px; align-items:flex-start; font-size:13px; border-radius:12px; padding:12px 15px; border:1px solid var(--line)}
+  .savehint.ok{background:#e9f3ec; border-color:#bcd9c4; color:#2c5138}
+  .savehint.warn{background:#fbeee0; border-color:#e7c79a; color:#7a4d18}
+  .savehint b{font-weight:600}
+  .savehint .si{font-size:16px; line-height:1.2}
+  .hidden{display:none!important}
+  footer{margin-top:30px; text-align:center; font-size:11.5px; color:var(--softink)}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">Intersemester · 30 h/week · 17 Jun – 17 Aug 2026</div>
+    <h1>Proximal&nbsp;Core&nbsp;→&nbsp;<em>ProxDM</em></h1>
+    <div class="sub">The proximal operator at three levels — resolvent of the subdifferential, Moreau–Yosida limit, and JKO in Wasserstein space — threaded through nine weeks toward the ProxDM paper and a thesis problem.</div>
+    <div id="nowline" class="nowline"><span class="nowdot"></span><span id="nowtext">—</span></div>
+  </header>
+
+  <div id="savehint" class="savehint"></div>
+
+  <div class="overall">
+    <div class="top">
+      <div><span id="opct" class="pct">0%</span> <span class="lbl">complete</span></div>
+      <div class="lbl"><span id="ocount">0 / 0</span> tasks</div>
+    </div>
+    <div class="bar"><span id="obar"></span></div>
+  </div>
+
+  <section class="panel">
+    <div class="ph">
+      <div><h2>Parallel tracks</h2><div class="pdesc">Only A and B overlap (weeks 2–4); C and D run after.</div></div>
+    </div>
+    <div class="gantt"><div id="grid"></div></div>
+  </section>
+
+  <div class="controls">
+    <div class="cgroup">
+      <span class="clab">Tracks</span>
+      <div id="trackchips" class="chips"></div>
+    </div>
+    <div class="cgroup">
+      <span class="clab">Objectives</span>
+      <div id="objchips" class="chips"></div>
+    </div>
+    <div class="cgroup">
+      <span class="clab">View</span>
+      <div class="chips">
+        <button id="hidedone" class="chip" aria-pressed="false">Hide completed</button>
+        <button id="expand" class="btn">Expand all</button>
+        <button id="collapse" class="btn">Collapse all</button>
+        <button id="export" class="btn">Export backup</button>
+        <button id="import" class="btn">Import backup</button>
+        <button id="reset" class="btn">Reset progress</button>
+        <input id="importfile" type="file" accept="application/json,.json" class="hidden">
+      </div>
+    </div>
+  </div>
+
+  <div id="weeks"></div>
+
+  <section class="panel" style="margin-top:26px">
+    <h2>Reading list &amp; downloads</h2>
+    <div class="pdesc" style="margin-bottom:12px">Books are the four uploaded texts + Nesterov; papers link to free PDFs.</div>
+    <div class="reslist" id="reslist"></div>
+  </section>
+
+  <section class="panel notes" style="margin-top:18px">
+    <h2>Notes</h2>
+    <p><b>Beck &amp; B&amp;C are complementary.</b> B&amp;C gives the abstract Hilbert-space view (prox = resolvent, monotone operators); Beck gives explicit prox computations + FISTA in ℝⁿ. Read both prox chapters — they do different jobs.</p>
+    <p><b>Week 8 is the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence). Use R&amp;W's *-marked sections to skip on first reading if you fall behind.</p>
+    <p><b>If time runs short, cut in this order</b> (dashed badges mark cuttable items): (1) static OT beyond Ch. 1 core — already excluded; (2) depth of Track D; (3) Nesterov Ch. 2; (4) survey 2nd half. <b>Never cut</b> Track A, Track B, or Santambrogio 5/7/8 — they close O1 and serve O4 + O2 at once.</p>
+  </section>
+
+  <footer>Progress is saved automatically on this device · O1 understand ProxDM · O2 thesis problem · O3 Convex Optimization course · O4 Optimal Transport course</footer>
+</div>
+
+<script>
+const TRACKS = {
+  A:{name:"Proximal core", color:"var(--A)", raw:"#1b7f73"},
+  B:{name:"Diffusion / SDE", color:"var(--B)", raw:"#c8772e"},
+  C:{name:"Wasserstein", color:"var(--C)", raw:"#2f6db5"},
+  D:{name:"Γ-convergence", color:"var(--D)", raw:"#8a55a4"},
+  P:{name:"ProxDM + synthesis", color:"var(--P)", raw:"#b03828"}
+};
+const trackColor = t => TRACKS[t] ? TRACKS[t].raw : "#666";
+
+// span maps for the gantt (1..9). 'full' solid, 'fade' light.
+const GANTT = {
+  A:{1:"full",2:"full",3:"full",4:"fade"},
+  B:{2:"full",3:"full",4:"full"},
+  C:{5:"full",6:"full",7:"full"},
+  D:{8:"full"},
+  P:{1:"P1",4:"P2",9:"P3"}
+};
+
+// week start dates (month is 0-indexed)
+const STARTS = [
+  new Date(2026,5,17), new Date(2026,5,24), new Date(2026,6,1), new Date(2026,6,8),
+  new Date(2026,6,15), new Date(2026,6,22), new Date(2026,6,29), new Date(2026,7,5), new Date(2026,7,12)
+];
+const PLAN_END = new Date(2026,7,17);
+const DATELBL = ["Jun 17–23","Jun 24–30","Jul 1–7","Jul 8–14","Jul 15–21","Jul 22–28","Jul 29–Aug 4","Aug 5–11","Aug 12–17"];
+
+function currentWeek(){
+  const t = new Date(); t.setHours(0,0,0,0);
+  if(t < STARTS[0]) return 0;
+  if(t > PLAN_END) return 10;
+  for(let i=STARTS.length-1;i>=0;i--){ if(t>=STARTS[i]) return i+1; }
+  return 0;
+}
+
+// ---- helpers to build tasks ----
+const sub = (id,label,opts={}) => ({id,label,...opts});
+const chap = (id,label,track,subs,opts={}) => ({id,label,track,subs,...opts});
+const leaf = (id,label,track,opts={}) => ({id,label,track,...opts}); // no subs
+
+const WEEKS = [
+ {n:1, dates:DATELBL[0], title:"Foundation — convex analysis", tracks:["A"], obj:["O3"],
+  tasks:[
+   leaf("w1-beck1","1: Vector Spaces (Beck)","A",{skim:true}),
+   chap("w1-beck2","2: Extended Real-Valued Functions (Beck)","A",[
+     sub("w1-beck2-1","2.1: Extended Real-Valued Functions and Closedness (Beck)"),
+     sub("w1-beck2-2","2.2: Closedness versus Continuity (Beck)"),
+     sub("w1-beck2-3","2.3: Convex Functions (Beck)"),
+     sub("w1-beck2-4","2.4: Support Functions (Beck)")]),
+   chap("w1-beck3","3: Subgradients (Beck)","A",[
+     sub("w1-beck3-1","3.1: Definitions and First Examples (Beck)"),
+     sub("w1-beck3-2","3.2: Properties of the Subdifferential Set (Beck)"),
+     sub("w1-beck3-3","3.3: Directional Derivatives (Beck)"),
+     sub("w1-beck3-4","3.4: Computing Subgradients (Beck)"),
+     sub("w1-beck3-5","3.5: The Value Function (Beck)",{opt:true}),
+     sub("w1-beck3-6","3.6: Lipschitz Continuity and Boundedness of Subgradients (Beck)"),
+     sub("w1-beck3-7","3.7: Optimality Conditions (Beck)"),
+     sub("w1-beck3-8","3.8: Summary of Weak and Strong Subgradient Calculus Results (Beck)")]),
+   leaf("w1-bc1","1: Background (Bauschke & Combettes)","A",{skim:true}),
+   leaf("w1-bc2","2: Hilbert Spaces (Bauschke & Combettes)","A",{skim:true}),
+   chap("w1-bc8","8: Convex Functions (Bauschke & Combettes)","A",[
+     sub("w1-bc8-1","8.1: Basic Properties and Examples (Bauschke & Combettes)"),
+     sub("w1-bc8-2","8.2: Convexity-Preserving Operations (Bauschke & Combettes)"),
+     sub("w1-bc8-3","8.3: Topological Properties (Bauschke & Combettes)")]),
+   chap("w1-bc9","9: Lower Semicontinuous Convex Functions (Bauschke & Combettes)","A",[
+     sub("w1-bc9-1","9.1: Lower Semicontinuous Convex Functions (Bauschke & Combettes)"),
+     sub("w1-bc9-2","9.2: Proper Lower Semicontinuous Convex Functions (Bauschke & Combettes)"),
+     sub("w1-bc9-3","9.3: Affine Minorization (Bauschke & Combettes)",{opt:true}),
+     sub("w1-bc9-4","9.4: Recession Function (Bauschke & Combettes)",{opt:true}),
+     sub("w1-bc9-5","9.5: Construction of Functions in Γ₀(H) (Bauschke & Combettes)")]),
+   leaf("w1-proxdm1","ProxDM — Pass 1: orient (skim the whole paper) (ProxDM)","P")
+  ]},
+
+ {n:2, dates:DATELBL[1], title:"Build the proximal operator + diffusion on-ramp", tracks:["A","B"], obj:["O1","O3","O4"],
+  tasks:[
+   chap("w2-beck4","4: Conjugate Functions (Beck)","A",[
+     sub("w2-beck4-1","4.1: Definition and Basic Properties (Beck)"),
+     sub("w2-beck4-2","4.2: The Biconjugate (Beck)"),
+     sub("w2-beck4-3","4.3: Conjugate Calculus Rules (Beck)"),
+     sub("w2-beck4-4","4.4: Examples (Beck)"),
+     sub("w2-beck4-5","4.5: Infimal Convolution and Conjugacy (Beck)"),
+     sub("w2-beck4-6","4.6: Subdifferentials of Conjugate Functions (Beck)")]),
+   chap("w2-beck5","5: Smoothness and Strong Convexity (Beck)","A",[
+     sub("w2-beck5-1","5.1: L-Smooth Functions (Beck)"),
+     sub("w2-beck5-2","5.2: Strong Convexity (Beck)"),
+     sub("w2-beck5-3","5.3: Smoothness and Strong Convexity Correspondence (Beck)")]),
+   chap("w2-beck6","6: The Proximal Operator (Beck)","A",[
+     sub("w2-beck6-1","6.1: Definition, Existence, and Uniqueness (Beck)"),
+     sub("w2-beck6-2","6.2: First Set of Examples of Proximal Mappings (Beck)"),
+     sub("w2-beck6-3","6.3: Prox Calculus Rules (Beck)"),
+     sub("w2-beck6-4","6.4: Prox of Indicators — Orthogonal Projections (Beck)"),
+     sub("w2-beck6-5","6.5: The Second Prox Theorem (Beck)"),
+     sub("w2-beck6-6","6.6: Moreau Decomposition (Beck)"),
+     sub("w2-beck6-7","6.7: The Moreau Envelope (Beck)"),
+     sub("w2-beck6-8","6.8: Miscellaneous Prox Computations (Beck)",{opt:true}),
+     sub("w2-beck6-9","6.9: Summary of Prox Computations (Beck)")]),
+   leaf("w2-bc124","12.4: Moreau Envelope and Proximity Operator (Bauschke & Combettes)","A"),
+   chap("w2-bc13","13: Conjugation (Bauschke & Combettes)","A",[
+     sub("w2-bc13-1","13.1: Definition and Examples (Bauschke & Combettes)"),
+     sub("w2-bc13-2","13.2: Basic Properties (Bauschke & Combettes)"),
+     sub("w2-bc13-3","13.3: The Fenchel–Moreau Theorem (Bauschke & Combettes)")]),
+   chap("w2-bc14","14: Further Conjugation Results (Bauschke & Combettes)","A",[
+     sub("w2-bc14-1","14.1: Moreau's Decomposition (Bauschke & Combettes)"),
+     sub("w2-bc14-2","14.2: Proximal Average (Bauschke & Combettes)",{opt:true}),
+     sub("w2-bc14-3","14.3: Positively Homogeneous Functions (Bauschke & Combettes)",{opt:true}),
+     sub("w2-bc14-4","14.4: Coercivity (Bauschke & Combettes)",{opt:true}),
+     sub("w2-bc14-5","14.5: The Conjugate of a Difference (Bauschke & Combettes)",{opt:true})]),
+   chap("w2-sbs","Step-by-Step Diffusion — tutorial on-ramp (Nakkiran et al.)","B",[
+     sub("w2-sbs-1","§1: Fundamentals of Diffusion (Step-by-Step Diffusion)"),
+     sub("w2-sbs-2","§2: Stochastic Sampling — DDPM, incl. §2.4 Diffusions as SDEs (Step-by-Step Diffusion)"),
+     sub("w2-sbs-3","§3: Deterministic Sampling — DDIM (Step-by-Step Diffusion)"),
+     sub("w2-sbs-4","§4: Flow Matching (Step-by-Step Diffusion)",{skim:true})])
+  ]},
+
+ {n:3, dates:DATELBL[2], title:"Close A: prox = resolvent · FISTA · score-SDE", tracks:["A","B"], obj:["O1","O3"],
+  tasks:[
+   chap("w3-bc16","16: Subdifferentiability of Convex Functions (Bauschke & Combettes)","A",[
+     sub("w3-bc16-1","16.1: Basic Properties (Bauschke & Combettes)"),
+     sub("w3-bc16-2","16.2: Convex Functions (Bauschke & Combettes)"),
+     sub("w3-bc16-3","16.3: Lower Semicontinuous Convex Functions (Bauschke & Combettes)"),
+     sub("w3-bc16-4","16.4: Subdifferential Calculus (Bauschke & Combettes)"),
+     sub("w3-bc16-5","16.5: The Subdifferential of a Composition (Bauschke & Combettes)",{opt:true})]),
+   chap("w3-bc20","20: Monotone Operators — basics only (Bauschke & Combettes)","A",[
+     sub("w3-bc20-1","20.1: Monotone Operators (Bauschke & Combettes)"),
+     sub("w3-bc20-2","20.2: Maximally Monotone Operators (Bauschke & Combettes)")]),
+   chap("w3-bc23","23: Resolvents of Monotone Operators (Bauschke & Combettes)","A",[
+     sub("w3-bc23-1","23.1: Basic Identities (Bauschke & Combettes)"),
+     sub("w3-bc23-2","23.2: Monotonicity and Firm Nonexpansiveness (Bauschke & Combettes)"),
+     sub("w3-bc23-3","23.3: Resolvent Calculus (Bauschke & Combettes)"),
+     sub("w3-bc23-4","23.4: Zeros of Monotone Operators (Bauschke & Combettes)"),
+     sub("w3-bc23-5","23.5: Asymptotic Behavior (Bauschke & Combettes)",{opt:true})]),
+   chap("w3-bc24","24: Proximity Operators (Bauschke & Combettes)","A",[
+     sub("w3-bc24-1","24.1: Characterizations (Bauschke & Combettes)"),
+     sub("w3-bc24-2","24.2: Basic Properties (Bauschke & Combettes)"),
+     sub("w3-bc24-3","24.3–24.8: Prox computation catalog — reference (Bauschke & Combettes)",{opt:true})]),
+   chap("w3-beck8","8: Primal and Dual Projected Subgradient Methods — bridge (Beck)","A",[
+     sub("w3-beck8-1","8.1: From Gradient Descent to Subgradient Descent (Beck)"),
+     sub("w3-beck8-2","8.2: The Projected Subgradient Method (Beck)")]),
+   chap("w3-beck10","10: The Proximal Gradient Method (Beck)","A",[
+     sub("w3-beck10-1","10.1: The Composite Model (Beck)"),
+     sub("w3-beck10-2","10.2: The Proximal Gradient Method (Beck)"),
+     sub("w3-beck10-4","10.4: Analysis of the Proximal Gradient Method — The Convex Case (Beck)"),
+     sub("w3-beck10-5","10.5: The Proximal Point Method (Beck)"),
+     sub("w3-beck10-7","10.7: The Fast Proximal Gradient Method — FISTA (Beck)"),
+     sub("w3-beck10-8","10.8: Smoothing (Beck)",{opt:true})]),
+   chap("w3-song","Song et al. 2021 — Score-Based Generative Modeling through SDEs","B",[
+     sub("w3-song-1","§1–2: Introduction & background — score matching, DDPM as discrete (Song et al. 2021)",{skim:true}),
+     sub("w3-song-3","§3: Score-based modeling with SDEs — forward, reverse-time SDE, score estimation (Song et al. 2021)"),
+     sub("w3-song-4","§4: Solving the reverse SDE — predictor–corrector, probability-flow ODE (Song et al. 2021)"),
+     sub("w3-song-5","§5: Controllable generation / inverse problems (Song et al. 2021)",{skim:true})])
+  ]},
+
+ {n:4, dates:DATELBL[3], title:"Finish diffusion · Nesterov acceleration", tracks:["B","A"], obj:["O1","O2","O3"],
+  tasks:[
+   chap("w4-rwt","Random Walks with Tweedie — unified diffusion framework","B",[
+     sub("w4-rwt-1","Part 1: Tweedie's formula & the denoiser ↔ score connection (Random Walks with Tweedie)"),
+     sub("w4-rwt-2","Part 2: reverse-time / random-walk sampling & main results (Random Walks with Tweedie)")]),
+   chap("w4-anderson","Anderson 1982 — Reverse-time diffusion equation models","B",[
+     sub("w4-and-1","§1–2: Introduction & forward model setup (Anderson 1982)"),
+     sub("w4-and-3","§3–4: Reverse-time diffusion model & main theorem (Anderson 1982)"),
+     sub("w4-and-5","§5: Discussion / nonlinear case (Anderson 1982)",{skim:true})]),
+   chap("w4-nest","2: Smooth Convex Optimization (Nesterov)","A",[
+     sub("w4-nest-1","2.1: Minimization of Smooth Functions (Nesterov)"),
+     sub("w4-nest-2","2.2: Optimal Methods — accelerated gradient, lower complexity bounds (Nesterov)"),
+     sub("w4-nest-3","2.3: Minimization Problem with Smooth Components (Nesterov)",{opt:true})], {cut:true}),
+   leaf("w4-proxdm2","ProxDM — Pass 2: medium, careful read following score ↔ prox (ProxDM)","P")
+  ]},
+
+ {n:5, dates:DATELBL[4], title:"Minimum static OT before Wasserstein", tracks:["C"], obj:["O4","O2"],
+  note:"This is the floor of static OT — don't expand Ch. 2–4. Everything here is a prerequisite for Week 6.",
+  tasks:[
+   chap("w5-santa1","1: Primal and Dual Problems (Santambrogio)","C",[
+     sub("w5-s1-1","1.1: Kantorovich and Monge Problems (Santambrogio)"),
+     sub("w5-s1-2","1.2: Duality (Santambrogio)"),
+     sub("w5-s1-3","1.3: The case c(x,y)=h(x−y), h strictly convex, and existence of an optimal T (Santambrogio)"),
+     sub("w5-s1-6","1.6: c-concavity, duality and optimality (Santambrogio)",{skim:true})]),
+   leaf("w5-santa412","4.1.2: The Continuity Equation (Santambrogio)","C")
+  ]},
+
+ {n:6, dates:DATELBL[5], title:"Wasserstein spaces", tracks:["C"], obj:["O4","O2","O1"],
+  tasks:[
+   chap("w6-santa5","5: Wasserstein Spaces (Santambrogio)","C",[
+     sub("w6-s5-1","5.1: Definition and Triangle Inequality (Santambrogio)"),
+     sub("w6-s5-2","5.2: Topology Induced by Wp (Santambrogio)"),
+     sub("w6-s5-3","5.3: Curves in Wp and Continuity Equation (Santambrogio)"),
+     sub("w6-s5-4","5.4: Constant-Speed Geodesics in Wp (Santambrogio)")]),
+   chap("w6-survey1","Survey — {Euclidean, Metric, Wasserstein} Gradient Flows, 1st half (Santambrogio)","C",[
+     sub("w6-sv-1","Gradient flows in Euclidean spaces (Survey)"),
+     sub("w6-sv-2","Gradient flows in metric spaces (Survey)")])
+  ]},
+
+ {n:7, dates:DATELBL[6], title:"Climax — gradient flows & JKO (closes O1)", tracks:["C"], obj:["O4","O2","O1"],
+  tasks:[
+   chap("w7-santa7","7: Functionals over Probabilities (Santambrogio)","C",[
+     sub("w7-s7-1","7.1: Semi-continuity (Santambrogio)"),
+     sub("w7-s7-2","7.2: Convexity, First Variations, and Subdifferentials (Santambrogio)"),
+     sub("w7-s7-3","7.3: Displacement Convexity (Santambrogio)")]),
+   chap("w7-santa8","8: Gradient Flows (Santambrogio)","C",[
+     sub("w7-s8-1","8.1: Gradient Flows in Rd and in Metric Spaces (Santambrogio)"),
+     sub("w7-s8-2","8.2: Gradient Flows in W2, Derivation of the PDE (Santambrogio)"),
+     sub("w7-s8-3","8.3: Analysis of the Fokker-Planck Case (Santambrogio)")]),
+   leaf("w7-survey2","Survey — Wasserstein gradient flows, 2nd half (Santambrogio)","C",{cut:true})
+  ]},
+
+ {n:8, dates:DATELBL[7], title:"Γ / epi-convergence (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
+  note:"Tightest week. C7 needs C4 — that's why both are here. First cut if behind: read 7.A–E + 1.G, skim C4 without proofs.",
+  tasks:[
+   chap("w8-rw1","1: Max and Min — targeted sections (Rockafellar & Wets)","D",[
+     sub("w8-rw1-b","1.B: Epigraphs and Semicontinuity (Rockafellar & Wets)"),
+     sub("w8-rw1-g","1.G: Moreau Envelopes (Rockafellar & Wets)")], {cut:true}),
+   chap("w8-rw4","4: Set Convergence (Rockafellar & Wets)","D",[
+     sub("w8-rw4-a","4.A: Inner and Outer Limits (Rockafellar & Wets)"),
+     sub("w8-rw4-b","4.B: Painlevé–Kuratowski Convergence (Rockafellar & Wets)"),
+     sub("w8-rw4-c","4.C: Pompeiu–Hausdorff Distance (Rockafellar & Wets)"),
+     sub("w8-rw4-d","4.D: Cones and Convex Sets (Rockafellar & Wets)")], {cut:true}),
+   chap("w8-rw7","7: Epigraphical Limits (Rockafellar & Wets)","D",[
+     sub("w8-rw7-a","7.A: Pointwise Convergence (Rockafellar & Wets)"),
+     sub("w8-rw7-b","7.B: Epi-Convergence (Rockafellar & Wets)"),
+     sub("w8-rw7-c","7.C: Continuous and Uniform Convergence (Rockafellar & Wets)"),
+     sub("w8-rw7-d","7.D: Generalized Differentiability (Rockafellar & Wets)"),
+     sub("w8-rw7-e","7.E: Convergence in Minimization (Rockafellar & Wets)")], {cut:true}),
+   chap("w8-rw12","12: Monotone Mappings — light (Rockafellar & Wets)","D",[
+     sub("w8-rw12-b","12.B: Minty Parameterization (Rockafellar & Wets)"),
+     sub("w8-rw12-d","12.D: Graphical Convergence (Rockafellar & Wets)")], {cut:true})
+  ]},
+
+ {n:9, dates:DATELBL[8], title:"ProxDM deep read · frontier · thesis", tracks:["P"], obj:["O1","O2"],
+  tasks:[
+   leaf("w9-proxdm3","ProxDM — Pass 3: deep, rigorous read with all three prox levels in hand (ProxDM)","P"),
+   chap("w9-frontier","Frontier / open-problem tracking","P",[
+     sub("w9-fr-1","ProxT2I (2025) — proximal text-to-image"),
+     sub("w9-fr-2","\"Proximal matching\" literature"),
+     sub("w9-fr-3","MYULA — Durmus, Moulines & Pereyra (proximal / Moreau–Yosida Langevin sampling)")]),
+   leaf("w9-thesis","Draft 3–4 thesis-problem candidates and approaches","P"),
+   leaf("w9-buffer","Buffer / catch up on anything deferred","P")
+  ]}
+];
+
+const RESOURCES = [
+  {t:"Beck — First-Order Methods in Optimization", l:"uploaded PDF"},
+  {t:"Bauschke & Combettes — Convex Analysis & Monotone Operator Theory", l:"uploaded PDF"},
+  {t:"Santambrogio — Optimal Transport for Applied Mathematicians", l:"uploaded PDF"},
+  {t:"Rockafellar & Wets — Variational Analysis", l:"uploaded PDF"},
+  {t:"Nesterov — Introductory Lectures on Convex Optimization", l:"pages.cs.wisc.edu/~yliang/cs839_spring23/material/Introductory-Lectures-on-Convex-Programming-Yurii-Nesterov-2004.pdf", u:"https://pages.cs.wisc.edu/~yliang/cs839_spring23/material/Introductory-Lectures-on-Convex-Programming-Yurii-Nesterov-2004.pdf"},
+  {t:"Step-by-Step Diffusion (arXiv:2406.08929)", l:"arxiv.org/pdf/2406.08929", u:"https://arxiv.org/pdf/2406.08929"},
+  {t:"Random Walks with Tweedie (arXiv:2411.18702)", l:"arxiv.org/pdf/2411.18702", u:"https://arxiv.org/pdf/2411.18702"},
+  {t:"Song et al. 2021 — Score-SDE (arXiv:2011.13456)", l:"arxiv.org/pdf/2011.13456", u:"https://arxiv.org/pdf/2011.13456"},
+  {t:"Anderson 1982 — Reverse-time diffusion", l:"sciencedirect.com/.../0304414982900515/pdf", u:"https://www.sciencedirect.com/science/article/pii/0304414982900515/pdf"}
+];
+
+// ---------- state ----------
+let done = {};          // {leafId:true}
+let collapsedW = {};    // {weekN:true}
+let closedT = {};       // {taskId:true}
+let trackFilter = {A:1,B:1,C:1,D:1,P:1};
+let objFilter = {O1:1,O2:1,O3:1,O4:1};
+let hideDone = false;
+
+// ---------- storage (localStorage = fast local cache; JSONBin = cloud sync across devices) ----------
+const LS_KEY = "proxdm_tracker_v1";
+const Store = {
+  mem:{},
+  _ls(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)||"{}"); }catch(e){ return {}; } },
+  _haveLS(){ try{ localStorage.setItem("__t","1"); localStorage.removeItem("__t"); return true; }catch(e){ return false; } },
+  async get(k){
+    try{ const ls=this._ls(); if(Object.prototype.hasOwnProperty.call(ls,k)) return ls[k]; }catch(e){}
+    return this.mem[k] ?? null;
+  },
+  async set(k,v){
+    this.mem[k]=v;
+    try{ const ls=this._ls(); ls[k]=v; localStorage.setItem(LS_KEY,JSON.stringify(ls)); }catch(e){}
+  },
+  async del(k){
+    delete this.mem[k];
+    try{ const ls=this._ls(); delete ls[k]; localStorage.setItem(LS_KEY,JSON.stringify(ls)); }catch(e){}
+  }
+};
+
+// ---------- JSONBin cloud sync ----------
+const Cloud = {
+  CFG_KEY:"proxdm_jsonbin_cfg",
+  _cfg(){ try{ return JSON.parse(localStorage.getItem(this.CFG_KEY)||"{}"); }catch(e){ return {}; } },
+  configured(){ const c=this._cfg(); return !!(c.binId && c.key); },
+  setCfg(binId,key){ localStorage.setItem(this.CFG_KEY,JSON.stringify({binId:binId.trim(),key:key.trim()})); },
+  status:"idle", // idle | loading | saving | ok | error | off
+  _url(){ const c=this._cfg(); return `https://api.jsonbin.io/v3/b/${c.binId}`; },
+  _headers(){ const c=this._cfg(); return {"Content-Type":"application/json","X-Master-Key":c.key}; },
+  async load(){
+    if(!this.configured()){ this.status="off"; return null; }
+    this.status="loading"; cloudBadge();
+    try{
+      const r=await fetch(this._url()+"/latest",{headers:this._headers()});
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      const j=await r.json();
+      this.status="ok"; cloudBadge();
+      return j.record || null;
+    }catch(e){ this.status="error"; this._err=e.message; cloudBadge(); return null; }
+  },
+  _pending:null, _timer:null,
+  save(payload){
+    if(!this.configured()){ this.status="off"; cloudBadge(); return; }
+    this._pending=payload;
+    clearTimeout(this._timer);
+    // debounce: rapid clicks coalesce into one PUT
+    this._timer=setTimeout(()=>this._flush(),700);
+  },
+  async _flush(){
+    if(!this._pending) return;
+    const body=JSON.stringify(this._pending); this._pending=null;
+    this.status="saving"; cloudBadge();
+    try{
+      const r=await fetch(this._url(),{method:"PUT",headers:this._headers(),body});
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      this.status="ok"; cloudBadge();
+    }catch(e){ this.status="error"; this._err=e.message; cloudBadge(); }
+  }
+};
+
+function snapshot(){ return {version:1, savedAt:new Date().toISOString(), progress:done, ui:{collapsedW,closedT,trackFilter,objFilter,hideDone}}; }
+const save = () => {
+  Store.set("progress",done); Store.set("ui",{collapsedW,closedT,trackFilter,objFilter,hideDone});
+  Cloud.save(snapshot());
+};
+
+// ---------- leaf helpers ----------
+function leavesOf(task){ return (task.subs && task.subs.length) ? task.subs.map(s=>s.id) : [task.id]; }
+function weekLeaves(w){ let a=[]; w.tasks.forEach(t=>a=a.concat(leavesOf(t))); return a; }
+const ALLLEAVES = (()=>{ let a=[]; WEEKS.forEach(w=>a=a.concat(weekLeaves(w))); return a; })();
+const TOTAL = ALLLEAVES.length;
+function doneCount(ids){ return ids.filter(id=>done[id]).length; }
+
+// ---------- render gantt ----------
+function buildGantt(){
+  const cw = currentWeek();
+  const g = document.getElementById("grid");
+  let html = "";
+  // header row
+  html += `<div class="grow"><div class="gcell ghead"></div>`;
+  for(let i=1;i<=9;i++){
+    const now = i===cw;
+    html += `<div class="gcell ghead ${now?'gnow-head':''}"><b>W${i}</b><span>${DATELBL[i-1].replace('–','‑')}</span></div>`;
+  }
+  html += `</div>`;
+  // track rows
+  ["A","B","C","D","P"].forEach(tr=>{
+    html += `<div class="grow"><div class="gcell glabel"><span class="gdot" style="background:${TRACKS[tr].raw}"></span>${tr==="P"?"ProxDM":tr}</div>`;
+    for(let i=1;i<=9;i++){
+      const v = GANTT[tr][i];
+      const nowcol = i===cw ? "gcol-now":"";
+      if(!v){ html += `<div class="gcell gempty ${nowcol}"></div>`; }
+      else if(tr==="P"){ html += `<div class="gcell gpass ${nowcol}">${v}</div>`; }
+      else{ html += `<div class="gcell gfull ${v==='fade'?'gfade':''} ${nowcol}" style="background:${TRACKS[tr].raw}">${v==='fade'?'·':''}</div>`; }
+    }
+    html += `</div>`;
+  });
+  g.innerHTML = html;
+}
+
+// ---------- render chips ----------
+function buildChips(){
+  const tc = document.getElementById("trackchips");
+  tc.innerHTML = Object.keys(TRACKS).map(k=>
+    `<button class="chip" data-track="${k}" aria-pressed="${trackFilter[k]?'true':'false'}"><span class="cd" style="background:${TRACKS[k].raw}"></span>${k==='P'?'ProxDM':k} · ${TRACKS[k].name}</button>`).join("");
+  tc.querySelectorAll("[data-track]").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.track; trackFilter[k]=trackFilter[k]?0:1; b.setAttribute("aria-pressed",trackFilter[k]?'true':'false'); save(); renderWeeks();
+  });
+  const oc = document.getElementById("objchips");
+  const OBJ={O1:"understand ProxDM",O2:"thesis",O3:"Convex Opt.",O4:"Optimal Transport"};
+  oc.innerHTML = Object.keys(OBJ).map(k=>
+    `<button class="chip" data-obj="${k}" aria-pressed="${objFilter[k]?'true':'false'}">${k} · ${OBJ[k]}</button>`).join("");
+  oc.querySelectorAll("[data-obj]").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.obj; objFilter[k]=objFilter[k]?0:1; b.setAttribute("aria-pressed",objFilter[k]?'true':'false'); save(); renderWeeks();
+  });
+  const hb=document.getElementById("hidedone");
+  hb.setAttribute("aria-pressed",hideDone?'true':'false');
+  hb.onclick=()=>{ hideDone=!hideDone; hb.setAttribute("aria-pressed",hideDone?'true':'false'); save(); renderWeeks(); };
+}
+
+// ---------- render weeks ----------
+function taskRow(task){
+  const ck = trackColor(task.track);
+  const ids = leavesOf(task);
+  const dc = doneCount(ids), tot=ids.length;
+  const allDone = dc===tot, someDone = dc>0 && dc<tot;
+  if(hideDone && allDone) return "";
+  const badges = (o)=> (o.skim?'<span class="minibadge b-skim">SKIM</span>':'')+(o.opt?'<span class="minibadge b-opt">OPTIONAL</span>':'')+(o.cut?'<span class="minibadge b-cut">CUTTABLE</span>':'');
+  const fmt = (lab)=>{ const i=lab.indexOf(':'); if(i>0 && i<7){ return `<span class="code" style="--ck:${ck}">${lab.slice(0,i+1)}</span>${lab.slice(i+1).replace(/\(([^)]+)\)\s*$/,'<span class="auth">($1)</span>')}`;} return lab.replace(/\(([^)]+)\)\s*$/,'<span class="auth">($1)</span>'); };
+
+  if(!task.subs || !task.subs.length){
+    return `<div class="task" data-track="${task.track}">
+      <div class="row ${done[task.id]?'done':''}">
+        <span class="twist spacer"></span>
+        <input type="checkbox" class="cb" style="--ck:${ck}" data-leaf="${task.id}" ${done[task.id]?'checked':''}>
+        <div class="tlabel">${fmt(task.label)}${badges(task)}</div>
+      </div></div>`;
+  }
+  const closed = closedT[task.id];
+  let subhtml = task.subs.map(s=>{
+    if(hideDone && done[s.id]) return "";
+    return `<div class="row sub ${done[s.id]?'done':''}">
+      <input type="checkbox" class="cb" style="--ck:${ck}" data-leaf="${s.id}" ${done[s.id]?'checked':''}>
+      <div class="tlabel">${fmt(s.label)}${badges(s)}</div></div>`;
+  }).join("");
+  return `<div class="task ${closed?'closed':''}" data-track="${task.track}">
+    <div class="row parent ${allDone?'done':''}">
+      <button class="twist" data-toggletask="${task.id}">▾</button>
+      <input type="checkbox" class="cb" style="--ck:${ck}" data-parent="${task.id}">
+      <div class="tlabel">${fmt(task.label)}${badges(task)}</div>
+      <span class="tpct">${dc}/${tot}</span>
+    </div>
+    <div class="subs">${subhtml}</div>
+  </div>`;
+}
+
+function weekVisible(w){
+  if(!w.obj.some(o=>objFilter[o])) return false;
+  if(!w.tracks.some(t=>trackFilter[t]) && !w.tasks.some(t=>trackFilter[t.track])) return false;
+  return true;
+}
+
+function renderWeeks(){
+  const cw = currentWeek();
+  const host = document.getElementById("weeks");
+  const y = window.scrollY;
+  let html="";
+  WEEKS.forEach(w=>{
+    if(!weekVisible(w)) return;
+    const main = w.tracks[0];
+    const wk = trackColor(main);
+    const ids = weekLeaves(w);
+    const dc=doneCount(ids), tot=ids.length, pct=tot?Math.round(dc/tot*100):0;
+    // tasks (respecting track filter + hideDone)
+    let tasksHtml = w.tasks.filter(t=>trackFilter[t.track]).map(taskRow).join("");
+    if(hideDone && dc===tot) return; // whole week complete & hidden
+    if(!tasksHtml.trim()) tasksHtml = `<div class="row"><span class="twist spacer"></span><div class="tlabel" style="color:var(--softink)">No visible tasks under current filters.</div></div>`;
+    const isNow = w.n===cw;
+    const collapsed = collapsedW[w.n];
+    const tags = w.tracks.map(t=>`<span class="tag" style="background:${trackColor(t)}">${t==='P'?'ProxDM':t}</span>`).join("")
+      + w.obj.map(o=>`<span class="tag obj">${o}</span>`).join("")
+      + (w.tasks.some(t=>t.cut)?`<span class="tag cut">cut-first</span>`:"")
+      + (isNow?`<span class="tag now">THIS WEEK</span>`:"");
+    html += `<div class="week ${collapsed?'collapsed':''} ${isNow?'now':''}" style="--wk:${wk}" data-week="${w.n}">
+      <div class="whead" data-weektoggle="${w.n}">
+        <div class="wnum">${w.n}</div>
+        <div class="wmid">
+          <div class="wtitle">${w.title}</div>
+          <div class="wdates">${w.dates} · 30 h</div>
+          <div class="wtags">${tags}</div>
+        </div>
+        <div class="wright">
+          <span class="wcount">${dc} / ${tot} done</span>
+          <div class="wbar"><span style="width:${pct}%"></span></div>
+          <span class="chev">▾</span>
+        </div>
+      </div>
+      ${w.note?`<div class="wnote">${w.note}</div>`:""}
+      <div class="wbody">${tasksHtml}</div>
+    </div>`;
+  });
+  host.innerHTML = html || `<div class="week" style="padding:24px;text-align:center;color:var(--softink)">No weeks match the current filters.</div>`;
+  bindWeekEvents();
+  updateParents();
+  updateOverall();
+  window.scrollTo(0,y);
+}
+
+function bindWeekEvents(){
+  document.querySelectorAll("[data-weektoggle]").forEach(h=>h.onclick=(e)=>{
+    if(e.target.closest("input,button")) return;
+    const n=h.dataset.weektoggle; collapsedW[n]=!collapsedW[n]; save();
+    h.closest(".week").classList.toggle("collapsed");
+  });
+  document.querySelectorAll("[data-toggletask]").forEach(b=>b.onclick=(e)=>{
+    e.stopPropagation(); const id=b.dataset.toggletask; closedT[id]=!closedT[id]; save();
+    b.closest(".task").classList.toggle("closed");
+  });
+  document.querySelectorAll("input[data-leaf]").forEach(cb=>cb.onchange=()=>{
+    const id=cb.dataset.leaf; if(cb.checked) done[id]=true; else delete done[id];
+    save();
+    if(hideDone){ renderWeeks(); return; }
+    updateParents(); updateOverall(); updateWeekBars();
+    cb.closest(".row").classList.toggle("done",cb.checked);
+  });
+  document.querySelectorAll("input[data-parent]").forEach(cb=>cb.onchange=()=>{
+    const tid=cb.dataset.parent; const task=findTask(tid);
+    const target=cb.checked;
+    task.subs.forEach(s=>{ if(target) done[s.id]=true; else delete done[s.id]; });
+    save(); renderWeeks();
+  });
+}
+
+function findTask(id){ for(const w of WEEKS) for(const t of w.tasks) if(t.id===id) return t; }
+
+function updateParents(){
+  document.querySelectorAll("input[data-parent]").forEach(cb=>{
+    const task=findTask(cb.dataset.parent); if(!task) return;
+    const ids=task.subs.map(s=>s.id); const dc=ids.filter(i=>done[i]).length;
+    cb.checked = dc===ids.length;
+    cb.indeterminate = dc>0 && dc<ids.length;
+    const row=cb.closest(".row"); row.classList.toggle("done",dc===ids.length);
+    const pct=row.querySelector(".tpct"); if(pct) pct.textContent=`${dc}/${ids.length}`;
+  });
+}
+function updateWeekBars(){
+  document.querySelectorAll(".week").forEach(el=>{
+    const n=el.dataset.week; const w=WEEKS.find(x=>String(x.n)===String(n)); if(!w) return;
+    const ids=weekLeaves(w); const dc=doneCount(ids), tot=ids.length;
+    const bar=el.querySelector(".wbar>span"); if(bar) bar.style.width=(tot?Math.round(dc/tot*100):0)+"%";
+    const c=el.querySelector(".wcount"); if(c) c.textContent=`${dc} / ${tot} done`;
+  });
+}
+function updateOverall(){
+  const dc=doneCount(ALLLEAVES);
+  document.getElementById("opct").textContent=Math.round(dc/TOTAL*100)+"%";
+  document.getElementById("ocount").textContent=`${dc} / ${TOTAL}`;
+  document.getElementById("obar").style.width=Math.round(dc/TOTAL*100)+"%";
+}
+
+function buildResources(){
+  document.getElementById("reslist").innerHTML = RESOURCES.map(r=>{
+    const inner=`<div class="rt">${r.t}</div><div class="rl">${r.l}</div>`;
+    return r.u ? `<a class="res" href="${r.u}" target="_blank" rel="noopener">${inner}</a>` : `<div class="res" style="cursor:default">${inner}</div>`;
+  }).join("");
+}
+
+function cloudBadge(){
+  const el=document.getElementById("savehint");
+  if(!el) return;
+  const open='<button id="cfgbin" class="btn" style="margin-left:auto">Cloud sync setup</button>';
+  if(Cloud.configured()){
+    const s=Cloud.status;
+    const map={
+      loading:["ok","\u21BB","<b>Loading your progress from the cloud\u2026</b>"],
+      saving:["ok","\u21BA","<b>Saving to the cloud\u2026</b> Your checkmarks sync across all your devices."],
+      ok:["ok","\u2713","<b>Synced to the cloud.</b> Open this page on any device and your progress follows you."],
+      error:["warn","\u26A0","<b>Cloud sync error</b> ("+(Cloud._err||"?")+"). Saved locally for now \u2014 check your Bin ID / API key in setup."],
+      idle:["ok","\u2713","<b>Cloud sync is on.</b>"]
+    };
+    const [cls,si,msg]=map[s]||map.idle;
+    el.className="savehint "+cls;
+    el.innerHTML=`<span class="si">${si}</span><div>${msg}</div>${open}`;
+  } else {
+    el.className="savehint warn";
+    el.innerHTML='<span class="si">\u2601</span><div><b>Cloud sync is not set up yet.</b> Right now progress only saves in this one browser. Click <b>Cloud sync setup</b> and paste your JSONBin Bin&nbsp;ID + API key to sync across devices.</div>'+open;
+  }
+  const btn=document.getElementById("cfgbin");
+  if(btn) btn.onclick=openCfgDialog;
+}
+
+function openCfgDialog(){
+  const c=Cloud._cfg();
+  const binId=prompt("JSONBin \u2014 Bin ID\n(the ID of your bin, e.g. 665f1a2c...):", c.binId||"");
+  if(binId===null) return;
+  const key=prompt("JSONBin \u2014 Master Key (X-Master-Key)\n(from your JSONBin account \u2192 API Keys):", c.key||"");
+  if(key===null) return;
+  if(!binId.trim() || !key.trim()){ alert("Both Bin ID and Master Key are required."); return; }
+  Cloud.setCfg(binId,key);
+  cloudBadge();
+  // pull whatever is in the cloud and merge it in
+  (async()=>{
+    const rec=await Cloud.load();
+    if(rec){
+      if(rec.progress) done=rec.progress;
+      if(rec.ui){ collapsedW=rec.ui.collapsedW||{}; closedT=rec.ui.closedT||{}; if(rec.ui.trackFilter)trackFilter=rec.ui.trackFilter; if(rec.ui.objFilter)objFilter=rec.ui.objFilter; hideDone=!!rec.ui.hideDone; }
+      Store.set("progress",done); Store.set("ui",{collapsedW,closedT,trackFilter,objFilter,hideDone});
+      buildChips(); renderWeeks();
+      alert("Connected \u2713  Pulled your latest progress from the cloud.");
+    } else if(Cloud.status==="ok"){
+      // bin exists but is empty -> push current local state up
+      Cloud.save(snapshot());
+      alert("Connected \u2713  This bin was empty, so your current progress was uploaded to it.");
+    } else {
+      alert("Saved the keys, but couldn't reach the bin. Double-check the Bin ID and Master Key.");
+    }
+  })();
+}
+
+function setSaveHint(){ cloudBadge(); }
+function setNowline(){
+  const cw=currentWeek(); const el=document.getElementById("nowtext");
+  if(cw===0){ el.textContent=`Plan starts Jun 17 · ${Math.max(0,Math.ceil((STARTS[0]-new Date())/864e5))} days to go`; }
+  else if(cw===10){ el.textContent="Plan window finished — synthesis time."; }
+  else { const w=WEEKS[cw-1]; el.textContent=`This week: Week ${cw} · ${w.dates} — ${w.title}`; }
+}
+
+// ---------- buttons ----------
+document.getElementById("expand").onclick=()=>{ WEEKS.forEach(w=>collapsedW[w.n]=false); document.querySelectorAll(".task").forEach(t=>{}); WEEKS.forEach(w=>w.tasks.forEach(t=>{if(t.subs)delete closedT[t.id];})); save(); renderWeeks(); };
+document.getElementById("collapse").onclick=()=>{ WEEKS.forEach(w=>collapsedW[w.n]=true); save(); renderWeeks(); };
+document.getElementById("reset").onclick=()=>{ if(confirm("Clear all checkmarks? This can't be undone.")){ done={}; save(); renderWeeks(); } };
+document.getElementById("export").onclick=()=>{
+  const data=JSON.stringify({version:1, savedAt:new Date().toISOString(), progress:done, ui:{collapsedW,closedT,trackFilter,objFilter,hideDone}}, null, 2);
+  const blob=new Blob([data],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download="proxdm-progress-"+new Date().toISOString().slice(0,10)+".json"; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+};
+document.getElementById("import").onclick=()=>document.getElementById("importfile").click();
+document.getElementById("importfile").onchange=(e)=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{
+    const o=JSON.parse(r.result);
+    if(o.progress) done=o.progress;
+    if(o.ui){ collapsedW=o.ui.collapsedW||{}; closedT=o.ui.closedT||{}; if(o.ui.trackFilter)trackFilter=o.ui.trackFilter; if(o.ui.objFilter)objFilter=o.ui.objFilter; hideDone=!!o.ui.hideDone; }
+    save(); buildChips(); renderWeeks(); // save() also pushes to cloud if configured
+    alert("Progress imported \u2713");
+  }catch(err){ alert("That file couldn't be read as a progress backup."); } };
+  r.readAsText(f); e.target.value="";
+};
+
+// ---------- init ----------
+(async function init(){
+  // 1) load local cache first (instant render, offline fallback)
+  const p=await Store.get("progress"); if(p && typeof p==="object") done=p;
+  const ui=await Store.get("ui");
+  if(ui){ collapsedW=ui.collapsedW||{}; closedT=ui.closedT||{}; if(ui.trackFilter)trackFilter=ui.trackFilter; if(ui.objFilter)objFilter=ui.objFilter; hideDone=!!ui.hideDone; }
+  // default: collapse everything except current week
+  if(!ui){ const cw=currentWeek(); WEEKS.forEach(w=>{ collapsedW[w.n] = !(w.n===cw); }); if(cw===0||cw===10){ collapsedW[1]=false; } }
+  buildGantt(); buildChips(); buildResources(); setNowline(); setSaveHint(); renderWeeks();
+
+  // 2) if cloud is configured, pull the canonical state and re-render
+  if(Cloud.configured()){
+    const rec=await Cloud.load();
+    if(rec){
+      if(rec.progress) done=rec.progress;
+      if(rec.ui){ collapsedW=rec.ui.collapsedW||{}; closedT=rec.ui.closedT||{}; if(rec.ui.trackFilter)trackFilter=rec.ui.trackFilter; if(rec.ui.objFilter)objFilter=rec.ui.objFilter; hideDone=!!rec.ui.hideDone; }
+      Store.set("progress",done); Store.set("ui",{collapsedW,closedT,trackFilter,objFilter,hideDone});
+      buildChips(); renderWeeks();
+    }
+  }
+})();
+</script>
