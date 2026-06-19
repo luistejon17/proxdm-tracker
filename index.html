@@ -751,6 +751,7 @@ function bindWeekEvents(){
   });
   document.querySelectorAll("input[data-leaf]").forEach(cb=>cb.onchange=()=>{
     const id=cb.dataset.leaf; if(cb.checked) done[id]=true; else delete done[id];
+    playTick(cb.checked);
     save();
     if(hideDone){ renderWeeks(); return; }
     updateParents(); updateOverall(); updateWeekBars();
@@ -765,6 +766,31 @@ function bindWeekEvents(){
 }
 
 function findTask(id){ for(const w of WEEKS) for(const t of w.tasks) if(t.id===id) return t; }
+
+let _actx = null;
+function playTick(checked){
+  try{
+    if(!_actx) _actx = new (window.AudioContext || window.webkitAudioContext)();
+    const ac = _actx;
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.connect(gain); gain.connect(ac.destination);
+    if(checked){
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(1046, ac.currentTime);       // C6
+      osc.frequency.exponentialRampToValueAtTime(1318, ac.currentTime + 0.06); // E6
+      gain.gain.setValueAtTime(0.18, ac.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.22);
+      osc.start(ac.currentTime); osc.stop(ac.currentTime + 0.22);
+    } else {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(880, ac.currentTime);        // A5 (más grave al desmarcar)
+      gain.gain.setValueAtTime(0.10, ac.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.15);
+      osc.start(ac.currentTime); osc.stop(ac.currentTime + 0.15);
+    }
+  }catch(e){}
+}
 
 function updateParents(){
   document.querySelectorAll("input[data-parent]").forEach(cb=>{
