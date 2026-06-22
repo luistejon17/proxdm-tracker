@@ -205,15 +205,15 @@
 
   <section class="panel" style="margin-top:26px">
     <h2 data-i18n="readingList">Reading list &amp; downloads</h2>
-    <div class="pdesc" style="margin-bottom:12px" data-i18n="readingDesc">Books are the four uploaded texts + Nesterov; papers link to free PDFs.</div>
+    <div class="pdesc" style="margin-bottom:12px" data-i18n="readingDesc">Books are the four uploaded trunk texts; papers (diffusion + sampling-convergence + proximal matching) link to free PDFs.</div>
     <div class="reslist" id="reslist"></div>
   </section>
 
   <section class="panel notes" style="margin-top:18px">
     <h2 data-i18n="notes">Notes</h2>
     <p data-i18n="note1"><b>Beck &amp; B&amp;C are complementary.</b> B&amp;C gives the abstract Hilbert-space view (prox = resolvent, monotone operators); Beck gives explicit prox computations + FISTA in ℝⁿ. Read both prox chapters — they do different jobs.</p>
-    <p data-i18n="note2"><b>Week 8 is the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence). Use R&amp;W's *-marked sections to skip on first reading if you fall behind.</p>
-    <p data-i18n="note3"><b>If time runs short, cut in this order</b> (dashed badges mark cuttable items): (1) static OT beyond Ch. 1 core — already excluded; (2) depth of Track D; (3) Nesterov Ch. 2; (4) survey 2nd half. <b>Never cut</b> Track A, Track B, or Santambrogio 5/7/8 — they close O1 and serve O4 + O2 at once.</p>
+    <p data-i18n="note2"><b>Weeks 5–6 are the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence), and §12.D ties it back to the prox. Skip proofs on a first reading if you fall behind.</p>
+    <p data-i18n="note3"><b>Strict priority: O1 + O2 first; pure O3/O4 sits at the back.</b> <b>If time runs short, cut in this order:</b> (1) the OT block (weeks 8–9, O4 prep — keep Ch. 8, the JKO↔prox bridge); (2) Track D depth beyond 7.A–E + 12.D. <b>Never cut</b> Track A, Track B, the convergence block, or the three ProxDM passes — they close O1; R&W (Track D) is the thesis angle (O2).</p>
   </section>
 
   <footer data-i18n="footer">Progress is saved automatically on this device · O1 understand ProxDM · O2 thesis problem · O3 Convex Optimization course · O4 Optimal Transport course</footer>
@@ -230,11 +230,11 @@ const I18N = {
     tracks:"Tracks", objectives:"Objectives", view:"View",
     hideCompleted:"Hide completed", expandAll:"Expand all", collapseAll:"Collapse all",
     exportBackup:"Export backup", importBackup:"Import backup", resetProgress:"Reset progress",
-    readingList:"Reading list & downloads", readingDesc:"Books are the four uploaded texts + Nesterov; papers link to free PDFs.",
+    readingList:"Reading list & downloads", readingDesc:"Books are the four uploaded trunk texts; papers (diffusion + sampling-convergence + proximal matching) link to free PDFs.",
     notes:"Notes",
     note1:"<b>Beck &amp; B&amp;C are complementary.</b> B&amp;C gives the abstract Hilbert-space view (prox = resolvent, monotone operators); Beck gives explicit prox computations + FISTA in ℝⁿ. Read both prox chapters — they do different jobs.",
-    note2:"<b>Week 8 is the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence). Use R&amp;W's *-marked sections to skip on first reading if you fall behind.",
-    note3:"<b>If time runs short, cut in this order</b> (dashed badges mark cuttable items): (1) static OT beyond Ch. 1 core — already excluded; (2) depth of Track D; (3) Nesterov Ch. 2; (4) survey 2nd half. <b>Never cut</b> Track A, Track B, or Santambrogio 5/7/8 — they close O1 and serve O4 + O2 at once.",
+    note2:"<b>Weeks 5–6 are the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence), and §12.D ties it back to the prox. Skip proofs on a first reading if you fall behind.",
+    note3:"<b>Strict priority: O1 + O2 first; pure O3/O4 sits at the back.</b> <b>If time runs short, cut in this order:</b> (1) the OT block (weeks 8–9, O4 prep — keep Ch. 8, the JKO↔prox bridge); (2) Track D depth beyond 7.A–E + 12.D. <b>Never cut</b> Track A, Track B, the convergence block, or the three ProxDM passes — they close O1; R&amp;W (Track D) is the thesis angle (O2).",
     footer:"Progress is saved automatically on this device · O1 understand ProxDM · O2 thesis problem · O3 Convex Optimization course · O4 Optimal Transport course",
     // dynamic
     track_A:"Proximal core", track_B:"Diffusion / SDE", track_C:"Wasserstein", track_D:"Γ-convergence", track_P:"ProxDM + synthesis",
@@ -256,11 +256,11 @@ const I18N = {
     tracks:"Pistas", objectives:"Objetivos", view:"Vista",
     hideCompleted:"Ocultar completadas", expandAll:"Expandir todo", collapseAll:"Colapsar todo",
     exportBackup:"Exportar respaldo", importBackup:"Importar respaldo", resetProgress:"Reiniciar progreso",
-    readingList:"Lecturas y descargas", readingDesc:"Los libros son los cuatro textos subidos + Nesterov; los papers enlazan a PDFs gratuitos.",
+    readingList:"Lecturas y descargas", readingDesc:"Los libros son los cuatro textos del tronco; los papers (difusión + convergencia de samplers + proximal matching) enlazan a PDFs gratuitos.",
     notes:"Notas",
     note1:"<b>Beck y B&amp;C son complementarios.</b> B&amp;C da la visión abstracta en espacios de Hilbert (prox = resolvente, operadores monótonos); Beck da cálculos explícitos de prox + FISTA en ℝⁿ. Lee ambos capítulos de prox — hacen cosas distintas.",
-    note2:"<b>La semana 8 es la más apretada.</b> El cap. 7 de R&amp;W (epi-convergencia) requiere de verdad el cap. 4 (convergencia de conjuntos). Usa las secciones marcadas con * de R&amp;W para saltártelas en una primera lectura si te atrasas.",
-    note3:"<b>Si falta tiempo, recorta en este orden</b> (las insignias punteadas marcan lo recortable): (1) TO estático más allá del núcleo del cap. 1 — ya excluido; (2) profundidad de la pista D; (3) Nesterov cap. 2; (4) segunda mitad del survey. <b>Nunca recortes</b> la pista A, la pista B ni Santambrogio 5/7/8 — cierran O1 y sirven a O4 + O2 a la vez.",
+    note2:"<b>Las semanas 5–6 son las más apretadas.</b> El cap. 7 de R&amp;W (epi-convergencia) requiere de verdad el cap. 4 (convergencia de conjuntos), y §12.D lo reconecta con el prox. Sáltate las demostraciones en una primera lectura si te atrasas.",
+    note3:"<b>Prioridad estricta: O1 + O2 primero; lo puro de O3/O4 queda al final.</b> <b>Si falta tiempo, recorta en este orden:</b> (1) el bloque de TO (semanas 8–9, prep. O4 — conserva el Cap. 8, el puente JKO↔prox); (2) profundidad de la pista D más allá de 7.A–E + 12.D. <b>Nunca recortes</b> la pista A, la pista B, el bloque de convergencia ni las tres pasadas de ProxDM — cierran O1; R&amp;W (pista D) es el ángulo de tesis (O2).",
     footer:"El progreso se guarda automáticamente en este dispositivo · O1 entender ProxDM · O2 problema de tesis · O3 curso de Optimización Convexa · O4 curso de Transporte Óptimo",
     track_A:"Núcleo proximal", track_B:"Difusión / EDE", track_C:"Wasserstein", track_D:"Γ-convergencia", track_P:"ProxDM + síntesis",
     obj_O1:"entender ProxDM", obj_O2:"tesis", obj_O3:"Opt. Convexa", obj_O4:"Transporte Óptimo",
@@ -302,11 +302,11 @@ const trackColor = t => TRACKS[t] ? TRACKS[t].raw : "#666";
 
 // span maps for the gantt (1..9). 'full' solid, 'fade' light.
 const GANTT = {
-  A:{1:"full",2:"full",3:"full",4:"fade"},
+  A:{1:"full",2:"full",3:"full"},
   B:{2:"full",3:"full",4:"full"},
-  C:{5:"full",6:"full",7:"full"},
-  D:{8:"full"},
-  P:{1:"P1",4:"P2",9:"P3"}
+  D:{5:"full",6:"full"},
+  C:{8:"full",9:"full"},
+  P:{1:"P1",4:"P2",7:"P3"}
 };
 
 // week start dates (month is 0-indexed)
@@ -331,7 +331,7 @@ const chap = (id,label,track,subs,opts={}) => ({id,label,track,subs,...opts});
 const leaf = (id,label,track,opts={}) => ({id,label,track,...opts}); // no subs
 
 const WEEKS = [
- {n:1, dates:DATELBL[0], title:"Foundation — convex analysis", titleEs:"Fundamentos — análisis convexo", tracks:["A"], obj:["O3"],
+ {n:1, dates:DATELBL[0], title:"Foundation — convex analysis", titleEs:"Fundamentos — análisis convexo", tracks:["A"], obj:["O1","O3"],
   tasks:[
    leaf("w1-beck1","1: Vector Spaces (Beck)","A",{skim:true}),
    chap("w1-beck2","2: Extended Real-Valued Functions (Beck)","A",[
@@ -363,7 +363,7 @@ const WEEKS = [
    leaf("w1-proxdm1","ProxDM — Pass 1: orient (skim the whole paper) (ProxDM)","P")
   ]},
 
- {n:2, dates:DATELBL[1], title:"Build the proximal operator + diffusion on-ramp", titleEs:"Construir el operador proximal + rampa de difusión", tracks:["A","B"], obj:["O1","O3","O4"],
+ {n:2, dates:DATELBL[1], title:"Build the proximal operator + diffusion on-ramp", titleEs:"Construir el operador proximal + rampa de difusión", tracks:["A","B"], obj:["O1","O3"],
   tasks:[
    chap("w2-beck4","4: Conjugate Functions (Beck)","A",[
      sub("w2-beck4-1","4.1: Definition and Basic Properties (Beck)"),
@@ -442,7 +442,8 @@ const WEEKS = [
      sub("w3-song-5","§5: Controllable generation / inverse problems (Song et al. 2021)",{skim:true})])
   ]},
 
- {n:4, dates:DATELBL[3], title:"Finish diffusion · Nesterov acceleration", titleEs:"Terminar difusión · aceleración de Nesterov", tracks:["B","A"], obj:["O1","O2","O3"],
+ {n:4, dates:DATELBL[3], title:"Finish diffusion · convergence theory of samplers", titleEs:"Terminar difusión · teoría de convergencia de samplers", tracks:["B"], obj:["O1","O2"],
+  note:"New convergence block. ProxDM's §4 + appendix live in this genre (not in any of the four books). Wibisono's Proximal Langevin is both the direct basis of the proof AND of Moreau-Langevin sampling (thesis direction a).", noteEs:"Bloque de convergencia nuevo. La §4 + apéndice de ProxDM viven en este género (no en ninguno de los cuatro libros). El Proximal Langevin de Wibisono es la base directa de la prueba Y del muestreo Moreau-Langevin (dirección de tesis a).",
   tasks:[
    chap("w4-rwt","Random Walks with Tweedie — unified diffusion framework","B",[
      sub("w4-rwt-1","Part 1: Tweedie's formula & the denoiser ↔ score connection (Random Walks with Tweedie)"),
@@ -451,80 +452,86 @@ const WEEKS = [
      sub("w4-and-1","§1–2: Introduction & forward model setup (Anderson 1982)"),
      sub("w4-and-3","§3–4: Reverse-time diffusion model & main theorem (Anderson 1982)"),
      sub("w4-and-5","§5: Discussion / nonlinear case (Anderson 1982)",{skim:true})]),
-   chap("w4-nest","2: Smooth Convex Optimization (Nesterov)","A",[
-     sub("w4-nest-1","2.1: Minimization of Smooth Functions (Nesterov)"),
-     sub("w4-nest-2","2.2: Optimal Methods — accelerated gradient, lower complexity bounds (Nesterov)"),
-     sub("w4-nest-3","2.3: Minimization Problem with Smooth Components (Nesterov)",{opt:true})], {cut:true}),
+   chap("w4-conv","Convergence of diffusion & Langevin samplers in KL — fills the §4 gap","B",[
+     sub("w4-conv-1","Proximal Langevin Algorithm — rapid convergence under isoperimetry (Wibisono 2019)"),
+     sub("w4-conv-2","Sampling is as easy as learning the score (Chen, Chewi, Li, Li, Salim & Zhang 2022)"),
+     sub("w4-conv-3","Rapid convergence of ULA — isoperimetry suffices (Vempala & Wibisono 2019)",{skim:true}),
+     sub("w4-conv-4","Improved analysis: user-friendly bounds under minimal smoothness (Chen, Lee & Lu 2022)",{opt:true})]),
    leaf("w4-proxdm2","ProxDM — Pass 2: medium, careful read following score ↔ prox (ProxDM)","P")
   ]},
 
- {n:5, dates:DATELBL[4], title:"Minimum static OT before Wasserstein", titleEs:"TO estático mínimo antes de Wasserstein", tracks:["C"], obj:["O4","O2"],
-  note:"This is the floor of static OT — don't expand Ch. 2–4. Everything here is a prerequisite for Week 6.", noteEs:"Este es el piso de TO estático — no amplíes los caps. 2–4. Todo aquí es prerrequisito para la semana 6.",
+ {n:5, dates:DATELBL[4], title:"Γ / epi-convergence I — foundations (Rockafellar & Wets)", titleEs:"Γ / epi-convergencia I — fundamentos (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
+  note:"Moved up: this is thesis direction (b) — Γ/epi-convergence of the γ-problem whose limit recovers the prox (a degenerate limit), exactly the γ→0 limit of proximal matching [Fang et al.]. Needs the Moreau material from Block A (W1–W3). R&W Ch. 7 (W6) requires this Ch. 4.", noteEs:"Adelantado: es la dirección de tesis (b) — Γ/epi-convergencia del problema-γ cuyo límite recupera el prox (límite degenerado), justo el límite γ→0 de proximal matching [Fang et al.]. Requiere el Moreau del Bloque A (S1–S3). El Cap. 7 de R&W (S6) necesita este Cap. 4.",
   tasks:[
-   chap("w5-santa1","1: Primal and Dual Problems (Santambrogio)","C",[
-     sub("w5-s1-1","1.1: Kantorovich and Monge Problems (Santambrogio)"),
-     sub("w5-s1-2","1.2: Duality (Santambrogio)"),
-     sub("w5-s1-3","1.3: The case c(x,y)=h(x−y), h strictly convex, and existence of an optimal T (Santambrogio)"),
-     sub("w5-s1-6","1.6: c-concavity, duality and optimality (Santambrogio)",{skim:true})]),
-   leaf("w5-santa412","4.1.2: The Continuity Equation (Santambrogio)","C")
+   chap("w5-rw1","1: Max and Min — targeted sections (Rockafellar & Wets)","D",[
+     sub("w5-rw1-b","1.B: Epigraphs and Semicontinuity (Rockafellar & Wets)"),
+     sub("w5-rw1-g","1.G: Moreau Envelopes (Rockafellar & Wets)")]),
+   chap("w5-rw4","4: Set Convergence (Rockafellar & Wets)","D",[
+     sub("w5-rw4-a","4.A: Inner and Outer Limits (Rockafellar & Wets)"),
+     sub("w5-rw4-b","4.B: Painlevé–Kuratowski Convergence (Rockafellar & Wets)"),
+     sub("w5-rw4-c","4.C: Pompeiu–Hausdorff Distance (Rockafellar & Wets)"),
+     sub("w5-rw4-d","4.D: Cones and Convex Sets (Rockafellar & Wets)")])
   ]},
 
- {n:6, dates:DATELBL[5], title:"Wasserstein spaces", titleEs:"Espacios de Wasserstein", tracks:["C"], obj:["O4","O2","O1"],
+ {n:6, dates:DATELBL[5], title:"Γ / epi-convergence II — epigraphical limits (Rockafellar & Wets)", titleEs:"Γ / epi-convergencia II — límites epigráficos (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
+  note:"The most demanding week. §12.D (graphical convergence of subdifferentials/resolvents) is the formal language of 'parametrized solutions → prox' — the core of thesis direction (b). First cut if behind: read 7.A–E, skim 12.", noteEs:"La semana más exigente. §12.D (convergencia gráfica de subdiferenciales/resolventes) es el lenguaje formal de 'soluciones parametrizadas → prox' — el corazón de la dirección de tesis (b). Primer recorte si vas atrasado: lee 7.A–E, ojea el 12.",
   tasks:[
-   chap("w6-santa5","5: Wasserstein Spaces (Santambrogio)","C",[
-     sub("w6-s5-1","5.1: Definition and Triangle Inequality (Santambrogio)"),
-     sub("w6-s5-2","5.2: Topology Induced by Wp (Santambrogio)"),
-     sub("w6-s5-3","5.3: Curves in Wp and Continuity Equation (Santambrogio)"),
-     sub("w6-s5-4","5.4: Constant-Speed Geodesics in Wp (Santambrogio)")]),
-   chap("w6-survey1","Survey — {Euclidean, Metric, Wasserstein} Gradient Flows, 1st half (Santambrogio)","C",[
-     sub("w6-sv-1","Gradient flows in Euclidean spaces (Survey)"),
-     sub("w6-sv-2","Gradient flows in metric spaces (Survey)")])
+   chap("w6-rw7","7: Epigraphical Limits (Rockafellar & Wets)","D",[
+     sub("w6-rw7-a","7.A: Pointwise Convergence (Rockafellar & Wets)"),
+     sub("w6-rw7-b","7.B: Epi-Convergence (Rockafellar & Wets)"),
+     sub("w6-rw7-c","7.C: Continuous and Uniform Convergence (Rockafellar & Wets)"),
+     sub("w6-rw7-d","7.D: Generalized Differentiability (Rockafellar & Wets)"),
+     sub("w6-rw7-e","7.E: Convergence in Minimization (Rockafellar & Wets)")]),
+   chap("w6-rw12","12: Monotone Mappings — light (Rockafellar & Wets)","D",[
+     sub("w6-rw12-b","12.B: Minty Parameterization (Rockafellar & Wets)"),
+     sub("w6-rw12-d","12.D: Graphical Convergence (Rockafellar & Wets)")])
   ]},
 
- {n:7, dates:DATELBL[6], title:"Climax — gradient flows & JKO (closes O1)", titleEs:"Clímax — flujos gradiente y JKO (cierra O1)", tracks:["C"], obj:["O4","O2","O1"],
+ {n:7, dates:DATELBL[6], title:"ProxDM deep read · proximal matching · thesis", titleEs:"Lectura profunda ProxDM · proximal matching · tesis", tracks:["P"], obj:["O1","O2"],
+  note:"Climax for O1 + O2. Proximal matching [Fang et al.] is both the method's engine (§3.2) and the seed of thesis direction (b): its loss recovers the prox as γ→0.", noteEs:"Clímax de O1 + O2. Proximal matching [Fang et al.] es a la vez el motor del método (§3.2) y la semilla de la dirección de tesis (b): su pérdida recupera el prox cuando γ→0.",
   tasks:[
-   chap("w7-santa7","7: Functionals over Probabilities (Santambrogio)","C",[
-     sub("w7-s7-1","7.1: Semi-continuity (Santambrogio)"),
-     sub("w7-s7-2","7.2: Convexity, First Variations, and Subdifferentials (Santambrogio)"),
-     sub("w7-s7-3","7.3: Displacement Convexity (Santambrogio)")]),
-   chap("w7-santa8","8: Gradient Flows (Santambrogio)","C",[
-     sub("w7-s8-1","8.1: Gradient Flows in Rd and in Metric Spaces (Santambrogio)"),
-     sub("w7-s8-2","8.2: Gradient Flows in W2, Derivation of the PDE (Santambrogio)"),
-     sub("w7-s8-3","8.3: Analysis of the Fokker-Planck Case (Santambrogio)")]),
-   leaf("w7-survey2","Survey — Wasserstein gradient flows, 2nd half (Santambrogio)","C",{cut:true})
+   leaf("w7-proxdm3","ProxDM — Pass 3: deep, rigorous read with prox + SDE + convergence theory in hand (ProxDM)","P"),
+   chap("w7-pm","Learned Proximal Networks & proximal matching (Fang et al.)","P",[
+     sub("w7-pm-1","Proximal-matching loss & recovery of the prox as γ→0 (Fang et al.)"),
+     sub("w7-pm-2","Learned Proximal Networks (LPN) — ICNN-based exact prox parametrization (Fang et al.)")]),
+   chap("w7-frontier","Frontier / open-problem tracking","P",[
+     sub("w7-fr-1","ProxT2I (2025) — proximal text-to-image"),
+     sub("w7-fr-2","MYULA — Durmus, Moulines & Pereyra (proximal / Moreau–Yosida Langevin sampling)")]),
+   leaf("w7-thesis","Draft 3–4 thesis-problem candidates (Moreau-envelope sampling + Γ-convergence)","P"),
+   leaf("w7-buffer","Buffer / catch up on anything deferred","P")
   ]},
 
- {n:8, dates:DATELBL[7], title:"Γ / epi-convergence (Rockafellar & Wets)", titleEs:"Γ / epi-convergencia (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
-  note:"Tightest week. C7 needs C4 — that's why both are here. First cut if behind: read 7.A–E + 1.G, skim C4 without proofs.", noteEs:"La semana más apretada. C7 necesita C4 — por eso están ambos aquí. Primer recorte si vas atrasado: lee 7.A–E + 1.G, ojea C4 sin demostraciones.",
+ {n:8, dates:DATELBL[7], title:"Optimal transport I — static OT + Wasserstein (course prep)", titleEs:"Transporte óptimo I — TO estático + Wasserstein (prep. curso)", tracks:["C"], obj:["O4"],
+  note:"Prep for the OT course (O4); deprioritized to the back. The paper does not use static OT or Wasserstein (except W₂ as a metric in one plot). Cuttable if time runs short.", noteEs:"Preparación para el curso de TO (O4); deprioritizado al final. El paper no usa TO estático ni Wasserstein (salvo W₂ como métrica en una gráfica). Recortable si el tiempo aprieta.",
   tasks:[
-   chap("w8-rw1","1: Max and Min — targeted sections (Rockafellar & Wets)","D",[
-     sub("w8-rw1-b","1.B: Epigraphs and Semicontinuity (Rockafellar & Wets)"),
-     sub("w8-rw1-g","1.G: Moreau Envelopes (Rockafellar & Wets)")], {cut:true}),
-   chap("w8-rw4","4: Set Convergence (Rockafellar & Wets)","D",[
-     sub("w8-rw4-a","4.A: Inner and Outer Limits (Rockafellar & Wets)"),
-     sub("w8-rw4-b","4.B: Painlevé–Kuratowski Convergence (Rockafellar & Wets)"),
-     sub("w8-rw4-c","4.C: Pompeiu–Hausdorff Distance (Rockafellar & Wets)"),
-     sub("w8-rw4-d","4.D: Cones and Convex Sets (Rockafellar & Wets)")], {cut:true}),
-   chap("w8-rw7","7: Epigraphical Limits (Rockafellar & Wets)","D",[
-     sub("w8-rw7-a","7.A: Pointwise Convergence (Rockafellar & Wets)"),
-     sub("w8-rw7-b","7.B: Epi-Convergence (Rockafellar & Wets)"),
-     sub("w8-rw7-c","7.C: Continuous and Uniform Convergence (Rockafellar & Wets)"),
-     sub("w8-rw7-d","7.D: Generalized Differentiability (Rockafellar & Wets)"),
-     sub("w8-rw7-e","7.E: Convergence in Minimization (Rockafellar & Wets)")], {cut:true}),
-   chap("w8-rw12","12: Monotone Mappings — light (Rockafellar & Wets)","D",[
-     sub("w8-rw12-b","12.B: Minty Parameterization (Rockafellar & Wets)"),
-     sub("w8-rw12-d","12.D: Graphical Convergence (Rockafellar & Wets)")], {cut:true})
+   chap("w8-santa1","1: Primal and Dual Problems (Santambrogio)","C",[
+     sub("w8-s1-1","1.1: Kantorovich and Monge Problems (Santambrogio)"),
+     sub("w8-s1-2","1.2: Duality (Santambrogio)"),
+     sub("w8-s1-3","1.3: The case c(x,y)=h(x−y), h strictly convex, and existence of an optimal T (Santambrogio)"),
+     sub("w8-s1-6","1.6: c-concavity, duality and optimality (Santambrogio)",{skim:true})], {cut:true}),
+   leaf("w8-santa412","4.1.2: The Continuity Equation (Santambrogio)","C",{cut:true}),
+   chap("w8-santa5","5: Wasserstein Spaces (Santambrogio)","C",[
+     sub("w8-s5-1","5.1: Definition and Triangle Inequality (Santambrogio)"),
+     sub("w8-s5-2","5.2: Topology Induced by Wp (Santambrogio)"),
+     sub("w8-s5-3","5.3: Curves in Wp and Continuity Equation (Santambrogio)"),
+     sub("w8-s5-4","5.4: Constant-Speed Geodesics in Wp (Santambrogio)")], {cut:true}),
+   chap("w8-survey1","Survey — {Euclidean, Metric, Wasserstein} Gradient Flows, 1st half (Santambrogio)","C",[
+     sub("w8-sv-1","Gradient flows in Euclidean spaces (Survey)"),
+     sub("w8-sv-2","Gradient flows in metric spaces (Survey)")], {cut:true})
   ]},
 
- {n:9, dates:DATELBL[8], title:"ProxDM deep read · frontier · thesis", titleEs:"Lectura profunda ProxDM · frontera · tesis", tracks:["P"], obj:["O1","O2"],
+ {n:9, dates:DATELBL[8], title:"Optimal transport II — gradient flows & JKO (course prep) · buffer", titleEs:"Transporte óptimo II — flujos gradiente y JKO (prep. curso) · colchón", tracks:["C"], obj:["O4","O2"],
+  note:"Ch. 8 (JKO → Fokker-Planck) is the only part here with conceptual value for O1/O2 — it's the third level of the columna (prox in Wasserstein). The rest is OT course prep.", noteEs:"El Cap. 8 (JKO → Fokker-Planck) es lo único aquí con valor conceptual para O1/O2 — es el tercer nivel de la columna (prox en Wasserstein). El resto es prep. del curso de TO.",
   tasks:[
-   leaf("w9-proxdm3","ProxDM — Pass 3: deep, rigorous read with all three prox levels in hand (ProxDM)","P"),
-   chap("w9-frontier","Frontier / open-problem tracking","P",[
-     sub("w9-fr-1","ProxT2I (2025) — proximal text-to-image"),
-     sub("w9-fr-2","\"Proximal matching\" literature"),
-     sub("w9-fr-3","MYULA — Durmus, Moulines & Pereyra (proximal / Moreau–Yosida Langevin sampling)")]),
-   leaf("w9-thesis","Draft 3–4 thesis-problem candidates and approaches","P"),
-   leaf("w9-buffer","Buffer / catch up on anything deferred","P")
+   chap("w9-santa7","7: Functionals over Probabilities (Santambrogio)","C",[
+     sub("w9-s7-1","7.1: Semi-continuity (Santambrogio)"),
+     sub("w9-s7-2","7.2: Convexity, First Variations, and Subdifferentials (Santambrogio)"),
+     sub("w9-s7-3","7.3: Displacement Convexity (Santambrogio)")], {cut:true}),
+   chap("w9-santa8","8: Gradient Flows (Santambrogio)","C",[
+     sub("w9-s8-1","8.1: Gradient Flows in Rd and in Metric Spaces (Santambrogio)"),
+     sub("w9-s8-2","8.2: Gradient Flows in W2, Derivation of the PDE (Santambrogio)"),
+     sub("w9-s8-3","8.3: Analysis of the Fokker-Planck Case (Santambrogio)")]),
+   leaf("w9-survey2","Survey — Wasserstein gradient flows, 2nd half (Santambrogio)","C",{cut:true})
   ]}
 ];
 
@@ -533,11 +540,15 @@ const RESOURCES = [
   {t:"Bauschke & Combettes — Convex Analysis & Monotone Operator Theory", l:"uploaded PDF"},
   {t:"Santambrogio — Optimal Transport for Applied Mathematicians", l:"uploaded PDF"},
   {t:"Rockafellar & Wets — Variational Analysis", l:"uploaded PDF"},
-  {t:"Nesterov — Introductory Lectures on Convex Optimization", l:"pages.cs.wisc.edu/~yliang/cs839_spring23/material/Introductory-Lectures-on-Convex-Programming-Yurii-Nesterov-2004.pdf", u:"https://pages.cs.wisc.edu/~yliang/cs839_spring23/material/Introductory-Lectures-on-Convex-Programming-Yurii-Nesterov-2004.pdf"},
   {t:"Step-by-Step Diffusion (arXiv:2406.08929)", l:"arxiv.org/pdf/2406.08929", u:"https://arxiv.org/pdf/2406.08929"},
   {t:"Random Walks with Tweedie (arXiv:2411.18702)", l:"arxiv.org/pdf/2411.18702", u:"https://arxiv.org/pdf/2411.18702"},
   {t:"Song et al. 2021 — Score-SDE (arXiv:2011.13456)", l:"arxiv.org/pdf/2011.13456", u:"https://arxiv.org/pdf/2011.13456"},
-  {t:"Anderson 1982 — Reverse-time diffusion", l:"sciencedirect.com/.../0304414982900515/pdf", u:"https://www.sciencedirect.com/science/article/pii/0304414982900515/pdf"}
+  {t:"Anderson 1982 — Reverse-time diffusion", l:"sciencedirect.com/.../0304414982900515/pdf", u:"https://www.sciencedirect.com/science/article/pii/0304414982900515/pdf"},
+  {t:"Wibisono 2019 — Proximal Langevin Algorithm (arXiv:1911.01469)", l:"arxiv.org/pdf/1911.01469", u:"https://arxiv.org/pdf/1911.01469"},
+  {t:"S. Chen et al. 2022 — Sampling is as easy as learning the score (arXiv:2209.11215)", l:"arxiv.org/pdf/2209.11215", u:"https://arxiv.org/pdf/2209.11215"},
+  {t:"Vempala & Wibisono 2019 — Rapid convergence of ULA (arXiv:1903.08568)", l:"arxiv.org/pdf/1903.08568", u:"https://arxiv.org/pdf/1903.08568"},
+  {t:"H. Chen, Lee & Lu 2022 — User-friendly bounds, minimal smoothness (arXiv:2211.01916)", l:"arxiv.org/pdf/2211.01916", u:"https://arxiv.org/pdf/2211.01916"},
+  {t:"Fang et al. — Learned Proximal Networks / proximal matching (arXiv:2310.14344)", l:"arxiv.org/pdf/2310.14344", u:"https://arxiv.org/pdf/2310.14344"}
 ];
 
 // ---------- state ----------
