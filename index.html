@@ -205,7 +205,7 @@
 
   <section class="panel" style="margin-top:26px">
     <h2 data-i18n="readingList">Reading list &amp; downloads</h2>
-    <div class="pdesc" style="margin-bottom:12px" data-i18n="readingDesc">Books: five trunk texts (Le Gall added for Itô/SDE) + Chewi for convergence theory + optional Särkkä; the diffusion papers link to free PDFs.</div>
+    <div class="pdesc" style="margin-bottom:12px" data-i18n="readingDesc">Books: five trunk texts (Baudoin added for SDE + diffusion semigroups) + Chewi for convergence theory + optional Särkkä; the diffusion papers link to free PDFs.</div>
     <div class="reslist" id="reslist"></div>
   </section>
 
@@ -230,7 +230,7 @@ const I18N = {
     tracks:"Tracks", objectives:"Objectives", view:"View",
     hideCompleted:"Hide completed", expandAll:"Expand all", collapseAll:"Collapse all",
     exportBackup:"Export backup", importBackup:"Import backup", resetProgress:"Reset progress",
-    readingList:"Reading list & downloads", readingDesc:"Books: five trunk texts (Le Gall added for Itô/SDE) + Chewi for convergence theory + optional Särkkä; the diffusion papers link to free PDFs.",
+    readingList:"Reading list & downloads", readingDesc:"Books: five trunk texts (Baudoin added for SDE + diffusion semigroups) + Chewi for convergence theory + optional Särkkä; the diffusion papers link to free PDFs.",
     notes:"Notes",
     note1:"<b>Beck &amp; B&amp;C are complementary.</b> B&amp;C gives the abstract Hilbert-space view (prox = resolvent, monotone operators); Beck gives explicit prox computations + FISTA in ℝⁿ. Read both prox chapters — they do different jobs.",
     note2:"<b>Weeks 5–6 are the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence), and §12.D ties it back to the prox. Skip proofs on a first reading if you fall behind.",
@@ -256,7 +256,7 @@ const I18N = {
     tracks:"Pistas", objectives:"Objetivos", view:"Vista",
     hideCompleted:"Ocultar completadas", expandAll:"Expandir todo", collapseAll:"Colapsar todo",
     exportBackup:"Exportar respaldo", importBackup:"Importar respaldo", resetProgress:"Reiniciar progreso",
-    readingList:"Lecturas y descargas", readingDesc:"Libros: cinco textos del tronco (Le Gall añadido para Itô/SDE) + Chewi para teoría de convergencia + Särkkä opcional; los papers de difusión enlazan a PDFs gratuitos.",
+    readingList:"Lecturas y descargas", readingDesc:"Libros: cinco textos del tronco (Baudoin añadido para SDE + semigrupos de difusión) + Chewi para teoría de convergencia + Särkkä opcional; los papers de difusión enlazan a PDFs gratuitos.",
     notes:"Notas",
     note1:"<b>Beck y B&amp;C son complementarios.</b> B&amp;C da la visión abstracta en espacios de Hilbert (prox = resolvente, operadores monótonos); Beck da cálculos explícitos de prox + FISTA en ℝⁿ. Lee ambos capítulos de prox — hacen cosas distintas.",
     note2:"<b>Las semanas 5–6 son las más apretadas.</b> El cap. 7 de R&amp;W (epi-convergencia) requiere de verdad el cap. 4 (convergencia de conjuntos), y §12.D lo reconecta con el prox. Sáltate las demostraciones en una primera lectura si te atrasas.",
@@ -332,12 +332,12 @@ const leaf = (id,label,track,opts={}) => ({id,label,track,...opts}); // no subs
 
 const WEEKS = [
  {n:1, dates:DATELBL[0], title:"Foundation — convex analysis + SDE foundations", titleEs:"Fundamentos — análisis convexo + bases de SDE", tracks:["A","B"], obj:["O1","O3"],
-  note:"Two parallel strands (your measure maturity makes this viable): convex analysis (A) and Itô/SDE foundations from Le Gall (B). Le Gall must be done by W4, when the convergence theory needs Itô.", noteEs:"Dos strands en paralelo (tu madurez en medida lo hace viable): análisis convexo (A) y bases de Itô/SDE desde Le Gall (B). Le Gall debe quedar listo para la S4, cuando la teoría de convergencia exige Itô.",
+  note:"Two parallel strands (your measure + Markov-chains maturity makes this viable): convex analysis (A) and SDE foundations from Baudoin (B). Baudoin Ch. 3-4 (Markov processes + diffusion semigroups) also cover the semigroup / functional-inequality machinery, replacing Chewi Ch. 1-2.", noteEs:"Dos strands en paralelo (tu madurez en medida + cadenas de Markov lo hace viable): análisis convexo (A) y bases de SDE desde Baudoin (B). Baudoin Cap. 3-4 (procesos de Markov + semigrupos de difusión) cubren además la maquinaria de semigrupos / desigualdades funcionales, reemplazando a Chewi Cap. 1-2.",
   tasks:[
-   chap("w1-legall","Le Gall — Brownian motion & martingales (SDE foundations)","B",[
-     sub("w1-lg-1","Ch. 1: Gaussian Variables and Gaussian Processes (Le Gall)",{skim:true}),
-     sub("w1-lg-2","Ch. 2: Brownian Motion (Le Gall)"),
-     sub("w1-lg-3","Ch. 3: Filtrations and Martingales (Le Gall)")]),
+   chap("w1-baudoin","Baudoin — processes, Brownian motion & Markov processes (SDE foundations)","B",[
+     sub("w1-bd-1","Ch. 1: Stochastic Processes (Baudoin)"),
+     sub("w1-bd-2","Ch. 2: Brownian Motion (Baudoin)"),
+     sub("w1-bd-3","Ch. 3: Markov Processes (Baudoin)")]),
    leaf("w1-beck1","1: Vector Spaces (Beck)","A",{skim:true}),
    chap("w1-beck2","2: Extended Real-Valued Functions (Beck)","A",[
      sub("w1-beck2-1","2.1: Extended Real-Valued Functions and Closedness (Beck)"),
@@ -402,9 +402,9 @@ const WEEKS = [
      sub("w2-bc14-3","14.3: Positively Homogeneous Functions (Bauschke & Combettes)",{opt:true}),
      sub("w2-bc14-4","14.4: Coercivity (Bauschke & Combettes)",{opt:true}),
      sub("w2-bc14-5","14.5: The Conjugate of a Difference (Bauschke & Combettes)",{opt:true})]),
-   chap("w2-legall","Le Gall — Itô calculus (SDE foundations)","B",[
-     sub("w2-lg-4","Ch. 4: Continuous Semimartingales (Le Gall)"),
-     sub("w2-lg-5","Ch. 5: Stochastic Integration — Itô integral & Itô's formula (Le Gall)")]),
+   chap("w2-baudoin","Baudoin — diffusion semigroups & Itô calculus (SDE foundations)","B",[
+     sub("w2-bd-4","Ch. 4: Symmetric Diffusion Semigroups — generators, Dirichlet forms, Poincaré/log-Sobolev, convergence to equilibrium, Ornstein–Uhlenbeck (Baudoin)"),
+     sub("w2-bd-5","Ch. 5: Itô Calculus — Itô integral & Itô's formula (Baudoin)")]),
    chap("w2-sbs","Step-by-Step Diffusion — tutorial on-ramp (Nakkiran et al.)","B",[
      sub("w2-sbs-1","§1: Fundamentals of Diffusion (Step-by-Step Diffusion)"),
      sub("w2-sbs-2","§2: Stochastic Sampling — DDPM, incl. §2.4 Diffusions as SDEs (Step-by-Step Diffusion)"),
@@ -443,9 +443,9 @@ const WEEKS = [
      sub("w3-beck10-5","10.5: The Proximal Point Method (Beck)"),
      sub("w3-beck10-7","10.7: The Fast Proximal Gradient Method — FISTA (Beck)"),
      sub("w3-beck10-8","10.8: Smoothing (Beck)",{opt:true})]),
-   chap("w3-legall","Le Gall — SDEs & the PDE connection (SDE foundations)","B",[
-     sub("w3-lg-7","Ch. 7: Brownian Motion and PDEs — Feynman–Kac, link to Fokker–Planck (Le Gall)",{opt:true}),
-     sub("w3-lg-8","Ch. 8: Stochastic Differential Equations (Le Gall)")]),
+   chap("w3-baudoin","Baudoin — stochastic differential equations (SDE foundations)","B",[
+     sub("w3-bd-6","Ch. 6: Stochastic Differential Equations (Baudoin)"),
+     sub("w3-bd-6m","Ch. 6: Malliavin calculus — same chapter, optional (Baudoin)",{opt:true})]),
    leaf("w3-sarkka","Särkkä & Solin — Applied SDEs: §5 Fokker–Planck + §8 Euler–Maruyama, numerics complement (Särkkä & Solin)","B",{opt:true}),
    chap("w3-song","Song et al. 2021 — Score-Based Generative Modeling through SDEs","B",[
      sub("w3-song-1","§1–2: Introduction & background — score matching, DDPM as discrete (Song et al. 2021)",{skim:true}),
@@ -455,7 +455,7 @@ const WEEKS = [
   ]},
 
  {n:4, dates:DATELBL[3], title:"Finish diffusion · convergence theory of samplers", titleEs:"Terminar difusión · teoría de convergencia de samplers", tracks:["B"], obj:["O1","O2"],
-  note:"Convergence theory now from Chewi's book (Log-Concave Sampling) instead of scattered papers. ProxDM's §4 is inspired by the proximal sampler (Chewi Ch. 8, read W7) and Langevin convergence (Ch. 4); this also feeds Moreau-Langevin sampling (thesis direction a).", noteEs:"La teoría de convergencia ahora sale del libro de Chewi (Log-Concave Sampling) en vez de papers sueltos. La §4 de ProxDM se inspira en el proximal sampler (Chewi Cap. 8, se lee en S7) y en la convergencia de Langevin (Cap. 4); esto alimenta además el muestreo Moreau-Langevin (dirección de tesis a).",
+  note:"Convergence theory from Chewi's book; the continuous-time foundations (Langevin diffusion, semigroups, functional inequalities) now come from Baudoin Ch. 3-4, so only Chewi's discrete-time analysis remains: Ch. 4 here, Ch. 8 (proximal sampler) + Ch. 12 in W7. This also feeds Moreau-Langevin sampling (thesis direction a).", noteEs:"Teoría de convergencia desde el libro de Chewi; los fundamentos en tiempo continuo (difusión de Langevin, semigrupos, desigualdades funcionales) ahora salen de Baudoin Cap. 3-4, así que solo queda el análisis en tiempo discreto de Chewi: Cap. 4 aquí, Cap. 8 (proximal sampler) + Cap. 12 en S7. Esto alimenta además el muestreo Moreau-Langevin (dirección de tesis a).",
   tasks:[
    chap("w4-rwt","Random Walks with Tweedie — unified diffusion framework","B",[
      sub("w4-rwt-1","Part 1: Tweedie's formula & the denoiser ↔ score connection (Random Walks with Tweedie)"),
@@ -464,10 +464,7 @@ const WEEKS = [
      sub("w4-and-1","§1–2: Introduction & forward model setup (Anderson 1982)"),
      sub("w4-and-3","§3–4: Reverse-time diffusion model & main theorem (Anderson 1982)"),
      sub("w4-and-5","§5: Discussion / nonlinear case (Anderson 1982)",{skim:true})]),
-   chap("w4-chewi","Chewi — Log-Concave Sampling: convergence theory (replaces the papers)","B",[
-     sub("w4-chewi-1","Ch. 1: The Langevin Diffusion in Continuous Time — §1.1 stochastic-calculus primer, §1.4 Langevin as Wasserstein gradient flow (Chewi)"),
-     sub("w4-chewi-2","Ch. 2: Functional Inequalities — Poincaré, log-Sobolev, isoperimetry (Chewi)",{skim:true}),
-     sub("w4-chewi-4","Ch. 4: Analysis of Langevin Monte Carlo — §4.2 interpolation argument, §4.4 Girsanov (Chewi)")]),
+   leaf("w4-chewi4","Chewi Ch. 4: Analysis of Langevin Monte Carlo — interpolation argument + Girsanov (builds on Baudoin Ch. 3-4) (Chewi)","B"),
    leaf("w4-proxdm2","ProxDM — Pass 2: medium, careful read following score ↔ prox (ProxDM)","P")
   ]},
 
@@ -554,7 +551,7 @@ const RESOURCES = [
   {t:"Bauschke & Combettes — Convex Analysis & Monotone Operator Theory", l:"uploaded PDF"},
   {t:"Santambrogio — Optimal Transport for Applied Mathematicians", l:"uploaded PDF"},
   {t:"Rockafellar & Wets — Variational Analysis", l:"uploaded PDF"},
-  {t:"Le Gall — Brownian Motion, Martingales, and Stochastic Calculus (GTM 274)", l:"downloaded PDF"},
+  {t:"Baudoin — Diffusion Processes and Stochastic Calculus (EMS, 2014)", l:"ems.press/books/etb/196", u:"https://ems.press/books/etb/196"},
   {t:"Chewi — Log-Concave Sampling (convergence-theory book)", l:"chewisinho.github.io/main.pdf", u:"https://chewisinho.github.io/main.pdf"},
   {t:"Särkkä & Solin — Applied SDEs (optional: numerics + Fokker–Planck)", l:"users.aalto.fi/~ssarkka/pub/sde_book.pdf", u:"https://users.aalto.fi/~ssarkka/pub/sde_book.pdf"},
   {t:"Step-by-Step Diffusion (arXiv:2406.08929)", l:"arxiv.org/pdf/2406.08929", u:"https://arxiv.org/pdf/2406.08929"},
