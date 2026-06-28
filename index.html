@@ -331,13 +331,9 @@ const chap = (id,label,track,subs,opts={}) => ({id,label,track,subs,...opts});
 const leaf = (id,label,track,opts={}) => ({id,label,track,...opts}); // no subs
 
 const WEEKS = [
- {n:1, dates:DATELBL[0], title:"Foundation — convex analysis + SDE foundations", titleEs:"Fundamentos — análisis convexo + bases de SDE", tracks:["A","B"], obj:["O1","O3"],
-  note:"Two parallel strands (your measure + Markov-chains maturity makes this viable): convex analysis (A) and SDE foundations from Baudoin (B). Baudoin Ch. 3-4 (Markov processes + diffusion semigroups) also cover the semigroup / functional-inequality machinery, replacing Chewi Ch. 1-2.", noteEs:"Dos strands en paralelo (tu madurez en medida + cadenas de Markov lo hace viable): análisis convexo (A) y bases de SDE desde Baudoin (B). Baudoin Cap. 3-4 (procesos de Markov + semigrupos de difusión) cubren además la maquinaria de semigrupos / desigualdades funcionales, reemplazando a Chewi Cap. 1-2.",
+ {n:1, dates:DATELBL[0], title:"Convex analysis I — extended functions & subgradients (Track A)", titleEs:"Análisis convexo I — funciones extendidas y subgradientes (Track A)", tracks:["A"], obj:["O1","O3"],
+  note:"DONE. Pure convex-analysis core (Beck + B&C). SDE/Baudoin moved out to the consolidated foundations block in Week 3.", noteEs:"HECHO. Núcleo de análisis convexo (Beck + B&C). El SDE/Baudoin se movió al bloque consolidado de fundamentos de la Semana 3.",
   tasks:[
-   chap("w1-baudoin","Baudoin — processes, Brownian motion & Markov processes (SDE foundations)","B",[
-     sub("w1-bd-1","Ch. 1: Stochastic Processes (Baudoin)"),
-     sub("w1-bd-2","Ch. 2: Brownian Motion (Baudoin)"),
-     sub("w1-bd-3","Ch. 3: Markov Processes (Baudoin)")]),
    leaf("w1-beck1","1: Vector Spaces (Beck)","A",{skim:true}),
    chap("w1-beck2","2: Extended Real-Valued Functions (Beck)","A",[
      sub("w1-beck2-1","2.1: Extended Real-Valued Functions and Closedness (Beck)"),
@@ -368,7 +364,8 @@ const WEEKS = [
    leaf("w1-proxdm1","ProxDM — Pass 1: orient (skim the whole paper) (ProxDM)","P")
   ]},
 
- {n:2, dates:DATELBL[1], title:"Build the proximal operator + diffusion on-ramp", titleEs:"Construir el operador proximal + rampa de difusión", tracks:["A","B"], obj:["O1","O3"],
+ {n:2, dates:DATELBL[1], title:"Convex analysis II — proximal operator (Track A)", titleEs:"Análisis convexo II — operador proximal (Track A)", tracks:["A"], obj:["O1","O3"],
+  note:"DONE. Conjugacy, Moreau envelope and the proximal operator (Beck + B&C). Diffusion on-ramp (Step-by-Step) moved to Week 5.", noteEs:"HECHO. Conjugación, envolvente de Moreau y operador proximal (Beck + B&C). La rampa de difusión (Step-by-Step) se movió a la Semana 5.",
   tasks:[
    chap("w2-beck4","4: Conjugate Functions (Beck)","A",[
      sub("w2-beck4-1","4.1: Definition and Basic Properties (Beck)"),
@@ -401,139 +398,153 @@ const WEEKS = [
      sub("w2-bc14-2","14.2: Proximal Average (Bauschke & Combettes)",{opt:true}),
      sub("w2-bc14-3","14.3: Positively Homogeneous Functions (Bauschke & Combettes)",{opt:true}),
      sub("w2-bc14-4","14.4: Coercivity (Bauschke & Combettes)",{opt:true}),
-     sub("w2-bc14-5","14.5: The Conjugate of a Difference (Bauschke & Combettes)",{opt:true})]),
-   chap("w2-baudoin","Baudoin — diffusion semigroups & Itô calculus (SDE foundations)","B",[
-     sub("w2-bd-4","Ch. 4: Symmetric Diffusion Semigroups — generators, Dirichlet forms, Poincaré/log-Sobolev, convergence to equilibrium, Ornstein–Uhlenbeck (Baudoin)"),
-     sub("w2-bd-5","Ch. 5: Itô Calculus — Itô integral & Itô's formula (Baudoin)")]),
-   chap("w2-sbs","Step-by-Step Diffusion — tutorial on-ramp (Nakkiran et al.)","B",[
-     sub("w2-sbs-1","§1: Fundamentals of Diffusion (Step-by-Step Diffusion)"),
-     sub("w2-sbs-2","§2: Stochastic Sampling — DDPM, incl. §2.4 Diffusions as SDEs (Step-by-Step Diffusion)"),
-     sub("w2-sbs-3","§3: Deterministic Sampling — DDIM (Step-by-Step Diffusion)"),
-     sub("w2-sbs-4","§4: Flow Matching (Step-by-Step Diffusion)",{skim:true})])
+     sub("w2-bc14-5","14.5: The Conjugate of a Difference (Bauschke & Combettes)",{opt:true})])
   ]},
 
- {n:3, dates:DATELBL[2], title:"Close A: prox = resolvent · FISTA · score-SDE", titleEs:"Cerrar A: prox = resolvente · FISTA · score-SDE", tracks:["A","B"], obj:["O1","O3"],
+ {n:3, dates:DATELBL[2], title:"SDE foundations — Baudoin + Brezis (semigroups)", titleEs:"Fundamentos de SDE — Baudoin + Brezis (semigrupos)", tracks:["B"], obj:["O1"],
+  note:"Consolidated foundations block: all of Baudoin (stochastic calculus, from zero) plus Brezis as the functional-analysis enabler for diffusion semigroups (the one gap Folland Ch. 5 leaves open — unbounded operators / Hille–Yosida). Reading order: Baudoin Ch. 1–3 need no Brezis; read Brezis §6.4 + §7.1/§7.4 before Baudoin Ch. 4 (§4.1 self-adjointness, §4.5 Hille–Yosida). Dense week — Malliavin (Baudoin Ch. 6) and the Brezis skims/extras are optional.", noteEs:"Bloque consolidado de fundamentos: todo Baudoin (cálculo estocástico, desde cero) más Brezis como habilitador de análisis funcional para los semigrupos de difusión (el único hueco que deja Folland Cap. 5 — operadores no acotados / Hille–Yosida). Orden de lectura: Baudoin Cap. 1–3 no necesitan Brezis; lee Brezis §6.4 + §7.1/§7.4 antes de Baudoin Cap. 4 (§4.1 autoadjunción, §4.5 Hille–Yosida). Semana densa — Malliavin (Baudoin Cap. 6) y los skims/extras de Brezis son opcionales.",
   tasks:[
-   chap("w3-bc16","16: Subdifferentiability of Convex Functions (Bauschke & Combettes)","A",[
-     sub("w3-bc16-1","16.1: Basic Properties (Bauschke & Combettes)"),
-     sub("w3-bc16-2","16.2: Convex Functions (Bauschke & Combettes)"),
-     sub("w3-bc16-3","16.3: Lower Semicontinuous Convex Functions (Bauschke & Combettes)"),
-     sub("w3-bc16-4","16.4: Subdifferential Calculus (Bauschke & Combettes)"),
-     sub("w3-bc16-5","16.5: The Subdifferential of a Composition (Bauschke & Combettes)",{opt:true})]),
-   chap("w3-bc20","20: Monotone Operators — basics only (Bauschke & Combettes)","A",[
-     sub("w3-bc20-1","20.1: Monotone Operators (Bauschke & Combettes)"),
-     sub("w3-bc20-2","20.2: Maximally Monotone Operators (Bauschke & Combettes)")]),
-   chap("w3-bc23","23: Resolvents of Monotone Operators (Bauschke & Combettes)","A",[
-     sub("w3-bc23-1","23.1: Basic Identities (Bauschke & Combettes)"),
-     sub("w3-bc23-2","23.2: Monotonicity and Firm Nonexpansiveness (Bauschke & Combettes)"),
-     sub("w3-bc23-3","23.3: Resolvent Calculus (Bauschke & Combettes)"),
-     sub("w3-bc23-4","23.4: Zeros of Monotone Operators (Bauschke & Combettes)"),
-     sub("w3-bc23-5","23.5: Asymptotic Behavior (Bauschke & Combettes)",{opt:true})]),
-   chap("w3-bc24","24: Proximity Operators (Bauschke & Combettes)","A",[
-     sub("w3-bc24-1","24.1: Characterizations (Bauschke & Combettes)"),
-     sub("w3-bc24-2","24.2: Basic Properties (Bauschke & Combettes)"),
-     sub("w3-bc24-3","24.3–24.8: Prox computation catalog — reference (Bauschke & Combettes)",{opt:true})]),
-   chap("w3-beck8","8: Primal and Dual Projected Subgradient Methods — bridge (Beck)","A",[
-     sub("w3-beck8-1","8.1: From Gradient Descent to Subgradient Descent (Beck)"),
-     sub("w3-beck8-2","8.2: The Projected Subgradient Method (Beck)")]),
-   chap("w3-beck10","10: The Proximal Gradient Method (Beck)","A",[
-     sub("w3-beck10-1","10.1: The Composite Model (Beck)"),
-     sub("w3-beck10-2","10.2: The Proximal Gradient Method (Beck)"),
-     sub("w3-beck10-4","10.4: Analysis of the Proximal Gradient Method — The Convex Case (Beck)"),
-     sub("w3-beck10-5","10.5: The Proximal Point Method (Beck)"),
-     sub("w3-beck10-7","10.7: The Fast Proximal Gradient Method — FISTA (Beck)"),
-     sub("w3-beck10-8","10.8: Smoothing (Beck)",{opt:true})]),
-   chap("w3-baudoin","Baudoin — stochastic differential equations (SDE foundations)","B",[
+   chap("w3-baudoin","Baudoin — Diffusion Processes & Stochastic Calculus, Ch. 1–6 (SDE foundations, from zero)","B",[
+     sub("w3-bd-1","Ch. 1: Stochastic Processes (Baudoin)"),
+     sub("w3-bd-2","Ch. 2: Brownian Motion (Baudoin)"),
+     sub("w3-bd-3","Ch. 3: Markov Processes — Feller–Dynkin diffusions, generators (Baudoin)"),
+     sub("w3-bd-4","Ch. 4: Symmetric Diffusion Semigroups — generators, Dirichlet forms, Poincaré/log-Sobolev, Ornstein–Uhlenbeck (Baudoin)"),
+     sub("w3-bd-5","Ch. 5: Itô Calculus — Itô integral & Itô's formula (also §5.10 Girsanov) (Baudoin)"),
      sub("w3-bd-6","Ch. 6: Stochastic Differential Equations (Baudoin)"),
      sub("w3-bd-6m","Ch. 6: Malliavin calculus — same chapter, optional (Baudoin)",{opt:true})]),
-   leaf("w3-sarkka","Särkkä & Solin — Applied SDEs: §5 Fokker–Planck + §8 Euler–Maruyama, numerics complement (Särkkä & Solin)","B",{opt:true}),
-   chap("w3-song","Song et al. 2021 — Score-Based Generative Modeling through SDEs","B",[
-     sub("w3-song-1","§1–2: Introduction & background — score matching, DDPM as discrete (Song et al. 2021)",{skim:true}),
-     sub("w3-song-3","§3: Score-based modeling with SDEs — forward, reverse-time SDE, score estimation (Song et al. 2021)"),
-     sub("w3-song-4","§4: Solving the reverse SDE — predictor–corrector, probability-flow ODE (Song et al. 2021)"),
-     sub("w3-song-5","§5: Controllable generation / inverse problems (Song et al. 2021)",{skim:true})])
+   chap("w3-brezis","Brezis — Hille–Yosida & semigroups: functional-analysis backing for Baudoin Ch. 3–4 (fills the gap Folland Ch. 5 leaves open). Skim the prerequisite chapters first — Brezis's notation differs.","B",[
+     sub("w3-brz-1","1: The Hahn–Banach Theorems & conjugate convex functions — prerequisite, skim for notation (you have this from Folland Ch. 5) (Brezis)",{skim:true}),
+     sub("w3-brz-2","2: Uniform Boundedness & Closed Graph Theorems — prerequisite, skim for notation (Folland Ch. 5) (Brezis)",{skim:true}),
+     sub("w3-brz-5","5: Hilbert Spaces — prerequisite, skim for notation: projection, Lax–Milgram, adjoint (Folland §5.5) (Brezis)",{skim:true}),
+     sub("w3-brz-63","6.1–6.3: Compact Operators, Riesz–Fredholm, the Spectrum — skim to ground §6.4 (Brezis)",{skim:true}),
+     sub("w3-brz-64","6.4: Spectral Decomposition of Self-Adjoint Compact Operators — needed for §7.4 (Brezis)"),
+     sub("w3-brz-71","7.1: Maximal Monotone Operators — resolvent Jλ & Yosida regularization (also backs B&C Ch. 20/23) (Brezis)"),
+     sub("w3-brz-72","7.2: Evolution problem du/dt+Au=0 — existence & uniqueness = semigroup generation (Brezis)"),
+     sub("w3-brz-73","7.3: Regularity (Brezis)",{opt:true}),
+     sub("w3-brz-74","7.4: The Self-Adjoint Case — exactly the diffusion-semigroup setting (Baudoin §4.1, §4.5); needs §6.4 (Brezis)"),
+     sub("w3-brz-101","10.1: The Heat Equation — existence/uniqueness/regularity, the diffusion semigroup in action (Brezis)",{opt:true})])
   ]},
 
- {n:4, dates:DATELBL[3], title:"Finish diffusion · convergence theory of samplers", titleEs:"Terminar difusión · teoría de convergencia de samplers", tracks:["B"], obj:["O1","O2"],
-  note:"Convergence theory from Chewi's book; the continuous-time foundations (Langevin diffusion, semigroups, functional inequalities) now come from Baudoin Ch. 3-4, so only Chewi's discrete-time analysis remains: Ch. 4 here, Ch. 8 (proximal sampler) + Ch. 12 in W7. This also feeds Moreau-Langevin sampling (thesis direction a).", noteEs:"Teoría de convergencia desde el libro de Chewi; los fundamentos en tiempo continuo (difusión de Langevin, semigrupos, desigualdades funcionales) ahora salen de Baudoin Cap. 3-4, así que solo queda el análisis en tiempo discreto de Chewi: Cap. 4 aquí, Cap. 8 (proximal sampler) + Cap. 12 en S7. Esto alimenta además el muestreo Moreau-Langevin (dirección de tesis a).",
+ {n:4, dates:DATELBL[3], title:"Close the proximal core — resolvents · FISTA (Track A)", titleEs:"Cerrar el núcleo proximal — resolventes · FISTA (Track A)", tracks:["A"], obj:["O1","O3"],
+  note:"Closing of Track A: subdifferential calculus, monotone operators, prox = resolvent, and the proximal-gradient method (FISTA). No SDE dependency — pure convex analysis building on Weeks 1–2. Heaviest of the remaining weeks; can spill into Week 5 if needed.", noteEs:"Cierre del Track A: cálculo de subdiferenciales, operadores monótonos, prox = resolvente, y el método de gradiente proximal (FISTA). Sin dependencia de SDE — análisis convexo puro sobre las Semanas 1–2. La más cargada de las semanas restantes; puede derramarse a la Semana 5 si hace falta.",
   tasks:[
-   chap("w4-rwt","Random Walks with Tweedie — unified diffusion framework","B",[
-     sub("w4-rwt-1","Part 1: Tweedie's formula & the denoiser ↔ score connection (Random Walks with Tweedie)"),
-     sub("w4-rwt-2","Part 2: reverse-time / random-walk sampling & main results (Random Walks with Tweedie)")]),
-   chap("w4-anderson","Anderson 1982 — Reverse-time diffusion equation models","B",[
-     sub("w4-and-1","§1–2: Introduction & forward model setup (Anderson 1982)"),
-     sub("w4-and-3","§3–4: Reverse-time diffusion model & main theorem (Anderson 1982)"),
-     sub("w4-and-5","§5: Discussion / nonlinear case (Anderson 1982)",{skim:true})]),
-   leaf("w4-chewi4","Chewi Ch. 4: Analysis of Langevin Monte Carlo — interpolation argument + Girsanov (builds on Baudoin Ch. 3-4) (Chewi)","B"),
-   leaf("w4-proxdm2","ProxDM — Pass 2: medium, careful read following score ↔ prox (ProxDM)","P")
+   chap("w4-bc16","16: Subdifferentiability of Convex Functions (Bauschke & Combettes)","A",[
+     sub("w4-bc16-1","16.1: Basic Properties (Bauschke & Combettes)"),
+     sub("w4-bc16-2","16.2: Convex Functions (Bauschke & Combettes)"),
+     sub("w4-bc16-3","16.3: Lower Semicontinuous Convex Functions (Bauschke & Combettes)"),
+     sub("w4-bc16-4","16.4: Subdifferential Calculus (Bauschke & Combettes)"),
+     sub("w4-bc16-5","16.5: The Subdifferential of a Composition (Bauschke & Combettes)",{opt:true})]),
+   chap("w4-bc20","20: Monotone Operators — basics only (Bauschke & Combettes)","A",[
+     sub("w4-bc20-1","20.1: Monotone Operators (Bauschke & Combettes)"),
+     sub("w4-bc20-2","20.2: Maximally Monotone Operators (Bauschke & Combettes)")]),
+   chap("w4-bc23","23: Resolvents of Monotone Operators (Bauschke & Combettes)","A",[
+     sub("w4-bc23-1","23.1: Basic Identities (Bauschke & Combettes)"),
+     sub("w4-bc23-2","23.2: Monotonicity and Firm Nonexpansiveness (Bauschke & Combettes)"),
+     sub("w4-bc23-3","23.3: Resolvent Calculus (Bauschke & Combettes)"),
+     sub("w4-bc23-4","23.4: Zeros of Monotone Operators (Bauschke & Combettes)"),
+     sub("w4-bc23-5","23.5: Asymptotic Behavior (Bauschke & Combettes)",{opt:true})]),
+   chap("w4-bc24","24: Proximity Operators (Bauschke & Combettes)","A",[
+     sub("w4-bc24-1","24.1: Characterizations (Bauschke & Combettes)"),
+     sub("w4-bc24-2","24.2: Basic Properties (Bauschke & Combettes)"),
+     sub("w4-bc24-3","24.3–24.8: Prox computation catalog — reference (Bauschke & Combettes)",{opt:true})]),
+   chap("w4-beck8","8: Primal and Dual Projected Subgradient Methods — bridge (Beck)","A",[
+     sub("w4-beck8-1","8.1: From Gradient Descent to Subgradient Descent (Beck)"),
+     sub("w4-beck8-2","8.2: The Projected Subgradient Method (Beck)")]),
+   chap("w4-beck10","10: The Proximal Gradient Method (Beck)","A",[
+     sub("w4-beck10-1","10.1: The Composite Model (Beck)"),
+     sub("w4-beck10-2","10.2: The Proximal Gradient Method (Beck)"),
+     sub("w4-beck10-4","10.4: Analysis of the Proximal Gradient Method — The Convex Case (Beck)"),
+     sub("w4-beck10-5","10.5: The Proximal Point Method (Beck)"),
+     sub("w4-beck10-7","10.7: The Fast Proximal Gradient Method — FISTA (Beck)"),
+     sub("w4-beck10-8","10.8: Smoothing (Beck)",{opt:true})])
   ]},
 
- {n:5, dates:DATELBL[4], title:"Γ / epi-convergence I — foundations (Rockafellar & Wets)", titleEs:"Γ / epi-convergencia I — fundamentos (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
-  note:"Moved up: this is thesis direction (b) — Γ/epi-convergence of the γ-problem whose limit recovers the prox (a degenerate limit), exactly the γ→0 limit of proximal matching [Fang et al.]. Needs the Moreau material from Block A (W1–W3). R&W Ch. 7 (W6) requires this Ch. 4.", noteEs:"Adelantado: es la dirección de tesis (b) — Γ/epi-convergencia del problema-γ cuyo límite recupera el prox (límite degenerado), justo el límite γ→0 de proximal matching [Fang et al.]. Requiere el Moreau del Bloque A (S1–S3). El Cap. 7 de R&W (S6) necesita este Cap. 4.",
+ {n:5, dates:DATELBL[4], title:"Diffusion models + convergence theory (Track B)", titleEs:"Modelos de difusión + teoría de convergencia (Track B)", tracks:["B","P"], obj:["O1","O2"],
+  note:"With SDE foundations (Week 3) in hand: the diffusion-model on-ramp (Step-by-Step, Song) and the convergence machinery (Tweedie, Anderson, Chewi Ch. 4). ProxDM Pass 2 follows the score ↔ prox correspondence. The continuous-time foundations now come from Baudoin Ch. 3–4; only Chewi's discrete-time analysis remains here.", noteEs:"Con los fundamentos de SDE (Semana 3) listos: la rampa de modelos de difusión (Step-by-Step, Song) y la maquinaria de convergencia (Tweedie, Anderson, Chewi Cap. 4). ProxDM Pase 2 sigue la correspondencia score ↔ prox. Los fundamentos en tiempo continuo ahora salen de Baudoin Cap. 3–4; aquí solo queda el análisis en tiempo discreto de Chewi.",
   tasks:[
-   chap("w5-rw1","1: Max and Min — targeted sections (Rockafellar & Wets)","D",[
-     sub("w5-rw1-b","1.B: Epigraphs and Semicontinuity (Rockafellar & Wets)"),
-     sub("w5-rw1-g","1.G: Moreau Envelopes (Rockafellar & Wets)")]),
-   chap("w5-rw4","4: Set Convergence (Rockafellar & Wets)","D",[
-     sub("w5-rw4-a","4.A: Inner and Outer Limits (Rockafellar & Wets)"),
-     sub("w5-rw4-b","4.B: Painlevé–Kuratowski Convergence (Rockafellar & Wets)"),
-     sub("w5-rw4-c","4.C: Pompeiu–Hausdorff Distance (Rockafellar & Wets)"),
-     sub("w5-rw4-d","4.D: Cones and Convex Sets (Rockafellar & Wets)")])
+   chap("w5-sbs","Step-by-Step Diffusion — tutorial on-ramp (Nakkiran et al.)","B",[
+     sub("w5-sbs-1","§1: Fundamentals of Diffusion (Step-by-Step Diffusion)"),
+     sub("w5-sbs-2","§2: Stochastic Sampling — DDPM, incl. §2.4 Diffusions as SDEs (Step-by-Step Diffusion)"),
+     sub("w5-sbs-3","§3: Deterministic Sampling — DDIM (Step-by-Step Diffusion)"),
+     sub("w5-sbs-4","§4: Flow Matching (Step-by-Step Diffusion)",{skim:true})]),
+   chap("w5-song","Song et al. 2021 — Score-Based Generative Modeling through SDEs","B",[
+     sub("w5-song-1","§1–2: Introduction & background — score matching, DDPM as discrete (Song et al. 2021)",{skim:true}),
+     sub("w5-song-3","§3: Score-based modeling with SDEs — forward, reverse-time SDE, score estimation (Song et al. 2021)"),
+     sub("w5-song-4","§4: Solving the reverse SDE — predictor–corrector, probability-flow ODE (Song et al. 2021)"),
+     sub("w5-song-5","§5: Controllable generation / inverse problems (Song et al. 2021)",{skim:true})]),
+   leaf("w5-sarkka","Särkkä & Solin — Applied SDEs: §5 Fokker–Planck + §8 Euler–Maruyama, numerics complement (Särkkä & Solin)","B",{opt:true}),
+   chap("w5-rwt","Random Walks with Tweedie — unified diffusion framework","B",[
+     sub("w5-rwt-1","Part 1: Tweedie's formula & the denoiser ↔ score connection (Random Walks with Tweedie)"),
+     sub("w5-rwt-2","Part 2: reverse-time / random-walk sampling & main results (Random Walks with Tweedie)")]),
+   chap("w5-anderson","Anderson 1982 — Reverse-time diffusion equation models","B",[
+     sub("w5-and-1","§1–2: Introduction & forward model setup (Anderson 1982)"),
+     sub("w5-and-3","§3–4: Reverse-time diffusion model & main theorem (Anderson 1982)"),
+     sub("w5-and-5","§5: Discussion / nonlinear case (Anderson 1982)",{skim:true})]),
+   leaf("w5-chewi4","Chewi Ch. 4: Analysis of Langevin Monte Carlo — interpolation argument + Girsanov (builds on Baudoin Ch. 3–5) (Chewi)","B"),
+   leaf("w5-proxdm2","ProxDM — Pass 2: medium, careful read following score ↔ prox (ProxDM)","P")
   ]},
 
- {n:6, dates:DATELBL[5], title:"Γ / epi-convergence II — epigraphical limits (Rockafellar & Wets)", titleEs:"Γ / epi-convergencia II — límites epigráficos (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
-  note:"The most demanding week. §12.D (graphical convergence of subdifferentials/resolvents) is the formal language of 'parametrized solutions → prox' — the core of thesis direction (b). First cut if behind: read 7.A–E, skim 12.", noteEs:"La semana más exigente. §12.D (convergencia gráfica de subdiferenciales/resolventes) es el lenguaje formal de 'soluciones parametrizadas → prox' — el corazón de la dirección de tesis (b). Primer recorte si vas atrasado: lee 7.A–E, ojea el 12.",
+ {n:6, dates:DATELBL[5], title:"Γ / epi-convergence I — foundations (Rockafellar & Wets)", titleEs:"Γ / epi-convergencia I — fundamentos (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
+  note:"Thesis direction (b): Γ/epi-convergence of the γ-problem whose limit recovers the prox — the γ→0 limit of proximal matching [Fang et al.]. Needs the Moreau material from Track A (Weeks 1–4). Ch. 7 (Week 7) requires this Ch. 4.", noteEs:"Dirección de tesis (b): Γ/epi-convergencia del problema-γ cuyo límite recupera el prox — el límite γ→0 de proximal matching [Fang et al.]. Requiere el Moreau del Track A (Semanas 1–4). El Cap. 7 (Semana 7) necesita este Cap. 4.",
   tasks:[
-   chap("w6-rw7","7: Epigraphical Limits (Rockafellar & Wets)","D",[
-     sub("w6-rw7-a","7.A: Pointwise Convergence (Rockafellar & Wets)"),
-     sub("w6-rw7-b","7.B: Epi-Convergence (Rockafellar & Wets)"),
-     sub("w6-rw7-c","7.C: Continuous and Uniform Convergence (Rockafellar & Wets)"),
-     sub("w6-rw7-d","7.D: Generalized Differentiability (Rockafellar & Wets)"),
-     sub("w6-rw7-e","7.E: Convergence in Minimization (Rockafellar & Wets)")]),
-   chap("w6-rw12","12: Monotone Mappings — light (Rockafellar & Wets)","D",[
-     sub("w6-rw12-b","12.B: Minty Parameterization (Rockafellar & Wets)"),
-     sub("w6-rw12-d","12.D: Graphical Convergence (Rockafellar & Wets)")])
+   chap("w6-rw1","1: Max and Min — targeted sections (Rockafellar & Wets)","D",[
+     sub("w6-rw1-b","1.B: Epigraphs and Semicontinuity (Rockafellar & Wets)"),
+     sub("w6-rw1-g","1.G: Moreau Envelopes (Rockafellar & Wets)")]),
+   chap("w6-rw4","4: Set Convergence (Rockafellar & Wets)","D",[
+     sub("w6-rw4-a","4.A: Inner and Outer Limits (Rockafellar & Wets)"),
+     sub("w6-rw4-b","4.B: Painlevé–Kuratowski Convergence (Rockafellar & Wets)"),
+     sub("w6-rw4-c","4.C: Pompeiu–Hausdorff Distance (Rockafellar & Wets)"),
+     sub("w6-rw4-d","4.D: Cones and Convex Sets (Rockafellar & Wets)")])
   ]},
 
- {n:7, dates:DATELBL[6], title:"ProxDM deep read · proximal matching · thesis", titleEs:"Lectura profunda ProxDM · proximal matching · tesis", tracks:["P","B"], obj:["O1","O2"],
-  note:"Climax for O1 + O2. Read Chewi Ch. 8 (proximal sampler) + Ch. 12 (diffusion models) alongside Pass 3 — they mirror ProxDM's §4 proof. Proximal matching [Fang et al.] is both the method's engine (§3.2) and the seed of thesis direction (b): its loss recovers the prox as γ→0.", noteEs:"Clímax de O1 + O2. Lee Chewi Cap. 8 (proximal sampler) + Cap. 12 (modelos de difusión) junto al Pase 3 — son el espejo de la prueba de la §4 de ProxDM. Proximal matching [Fang et al.] es a la vez el motor del método (§3.2) y la semilla de la dirección de tesis (b): su pérdida recupera el prox cuando γ→0.",
+ {n:7, dates:DATELBL[6], title:"Γ / epi-convergence II — epigraphical limits (Rockafellar & Wets)", titleEs:"Γ / epi-convergencia II — límites epigráficos (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
+  note:"The most demanding D week. §12.D (graphical convergence of subdifferentials/resolvents) is the formal language of 'parametrized solutions → prox' — the core of thesis direction (b). First cut if behind: read 7.A–E, skim 12.", noteEs:"La semana D más exigente. §12.D (convergencia gráfica de subdiferenciales/resolventes) es el lenguaje formal de 'soluciones parametrizadas → prox' — el corazón de la dirección de tesis (b). Primer recorte si vas atrasado: lee 7.A–E, ojea el 12.",
   tasks:[
-   leaf("w7-proxdm3","ProxDM — Pass 3: deep, rigorous read with prox + SDE + convergence theory in hand (ProxDM)","P"),
-   chap("w7-chewi","Chewi — Log-Concave Sampling: proximal sampler & diffusion models (Chewi)","B",[
-     sub("w7-chewi-8","Ch. 8: The Proximal Sampler — the direct analog of ProxDM's backward discretization (Chewi)"),
-     sub("w7-chewi-12","Ch. 12: Diffusion Generative Models — §12.3 discretization analysis (Chewi)")]),
-   chap("w7-pm","Learned Proximal Networks & proximal matching (Fang et al.)","P",[
-     sub("w7-pm-1","Proximal-matching loss & recovery of the prox as γ→0 (Fang et al.)"),
-     sub("w7-pm-2","Learned Proximal Networks (LPN) — ICNN-based exact prox parametrization (Fang et al.)")]),
-   chap("w7-frontier","Frontier / open-problem tracking","P",[
-     sub("w7-fr-1","ProxT2I (2025) — proximal text-to-image"),
-     sub("w7-fr-2","MYULA — Durmus, Moulines & Pereyra (proximal / Moreau–Yosida Langevin sampling)")]),
-   leaf("w7-thesis","Draft 3–4 thesis-problem candidates (Moreau-envelope sampling + Γ-convergence)","P"),
-   leaf("w7-buffer","Buffer / catch up on anything deferred","P")
+   chap("w7-rw7","7: Epigraphical Limits (Rockafellar & Wets)","D",[
+     sub("w7-rw7-a","7.A: Pointwise Convergence (Rockafellar & Wets)"),
+     sub("w7-rw7-b","7.B: Epi-Convergence (Rockafellar & Wets)"),
+     sub("w7-rw7-c","7.C: Continuous and Uniform Convergence (Rockafellar & Wets)"),
+     sub("w7-rw7-d","7.D: Generalized Differentiability (Rockafellar & Wets)"),
+     sub("w7-rw7-e","7.E: Convergence in Minimization (Rockafellar & Wets)")]),
+   chap("w7-rw12","12: Monotone Mappings — light (Rockafellar & Wets)","D",[
+     sub("w7-rw12-b","12.B: Minty Parameterization (Rockafellar & Wets)"),
+     sub("w7-rw12-d","12.D: Graphical Convergence (Rockafellar & Wets)")])
   ]},
 
- {n:8, dates:DATELBL[7], title:"Optimal transport I — static OT + Wasserstein (course prep)", titleEs:"Transporte óptimo I — TO estático + Wasserstein (prep. curso)", tracks:["C"], obj:["O4"],
-  note:"Prep for the OT course (O4); deprioritized to the back. The paper does not use static OT or Wasserstein (except W₂ as a metric in one plot). Cuttable if time runs short.", noteEs:"Preparación para el curso de TO (O4); deprioritizado al final. El paper no usa TO estático ni Wasserstein (salvo W₂ como métrica en una gráfica). Recortable si el tiempo aprieta.",
+ {n:8, dates:DATELBL[7], title:"ProxDM deep read · proximal matching · thesis", titleEs:"Lectura profunda ProxDM · proximal matching · tesis", tracks:["P","B"], obj:["O1","O2"],
+  note:"Climax for O1 + O2. Read Chewi Ch. 8 (proximal sampler) + Ch. 12 (diffusion models) alongside Pass 3 — they mirror ProxDM's §4 proof (which uses the Fokker–Planck / multidimensional-Itô route, not Girsanov). Proximal matching [Fang et al.] is both the method's engine (§3.2) and the seed of thesis direction (b): its loss recovers the prox as γ→0.", noteEs:"Clímax de O1 + O2. Lee Chewi Cap. 8 (proximal sampler) + Cap. 12 (modelos de difusión) junto al Pase 3 — son el espejo de la prueba de la §4 de ProxDM (que usa la ruta Fokker–Planck / Itô multidimensional, no Girsanov). Proximal matching [Fang et al.] es a la vez el motor del método (§3.2) y la semilla de la dirección de tesis (b): su pérdida recupera el prox cuando γ→0.",
   tasks:[
-   chap("w8-santa1","1: Primal and Dual Problems (Santambrogio)","C",[
-     sub("w8-s1-1","1.1: Kantorovich and Monge Problems (Santambrogio)"),
-     sub("w8-s1-2","1.2: Duality (Santambrogio)"),
-     sub("w8-s1-3","1.3: The case c(x,y)=h(x−y), h strictly convex, and existence of an optimal T (Santambrogio)"),
-     sub("w8-s1-6","1.6: c-concavity, duality and optimality (Santambrogio)",{skim:true})], {cut:true}),
-   leaf("w8-santa412","4.1.2: The Continuity Equation (Santambrogio)","C",{cut:true}),
-   chap("w8-santa5","5: Wasserstein Spaces (Santambrogio)","C",[
-     sub("w8-s5-1","5.1: Definition and Triangle Inequality (Santambrogio)"),
-     sub("w8-s5-2","5.2: Topology Induced by Wp (Santambrogio)"),
-     sub("w8-s5-3","5.3: Curves in Wp and Continuity Equation (Santambrogio)"),
-     sub("w8-s5-4","5.4: Constant-Speed Geodesics in Wp (Santambrogio)")], {cut:true}),
-   chap("w8-survey1","Survey — {Euclidean, Metric, Wasserstein} Gradient Flows, 1st half (Santambrogio)","C",[
-     sub("w8-sv-1","Gradient flows in Euclidean spaces (Survey)"),
-     sub("w8-sv-2","Gradient flows in metric spaces (Survey)")], {cut:true})
+   leaf("w8-proxdm3","ProxDM — Pass 3: deep, rigorous read with prox + SDE + convergence theory in hand (ProxDM)","P"),
+   chap("w8-chewi","Chewi — Log-Concave Sampling: proximal sampler & diffusion models (Chewi)","B",[
+     sub("w8-chewi-8","Ch. 8: The Proximal Sampler — the direct analog of ProxDM's backward discretization (Chewi)"),
+     sub("w8-chewi-12","Ch. 12: Diffusion Generative Models — §12.3 discretization analysis (Chewi)")]),
+   chap("w8-pm","Learned Proximal Networks & proximal matching (Fang et al.)","P",[
+     sub("w8-pm-1","Proximal-matching loss & recovery of the prox as γ→0 (Fang et al.)"),
+     sub("w8-pm-2","Learned Proximal Networks (LPN) — ICNN-based exact prox parametrization (Fang et al.)")]),
+   chap("w8-frontier","Frontier / open-problem tracking","P",[
+     sub("w8-fr-1","ProxT2I (2025) — proximal text-to-image"),
+     sub("w8-fr-2","MYULA — Durmus, Moulines & Pereyra (proximal / Moreau–Yosida Langevin sampling)")]),
+   leaf("w8-thesis","Draft 3–4 thesis-problem candidates (Moreau-envelope sampling + Γ-convergence)","P"),
+   leaf("w8-buffer","Buffer / catch up on anything deferred","P")
   ]},
 
- {n:9, dates:DATELBL[8], title:"Optimal transport II — gradient flows & JKO (course prep) · buffer", titleEs:"Transporte óptimo II — flujos gradiente y JKO (prep. curso) · colchón", tracks:["C"], obj:["O4","O2"],
-  note:"Ch. 8 (JKO → Fokker-Planck) is the only part here with conceptual value for O1/O2 — it's the third level of the columna (prox in Wasserstein). The rest is OT course prep.", noteEs:"El Cap. 8 (JKO → Fokker-Planck) es lo único aquí con valor conceptual para O1/O2 — es el tercer nivel de la columna (prox en Wasserstein). El resto es prep. del curso de TO.",
+ {n:9, dates:DATELBL[8], title:"Optimal transport — Wasserstein + JKO (course prep) · buffer", titleEs:"Transporte óptimo — Wasserstein + JKO (prep. curso) · colchón", tracks:["C"], obj:["O4","O2"],
+  note:"Prep for the OT course (O4), deprioritized to the back. The paper does not use static OT or Wasserstein (except W₂ as a metric in one plot). Most of this is cuttable EXCEPT Santambrogio Ch. 8 (JKO → Fokker-Planck), the third level of the proximal column — direct value for O1/O2.", noteEs:"Preparación para el curso de TO (O4), deprioritizado al final. El paper no usa TO estático ni Wasserstein (salvo W₂ como métrica en una gráfica). Casi todo es recortable EXCEPTO Santambrogio Cap. 8 (JKO → Fokker-Planck), el tercer nivel de la columna proximal — valor directo para O1/O2.",
   tasks:[
+   chap("w9-santa1","1: Primal and Dual Problems (Santambrogio)","C",[
+     sub("w9-s1-1","1.1: Kantorovich and Monge Problems (Santambrogio)"),
+     sub("w9-s1-2","1.2: Duality (Santambrogio)"),
+     sub("w9-s1-3","1.3: The case c(x,y)=h(x−y), h strictly convex, and existence of an optimal T (Santambrogio)"),
+     sub("w9-s1-6","1.6: c-concavity, duality and optimality (Santambrogio)",{skim:true})], {cut:true}),
+   leaf("w9-santa412","4.1.2: The Continuity Equation (Santambrogio)","C",{cut:true}),
+   chap("w9-santa5","5: Wasserstein Spaces (Santambrogio)","C",[
+     sub("w9-s5-1","5.1: Definition and Triangle Inequality (Santambrogio)"),
+     sub("w9-s5-2","5.2: Topology Induced by Wp (Santambrogio)"),
+     sub("w9-s5-3","5.3: Curves in Wp and Continuity Equation (Santambrogio)"),
+     sub("w9-s5-4","5.4: Constant-Speed Geodesics in Wp (Santambrogio)")], {cut:true}),
+   chap("w9-survey1","Survey — {Euclidean, Metric, Wasserstein} Gradient Flows, 1st half (Santambrogio)","C",[
+     sub("w9-sv-1","Gradient flows in Euclidean spaces (Survey)"),
+     sub("w9-sv-2","Gradient flows in metric spaces (Survey)")], {cut:true}),
    chap("w9-santa7","7: Functionals over Probabilities (Santambrogio)","C",[
      sub("w9-s7-1","7.1: Semi-continuity (Santambrogio)"),
      sub("w9-s7-2","7.2: Convexity, First Variations, and Subdifferentials (Santambrogio)"),
@@ -552,6 +563,7 @@ const RESOURCES = [
   {t:"Santambrogio — Optimal Transport for Applied Mathematicians", l:"uploaded PDF"},
   {t:"Rockafellar & Wets — Variational Analysis", l:"uploaded PDF"},
   {t:"Baudoin — Diffusion Processes and Stochastic Calculus (EMS, 2014)", l:"ems.press/books/etb/196", u:"https://ems.press/books/etb/196"},
+  {t:"Brezis — Functional Analysis, Sobolev Spaces and PDEs (optional: Ch. 6–7 Hille–Yosida / semigroups, backs Baudoin Ch. 3–4)", l:"uploaded PDF"},
   {t:"Chewi — Log-Concave Sampling (convergence-theory book)", l:"chewisinho.github.io/main.pdf", u:"https://chewisinho.github.io/main.pdf"},
   {t:"Särkkä & Solin — Applied SDEs (optional: numerics + Fokker–Planck)", l:"users.aalto.fi/~ssarkka/pub/sde_book.pdf", u:"https://users.aalto.fi/~ssarkka/pub/sde_book.pdf"},
   {t:"Step-by-Step Diffusion (arXiv:2406.08929)", l:"arxiv.org/pdf/2406.08929", u:"https://arxiv.org/pdf/2406.08929"},
