@@ -63,6 +63,11 @@
   .ghead b{font-family:"IBM Plex Mono",monospace; color:var(--ink); font-size:12px; font-weight:600}
   .glabel{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink); font-weight:600; display:flex; align-items:center; gap:7px}
   .gdot{width:10px;height:10px;border-radius:3px}
+  .tracklegend{margin-top:14px; display:grid; gap:7px; border-top:1px solid var(--line2); padding-top:13px}
+  .tracklegend .tlrow{font-size:12.5px; color:var(--softink); line-height:1.4}
+  .tracklegend .tlrow b{color:var(--ink); font-weight:600}
+  .tracklegend .tldot{display:inline-block; width:9px; height:9px; border-radius:3px; margin-right:7px; vertical-align:1px}
+  .tracklegend .tltext{color:var(--softink)}
   .gempty{background:#e8dfcc7a; border-radius:7px}
   .gfull{box-shadow:0 1px 3px #0002}
   .gfade{opacity:.45}
@@ -176,6 +181,7 @@
       <div><h2 data-i18n="parallelTracks">Parallel tracks</h2><div class="pdesc" data-i18n="parallelDesc">Only A and B overlap (weeks 1–3); then tracks run one at a time — D, the ProxDM climax, then C.</div></div>
     </div>
     <div class="gantt"><div id="grid"></div></div>
+    <div id="tracklegend" class="tracklegend"></div>
   </section>
 
   <div class="controls">
@@ -226,7 +232,7 @@ const I18N = {
     kicker:"Intersemester · 30 h/week · 17 Jun – 17 Aug 2026",
     sub:"The proximal operator at three levels — resolvent of the subdifferential, Moreau–Yosida limit, and JKO in Wasserstein space — threaded through nine weeks toward the ProxDM paper and a thesis problem.",
     complete:"complete", tasks:"tasks",
-    parallelTracks:"Parallel tracks", parallelDesc:"Only A and B overlap (weeks 1–3); then tracks run one at a time — D, the ProxDM climax, then C.",
+    parallelTracks:"Parallel tracks", parallelDesc:"Tracks now run mostly one at a time: convex analysis (A) in W1–2, SDE foundations (B) in W3, back to A to close the proximal core in W4, then diffusion (B), Γ-convergence (D), the ProxDM climax (P), and optimal transport (C). ProxDM gets three passes (W1, W5, W8).",
     tracks:"Tracks", objectives:"Objectives", view:"View",
     hideCompleted:"Hide completed", expandAll:"Expand all", collapseAll:"Collapse all",
     exportBackup:"Export backup", importBackup:"Import backup", resetProgress:"Reset progress",
@@ -238,6 +244,11 @@ const I18N = {
     footer:"Progress is saved automatically on this device · O1 understand ProxDM · O2 thesis problem · O3 Convex Optimization course · O4 Optimal Transport course",
     // dynamic
     track_A:"Proximal core", track_B:"Diffusion / SDE", track_C:"Wasserstein", track_D:"Γ-convergence", track_P:"ProxDM + synthesis",
+    trackdesc_A:"Convex analysis → proximal operator, Moreau envelope, resolvents and FISTA (Beck + B&C). The first level of the proximal column.",
+    trackdesc_B:"Stochastic calculus from zero (Baudoin + Brezis for semigroups), diffusion models, and sampler convergence theory.",
+    trackdesc_C:"Optimal transport: Kantorovich, Wasserstein spaces and JKO (prox in W₂) — Santambrogio. OT-course prep.",
+    trackdesc_D:"Variational analysis: epi/Γ-convergence and graphical convergence (Rockafellar & Wets). Thesis angle (b).",
+    trackdesc_P:"The target paper: three passes + proximal matching + drafting thesis-problem candidates.",
     obj_O1:"understand ProxDM", obj_O2:"thesis", obj_O3:"Convex Opt.", obj_O4:"Optimal Transport",
     done:"done", thisWeek:"THIS WEEK", cutFirst:"cut-first", wAbbr:"W", hours:"30 h", uploadedPDF:"uploaded PDF",
     noTasks:"No visible tasks under current filters.", noWeeks:"No weeks match the current filters.",
@@ -252,7 +263,7 @@ const I18N = {
     kicker:"Intersemestral · 30 h/semana · 17 jun – 17 ago 2026",
     sub:"El operador proximal en tres niveles — resolvente del subdiferencial, límite de Moreau–Yosida y JKO en el espacio de Wasserstein — hilados a lo largo de nueve semanas hacia el paper ProxDM y un problema de tesis.",
     complete:"completado", tasks:"tareas",
-    parallelTracks:"Pistas paralelas", parallelDesc:"Solo A y B se solapan (semanas 1–3); luego las pistas van una a la vez — D, el clímax de ProxDM, y al final C.",
+    parallelTracks:"Pistas paralelas", parallelDesc:"Las pistas ahora corren casi una a la vez: análisis convexo (A) en S1–2, fundamentos de SDE (B) en S3, vuelta a A para cerrar el núcleo proximal en S4, luego difusión (B), Γ-convergencia (D), el clímax de ProxDM (P) y transporte óptimo (C). ProxDM tiene tres pasadas (S1, S5, S8).",
     tracks:"Pistas", objectives:"Objetivos", view:"Vista",
     hideCompleted:"Ocultar completadas", expandAll:"Expandir todo", collapseAll:"Colapsar todo",
     exportBackup:"Exportar respaldo", importBackup:"Importar respaldo", resetProgress:"Reiniciar progreso",
@@ -263,6 +274,11 @@ const I18N = {
     note3:"<b>Prioridad estricta: O1 + O2 primero; lo puro de O3/O4 queda al final.</b> <b>Si falta tiempo, recorta en este orden:</b> (1) el bloque de TO (semanas 8–9, prep. O4 — conserva el Cap. 8, el puente JKO↔prox); (2) profundidad de la pista D más allá de 7.A–E + 12.D. <b>Nunca recortes</b> la pista A, la pista B, el bloque de convergencia ni las tres pasadas de ProxDM — cierran O1; R&amp;W (pista D) es el ángulo de tesis (O2).",
     footer:"El progreso se guarda automáticamente en este dispositivo · O1 entender ProxDM · O2 problema de tesis · O3 curso de Optimización Convexa · O4 curso de Transporte Óptimo",
     track_A:"Núcleo proximal", track_B:"Difusión / EDE", track_C:"Wasserstein", track_D:"Γ-convergencia", track_P:"ProxDM + síntesis",
+    trackdesc_A:"Análisis convexo → operador proximal, envolvente de Moreau, resolventes y FISTA (Beck + B&C). El primer nivel de la columna proximal.",
+    trackdesc_B:"Cálculo estocástico desde cero (Baudoin + Brezis para semigrupos), modelos de difusión y teoría de convergencia de samplers.",
+    trackdesc_C:"Transporte óptimo: Kantorovich, espacios de Wasserstein y JKO (prox en W₂) — Santambrogio. Prep. del curso de TO.",
+    trackdesc_D:"Análisis variacional: epi/Γ-convergencia y convergencia gráfica (Rockafellar & Wets). El ángulo de tesis (b).",
+    trackdesc_P:"El paper objetivo: tres pasadas + proximal matching + redacción de candidatos de problema de tesis.",
     obj_O1:"entender ProxDM", obj_O2:"tesis", obj_O3:"Opt. Convexa", obj_O4:"Transporte Óptimo",
     done:"hechas", thisWeek:"ESTA SEMANA", cutFirst:"recortar-primero", wAbbr:"S", hours:"30 h", uploadedPDF:"PDF subido",
     noTasks:"No hay tareas visibles con los filtros actuales.", noWeeks:"Ninguna semana coincide con los filtros actuales.",
@@ -302,20 +318,20 @@ const trackColor = t => TRACKS[t] ? TRACKS[t].raw : "#666";
 
 // span maps for the gantt (1..9). 'full' solid, 'fade' light.
 const GANTT = {
-  A:{1:"full",2:"full",3:"full"},
-  B:{1:"full",2:"full",3:"full",4:"full"},
-  D:{5:"full",6:"full"},
-  C:{8:"full",9:"full"},
-  P:{1:"P1",4:"P2",7:"P3"}
+  A:{1:"full",2:"full",4:"full"},
+  B:{3:"full",5:"full",8:"full"},
+  D:{6:"full",7:"full"},
+  C:{9:"full"},
+  P:{1:"P1",5:"P2",8:"P3"}
 };
 
 // week start dates (month is 0-indexed)
 const STARTS = [
-  new Date(2026,5,17), new Date(2026,5,24), new Date(2026,6,1), new Date(2026,6,8),
-  new Date(2026,6,15), new Date(2026,6,22), new Date(2026,6,29), new Date(2026,7,5), new Date(2026,7,12)
+  new Date(2026,5,15), new Date(2026,5,22), new Date(2026,5,29), new Date(2026,6,6),
+  new Date(2026,6,13), new Date(2026,6,20), new Date(2026,6,27), new Date(2026,7,3), new Date(2026,7,10)
 ];
-const PLAN_END = new Date(2026,7,17);
-const DATELBL = ["Jun 17–23","Jun 24–30","Jul 1–7","Jul 8–14","Jul 15–21","Jul 22–28","Jul 29–Aug 4","Aug 5–11","Aug 12–17"];
+const PLAN_END = new Date(2026,7,16);
+const DATELBL = ["Jun 15–21","Jun 22–28","Jun 29–Jul 5","Jul 6–12","Jul 13–19","Jul 20–26","Jul 27–Aug 2","Aug 3–9","Aug 10–16"];
 
 function currentWeek(){
   const t = new Date(); t.setHours(0,0,0,0);
@@ -663,6 +679,11 @@ function buildGantt(){
     html += `</div>`;
   });
   g.innerHTML = html;
+  const lg = document.getElementById("tracklegend");
+  if(lg){
+    lg.innerHTML = ["A","B","D","P","C"].map(tr=>
+      `<div class="tlrow"><span class="tldot" style="background:${TRACKS[tr].raw}"></span><b>${tr==="P"?"ProxDM":tr} · ${TT('track_'+tr)}</b> — <span class="tltext">${TT('trackdesc_'+tr)}</span></div>`).join("");
+  }
 }
 
 // ---------- render chips ----------
