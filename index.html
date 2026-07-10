@@ -137,6 +137,8 @@
   .b-skim{background:#e9e1cf; color:#7a6f57}
   .b-opt{background:#0000; color:#9b8f76; border:1px solid var(--line)}
   .b-cut{background:#0000; color:var(--P); border:1px dashed #b0382866}
+  .b-deep{background:#4a4494; color:#fff}
+  .b-review{background:#e2e7d3; color:#55663a}
   .tpct{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--softink); margin-left:auto; padding-left:10px; white-space:nowrap}
 
   /* resources + notes */
@@ -220,6 +222,7 @@
     <p data-i18n="note1"><b>Beck &amp; B&amp;C are complementary.</b> B&amp;C gives the abstract Hilbert-space view (prox = resolvent, monotone operators); Beck gives explicit prox computations + FISTA in ℝⁿ. Read both prox chapters — they do different jobs.</p>
     <p data-i18n="note2"><b>Weeks 5–6 are the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence), and §12.D ties it back to the prox. Skip proofs on a first reading if you fall behind.</p>
     <p data-i18n="note3"><b>Strict priority: O1 + O2 first; pure O3/O4 sits at the back.</b> <b>If time runs short, cut in this order:</b> (1) the OT block (weeks 8–9, O4 prep — keep Ch. 8, the JKO↔prox bridge); (2) Track D depth beyond 7.A–E + 12.D. <b>Never cut</b> Track A, Track B, the convergence block, or the three ProxDM passes — they close O1; R&W (Track D) is the thesis angle (O2).</p>
+    <p data-i18n="note4"><b>DEEP READ vs REVIEW — reading depth for the explanation mode (modo E).</b> <b>DEEP READ</b> = full pedagogical rewrite: every proof reconstructed and completed, longer text, extra effort — the load-bearing material for O1/O2. <b>REVIEW</b> = short rewrite: every definition and statement still covered (nothing omitted), but proofs as intuition/sketch only. Track A is fully categorized; tracks B/C/D/P get theirs when their weeks are revised.</p>
   </section>
 
   <footer data-i18n="footer">Progress is saved automatically on this device · O1 understand ProxDM · O2 thesis problem · O3 Convex Optimization course · O4 Optimal Transport course</footer>
@@ -241,6 +244,7 @@ const I18N = {
     note1:"<b>Beck &amp; B&amp;C are complementary.</b> B&amp;C gives the abstract Hilbert-space view (prox = resolvent, monotone operators); Beck gives explicit prox computations + FISTA in ℝⁿ. Read both prox chapters — they do different jobs.",
     note2:"<b>Weeks 5–6 are the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence), and §12.D ties it back to the prox. Skip proofs on a first reading if you fall behind.",
     note3:"<b>Strict priority: O1 + O2 first; pure O3/O4 sits at the back.</b> <b>If time runs short, cut in this order:</b> (1) the OT block (weeks 8–9, O4 prep — keep Ch. 8, the JKO↔prox bridge); (2) Track D depth beyond 7.A–E + 12.D. <b>Never cut</b> Track A, Track B, the convergence block, or the three ProxDM passes — they close O1; R&amp;W (Track D) is the thesis angle (O2).",
+    note4:"<b>DEEP READ vs REVIEW — reading depth for the explanation mode (modo E).</b> <b>DEEP READ</b> = full pedagogical rewrite: every proof reconstructed and completed, longer text, extra effort — the load-bearing material for O1/O2. <b>REVIEW</b> = short rewrite: every definition and statement still covered (nothing omitted), but proofs as intuition/sketch only. Track A is fully categorized; tracks B/C/D/P get theirs when their weeks are revised.",
     footer:"Progress is saved automatically on this device · O1 understand ProxDM · O2 thesis problem · O3 Convex Optimization course · O4 Optimal Transport course",
     // dynamic
     track_A:"Proximal core", track_B:"Diffusion / SDE", track_C:"Wasserstein", track_D:"Γ-convergence", track_P:"ProxDM + synthesis",
@@ -252,7 +256,7 @@ const I18N = {
     obj_O1:"understand ProxDM", obj_O2:"thesis", obj_O3:"Convex Opt.", obj_O4:"Optimal Transport",
     done:"done", thisWeek:"THIS WEEK", cutFirst:"cut-first", wAbbr:"W", hours:"30 h", uploadedPDF:"uploaded PDF",
     noTasks:"No visible tasks under current filters.", noWeeks:"No weeks match the current filters.",
-    skim:"SKIM", optional:"OPTIONAL", cuttable:"CUTTABLE",
+    skim:"SKIM", optional:"OPTIONAL", cuttable:"CUTTABLE", deepBadge:"DEEP READ", reviewBadge:"REVIEW",
     nowThisWeek:(n,dates,title)=>`This week: Week ${n} · ${dates} — ${title}`,
     nowStart:(d)=>`Plan starts Jun 17 · ${d} days to go`,
     nowFinished:"Plan window finished — synthesis time.",
@@ -272,6 +276,7 @@ const I18N = {
     note1:"<b>Beck y B&amp;C son complementarios.</b> B&amp;C da la visión abstracta en espacios de Hilbert (prox = resolvente, operadores monótonos); Beck da cálculos explícitos de prox + FISTA en ℝⁿ. Lee ambos capítulos de prox — hacen cosas distintas.",
     note2:"<b>Las semanas 5–6 son las más apretadas.</b> El cap. 7 de R&amp;W (epi-convergencia) requiere de verdad el cap. 4 (convergencia de conjuntos), y §12.D lo reconecta con el prox. Sáltate las demostraciones en una primera lectura si te atrasas.",
     note3:"<b>Prioridad estricta: O1 + O2 primero; lo puro de O3/O4 queda al final.</b> <b>Si falta tiempo, recorta en este orden:</b> (1) el bloque de TO (semanas 8–9, prep. O4 — conserva el Cap. 8, el puente JKO↔prox); (2) profundidad de la pista D más allá de 7.A–E + 12.D. <b>Nunca recortes</b> la pista A, la pista B, el bloque de convergencia ni las tres pasadas de ProxDM — cierran O1; R&amp;W (pista D) es el ángulo de tesis (O2).",
+    note4:"<b>DEEP READ vs REVIEW — profundidad de lectura para el modo explicación (modo E).</b> <b>DEEP READ</b> = reescritura pedagógica completa: cada demostración reconstruida y completada, texto más largo, esfuerzo extra — el material que carga O1/O2. <b>REVIEW</b> = reescritura corta: toda definición y todo enunciado siguen cubiertos (nada se omite), pero las pruebas van solo como intuición/esqueleto. El Track A ya está categorizado por completo; las pistas B/C/D/P recibirán el suyo cuando se revisen sus semanas.",
     footer:"El progreso se guarda automáticamente en este dispositivo · O1 entender ProxDM · O2 problema de tesis · O3 curso de Optimización Convexa · O4 curso de Transporte Óptimo",
     track_A:"Núcleo proximal", track_B:"Difusión / EDE", track_C:"Wasserstein", track_D:"Γ-convergencia", track_P:"ProxDM + síntesis",
     trackdesc_A:"Análisis convexo → operador proximal, envolvente de Moreau, resolventes y FISTA (Beck + B&C). El primer nivel de la columna proximal.",
@@ -282,7 +287,7 @@ const I18N = {
     obj_O1:"entender ProxDM", obj_O2:"tesis", obj_O3:"Opt. Convexa", obj_O4:"Transporte Óptimo",
     done:"hechas", thisWeek:"ESTA SEMANA", cutFirst:"recortar-primero", wAbbr:"S", hours:"30 h", uploadedPDF:"PDF subido",
     noTasks:"No hay tareas visibles con los filtros actuales.", noWeeks:"Ninguna semana coincide con los filtros actuales.",
-    skim:"OJEAR", optional:"OPCIONAL", cuttable:"RECORTABLE",
+    skim:"OJEAR", optional:"OPCIONAL", cuttable:"RECORTABLE", deepBadge:"DEEP READ", reviewBadge:"REVIEW",
     nowThisWeek:(n,dates,title)=>`Esta semana: Semana ${n} · ${dates} — ${title}`,
     nowStart:(d)=>`El plan empieza el 17 jun · faltan ${d} días`,
     nowFinished:"Ventana del plan terminada — hora de la síntesis.",
@@ -350,71 +355,71 @@ const WEEKS = [
  {n:1, dates:DATELBL[0], title:"Convex analysis I — extended functions & subgradients (Track A)", titleEs:"Análisis convexo I — funciones extendidas y subgradientes (Track A)", tracks:["A"], obj:["O1","O3"],
   note:"DONE. Pure convex-analysis core (Beck + B&C). SDE/Baudoin moved out to the consolidated foundations block in Week 3.", noteEs:"HECHO. Núcleo de análisis convexo (Beck + B&C). El SDE/Baudoin se movió al bloque consolidado de fundamentos de la Semana 3.",
   tasks:[
-   leaf("w1-beck1","1: Vector Spaces (Beck)","A",{skim:true}),
+   leaf("w1-beck1","1: Vector Spaces (Beck)","A",{skim:true,e:"review"}),
    chap("w1-beck2","2: Extended Real-Valued Functions (Beck)","A",[
-     sub("w1-beck2-1","2.1: Extended Real-Valued Functions and Closedness (Beck)"),
-     sub("w1-beck2-2","2.2: Closedness versus Continuity (Beck)"),
-     sub("w1-beck2-3","2.3: Convex Functions (Beck)"),
-     sub("w1-beck2-4","2.4: Support Functions (Beck)")]),
+     sub("w1-beck2-1","2.1: Extended Real-Valued Functions and Closedness (Beck)",{e:"review"}),
+     sub("w1-beck2-2","2.2: Closedness versus Continuity (Beck)",{e:"review"}),
+     sub("w1-beck2-3","2.3: Convex Functions (Beck)",{e:"review"}),
+     sub("w1-beck2-4","2.4: Support Functions (Beck)",{e:"review"})]),
    chap("w1-beck3","3: Subgradients (Beck)","A",[
-     sub("w1-beck3-1","3.1: Definitions and First Examples (Beck)"),
-     sub("w1-beck3-2","3.2: Properties of the Subdifferential Set (Beck)"),
-     sub("w1-beck3-3","3.3: Directional Derivatives (Beck)"),
-     sub("w1-beck3-4","3.4: Computing Subgradients (Beck)"),
-     sub("w1-beck3-5","3.5: The Value Function (Beck)",{opt:true}),
-     sub("w1-beck3-6","3.6: Lipschitz Continuity and Boundedness of Subgradients (Beck)"),
-     sub("w1-beck3-7","3.7: Optimality Conditions (Beck)"),
-     sub("w1-beck3-8","3.8: Summary of Weak and Strong Subgradient Calculus Results (Beck)")]),
-   leaf("w1-bc1","1: Background (Bauschke & Combettes)","A",{skim:true}),
-   leaf("w1-bc2","2: Hilbert Spaces (Bauschke & Combettes)","A",{skim:true}),
+     sub("w1-beck3-1","3.1: Definitions and First Examples (Beck)",{e:"review"}),
+     sub("w1-beck3-2","3.2: Properties of the Subdifferential Set (Beck)",{e:"review"}),
+     sub("w1-beck3-3","3.3: Directional Derivatives (Beck)",{e:"review"}),
+     sub("w1-beck3-4","3.4: Computing Subgradients (Beck)",{e:"review"}),
+     sub("w1-beck3-5","3.5: The Value Function (Beck)",{opt:true,e:"review"}),
+     sub("w1-beck3-6","3.6: Lipschitz Continuity and Boundedness of Subgradients (Beck)",{e:"review"}),
+     sub("w1-beck3-7","3.7: Optimality Conditions (Beck)",{e:"review"}),
+     sub("w1-beck3-8","3.8: Summary of Weak and Strong Subgradient Calculus Results (Beck)",{e:"review"})]),
+   leaf("w1-bc1","1: Background (Bauschke & Combettes)","A",{skim:true,e:"review"}),
+   leaf("w1-bc2","2: Hilbert Spaces (Bauschke & Combettes)","A",{skim:true,e:"review"}),
    chap("w1-bc8","8: Convex Functions (Bauschke & Combettes)","A",[
-     sub("w1-bc8-1","8.1: Basic Properties and Examples (Bauschke & Combettes)"),
-     sub("w1-bc8-2","8.2: Convexity-Preserving Operations (Bauschke & Combettes)"),
-     sub("w1-bc8-3","8.3: Topological Properties (Bauschke & Combettes)")]),
+     sub("w1-bc8-1","8.1: Basic Properties and Examples (Bauschke & Combettes)",{e:"review"}),
+     sub("w1-bc8-2","8.2: Convexity-Preserving Operations (Bauschke & Combettes)",{e:"review"}),
+     sub("w1-bc8-3","8.3: Topological Properties (Bauschke & Combettes)",{e:"review"})]),
    chap("w1-bc9","9: Lower Semicontinuous Convex Functions (Bauschke & Combettes)","A",[
-     sub("w1-bc9-1","9.1: Lower Semicontinuous Convex Functions (Bauschke & Combettes)"),
-     sub("w1-bc9-2","9.2: Proper Lower Semicontinuous Convex Functions (Bauschke & Combettes)"),
-     sub("w1-bc9-3","9.3: Affine Minorization (Bauschke & Combettes)",{opt:true}),
-     sub("w1-bc9-4","9.4: Recession Function (Bauschke & Combettes)",{opt:true}),
-     sub("w1-bc9-5","9.5: Construction of Functions in Γ₀(H) (Bauschke & Combettes)")]),
+     sub("w1-bc9-1","9.1: Lower Semicontinuous Convex Functions (Bauschke & Combettes)",{e:"review"}),
+     sub("w1-bc9-2","9.2: Proper Lower Semicontinuous Convex Functions (Bauschke & Combettes)",{e:"review"}),
+     sub("w1-bc9-3","9.3: Affine Minorization (Bauschke & Combettes)",{opt:true,e:"review"}),
+     sub("w1-bc9-4","9.4: Recession Function (Bauschke & Combettes)",{opt:true,e:"review"}),
+     sub("w1-bc9-5","9.5: Construction of Functions in Γ₀(H) (Bauschke & Combettes)",{e:"review"})]),
    leaf("w1-proxdm1","ProxDM — Pass 1: orient (skim the whole paper) (ProxDM)","P")
   ]},
 
  {n:2, dates:DATELBL[1], title:"Convex analysis II — proximal operator (Track A)", titleEs:"Análisis convexo II — operador proximal (Track A)", tracks:["A"], obj:["O1","O3"],
-  note:"DONE. Conjugacy, Moreau envelope and the proximal operator (Beck + B&C). Diffusion on-ramp (Step-by-Step) moved to Week 5.", noteEs:"HECHO. Conjugación, envolvente de Moreau y operador proximal (Beck + B&C). La rampa de difusión (Step-by-Step) se movió a la Semana 5.",
+  note:"Beck part DONE. The pending B&C block (12.4, 13, 14.1) is demoted to a one-session skim: it re-proves in Hilbert what Beck already covered (13 ≈ Beck 4; 14.1 = Beck 6.6; 12.4 = Beck 6.7). Diffusion on-ramp (Step-by-Step) moved to Week 5.", noteEs:"Parte de Beck HECHA. El bloque B&C pendiente (12.4, 13, 14.1) queda degradado a un skim de una sesión: re-demuestra en Hilbert lo que Beck ya cubrió (13 ≈ Beck 4; 14.1 = Beck 6.6; 12.4 = Beck 6.7). La rampa de difusión (Step-by-Step) se movió a la Semana 5.",
   tasks:[
    chap("w2-beck4","4: Conjugate Functions (Beck)","A",[
-     sub("w2-beck4-1","4.1: Definition and Basic Properties (Beck)"),
-     sub("w2-beck4-2","4.2: The Biconjugate (Beck)"),
-     sub("w2-beck4-3","4.3: Conjugate Calculus Rules (Beck)"),
-     sub("w2-beck4-4","4.4: Examples (Beck)"),
-     sub("w2-beck4-5","4.5: Infimal Convolution and Conjugacy (Beck)"),
-     sub("w2-beck4-6","4.6: Subdifferentials of Conjugate Functions (Beck)")]),
+     sub("w2-beck4-1","4.1: Definition and Basic Properties (Beck)",{e:"review"}),
+     sub("w2-beck4-2","4.2: The Biconjugate (Beck)",{e:"review"}),
+     sub("w2-beck4-3","4.3: Conjugate Calculus Rules (Beck)",{e:"review"}),
+     sub("w2-beck4-4","4.4: Examples (Beck)",{e:"review"}),
+     sub("w2-beck4-5","4.5: Infimal Convolution and Conjugacy (Beck)",{e:"review"}),
+     sub("w2-beck4-6","4.6: Subdifferentials of Conjugate Functions (Beck)",{e:"review"})]),
    chap("w2-beck5","5: Smoothness and Strong Convexity (Beck)","A",[
-     sub("w2-beck5-1","5.1: L-Smooth Functions (Beck)"),
-     sub("w2-beck5-2","5.2: Strong Convexity (Beck)"),
-     sub("w2-beck5-3","5.3: Smoothness and Strong Convexity Correspondence (Beck)")]),
+     sub("w2-beck5-1","5.1: L-Smooth Functions (Beck)",{e:"review"}),
+     sub("w2-beck5-2","5.2: Strong Convexity (Beck)",{e:"deep"}),
+     sub("w2-beck5-3","5.3: Smoothness and Strong Convexity Correspondence (Beck)",{e:"deep"})]),
    chap("w2-beck6","6: The Proximal Operator (Beck)","A",[
-     sub("w2-beck6-1","6.1: Definition, Existence, and Uniqueness (Beck)"),
-     sub("w2-beck6-2","6.2: First Set of Examples of Proximal Mappings (Beck)"),
-     sub("w2-beck6-3","6.3: Prox Calculus Rules (Beck)"),
-     sub("w2-beck6-4","6.4: Prox of Indicators — Orthogonal Projections (Beck)"),
-     sub("w2-beck6-5","6.5: The Second Prox Theorem (Beck)"),
-     sub("w2-beck6-6","6.6: Moreau Decomposition (Beck)"),
-     sub("w2-beck6-7","6.7: The Moreau Envelope (Beck)"),
-     sub("w2-beck6-8","6.8: Miscellaneous Prox Computations (Beck)",{opt:true}),
-     sub("w2-beck6-9","6.9: Summary of Prox Computations (Beck)")]),
-   leaf("w2-bc124","12.4: Moreau Envelope and Proximity Operator (Bauschke & Combettes)","A"),
+     sub("w2-beck6-1","6.1: Definition, Existence, and Uniqueness (Beck)",{e:"deep"}),
+     sub("w2-beck6-2","6.2: First Set of Examples of Proximal Mappings (Beck)",{e:"review"}),
+     sub("w2-beck6-3","6.3: Prox Calculus Rules (Beck)",{e:"review"}),
+     sub("w2-beck6-4","6.4: Prox of Indicators — Orthogonal Projections (Beck)",{e:"review"}),
+     sub("w2-beck6-5","6.5: The Second Prox Theorem (Beck)",{e:"deep"}),
+     sub("w2-beck6-6","6.6: Moreau Decomposition (Beck)",{e:"deep"}),
+     sub("w2-beck6-7","6.7: The Moreau Envelope (Beck)",{e:"deep"}),
+     sub("w2-beck6-8","6.8: Miscellaneous Prox Computations (Beck)",{opt:true,e:"review"}),
+     sub("w2-beck6-9","6.9: Summary of Prox Computations (Beck)",{e:"review"})]),
+   leaf("w2-bc124","12.4: Moreau Envelope and Proximity Operator (Bauschke & Combettes)","A",{skim:true,e:"review"}),
    chap("w2-bc13","13: Conjugation (Bauschke & Combettes)","A",[
-     sub("w2-bc13-1","13.1: Definition and Examples (Bauschke & Combettes)"),
-     sub("w2-bc13-2","13.2: Basic Properties (Bauschke & Combettes)"),
-     sub("w2-bc13-3","13.3: The Fenchel–Moreau Theorem (Bauschke & Combettes)")]),
+     sub("w2-bc13-1","13.1: Definition and Examples (Bauschke & Combettes)",{skim:true,e:"review"}),
+     sub("w2-bc13-2","13.2: Basic Properties (Bauschke & Combettes)",{skim:true,e:"review"}),
+     sub("w2-bc13-3","13.3: The Fenchel–Moreau Theorem (Bauschke & Combettes)",{e:"review"})]),
    chap("w2-bc14","14: Further Conjugation Results (Bauschke & Combettes)","A",[
-     sub("w2-bc14-1","14.1: Moreau's Decomposition (Bauschke & Combettes)"),
-     sub("w2-bc14-2","14.2: Proximal Average (Bauschke & Combettes)",{opt:true}),
-     sub("w2-bc14-3","14.3: Positively Homogeneous Functions (Bauschke & Combettes)",{opt:true}),
-     sub("w2-bc14-4","14.4: Coercivity (Bauschke & Combettes)",{opt:true}),
-     sub("w2-bc14-5","14.5: The Conjugate of a Difference (Bauschke & Combettes)",{opt:true})])
+     sub("w2-bc14-1","14.1: Moreau's Decomposition (Bauschke & Combettes)",{skim:true,e:"review"}),
+     sub("w2-bc14-2","14.2: Proximal Average (Bauschke & Combettes)",{opt:true,e:"review"}),
+     sub("w2-bc14-3","14.3: Positively Homogeneous Functions (Bauschke & Combettes)",{opt:true,e:"review"}),
+     sub("w2-bc14-4","14.4: Coercivity (Bauschke & Combettes)",{opt:true,e:"review"}),
+     sub("w2-bc14-5","14.5: The Conjugate of a Difference (Bauschke & Combettes)",{opt:true,e:"review"})])
   ]},
 
  {n:3, dates:DATELBL[2], title:"SDE foundations — Baudoin + Brezis (semigroups)", titleEs:"Fundamentos de SDE — Baudoin + Brezis (semigrupos)", tracks:["B"], obj:["O1"],
@@ -442,37 +447,38 @@ const WEEKS = [
   ]},
 
  {n:4, dates:DATELBL[3], title:"Close the proximal core — resolvents · FISTA (Track A)", titleEs:"Cerrar el núcleo proximal — resolventes · FISTA (Track A)", tracks:["A"], obj:["O1","O3"],
-  note:"Closing of Track A: subdifferential calculus, monotone operators, prox = resolvent, and the proximal-gradient method (FISTA). No SDE dependency — pure convex analysis building on Weeks 1–2. Heaviest of the remaining weeks; can spill into Week 5 if needed.", noteEs:"Cierre del Track A: cálculo de subdiferenciales, operadores monótonos, prox = resolvente, y el método de gradiente proximal (FISTA). Sin dependencia de SDE — análisis convexo puro sobre las Semanas 1–2. La más cargada de las semanas restantes; puede derramarse a la Semana 5 si hace falta.",
+  note:"Closing of Track A, trimmed for O1/O2. Irreducible core: B&C §4.1 → 20 → 23 + Beck 10.1/10.2/10.5 (proximal point = backward Euler — the ProxDM bridge). B&C 16 and 24.1–24.2 are skims (Beck 3 / 6.5 already covered them); Minty's theorem (21.1), which Ch. 23 leans on, is already covered by Brezis §7.1 (read ✓). Beck 8 and FISTA (10.7) are O3-only and deferred. Can still spill into Week 5 if needed.", noteEs:"Cierre del Track A, recortado para O1/O2. Núcleo irreducible: B&C §4.1 → 20 → 23 + Beck 10.1/10.2/10.5 (punto proximal = Euler hacia atrás — el puente a ProxDM). B&C 16 y 24.1–24.2 quedan en skim (Beck 3 / 6.5 ya los cubrió); el teorema de Minty (21.1), del que depende el Cap. 23, ya está cubierto por Brezis §7.1 (leído ✓). Beck 8 y FISTA (10.7) son solo-O3 y se difieren. Aún puede derramarse a la Semana 5 si hace falta.",
   tasks:[
-   chap("w4-bc16","16: Subdifferentiability of Convex Functions (Bauschke & Combettes)","A",[
-     sub("w4-bc16-1","16.1: Basic Properties (Bauschke & Combettes)"),
-     sub("w4-bc16-2","16.2: Convex Functions (Bauschke & Combettes)"),
-     sub("w4-bc16-3","16.3: Lower Semicontinuous Convex Functions (Bauschke & Combettes)"),
-     sub("w4-bc16-4","16.4: Subdifferential Calculus (Bauschke & Combettes)"),
-     sub("w4-bc16-5","16.5: The Subdifferential of a Composition (Bauschke & Combettes)",{opt:true})]),
+   chap("w4-bc16","16: Subdifferentiability of Convex Functions — light pass: the target is ∂f maximally monotone (→ 20.2) (Bauschke & Combettes)","A",[
+     sub("w4-bc16-1","16.1: Basic Properties (Bauschke & Combettes)",{skim:true,e:"review"}),
+     sub("w4-bc16-2","16.2: Convex Functions (Bauschke & Combettes)",{skim:true,e:"review"}),
+     sub("w4-bc16-3","16.3: Lower Semicontinuous Convex Functions (Bauschke & Combettes)",{skim:true,e:"review"}),
+     sub("w4-bc16-4","16.4: Subdifferential Calculus — statements; proofs lean on Ch. 15, skip them (Bauschke & Combettes)",{e:"review"}),
+     sub("w4-bc16-5","16.5: The Subdifferential of a Composition (Bauschke & Combettes)",{opt:true,e:"review"})]),
    chap("w4-bc20","20: Monotone Operators — basics only (Bauschke & Combettes)","A",[
-     sub("w4-bc20-1","20.1: Monotone Operators (Bauschke & Combettes)"),
-     sub("w4-bc20-2","20.2: Maximally Monotone Operators (Bauschke & Combettes)")]),
+     sub("w4-bc20-1","20.1: Monotone Operators (Bauschke & Combettes)",{e:"deep"}),
+     sub("w4-bc20-2","20.2: Maximally Monotone Operators — incl. ∂f maximally monotone (Bauschke & Combettes)",{e:"deep"})]),
+   leaf("w4-bc41","4.1: Nonexpansive and Firmly Nonexpansive Operators — prox is firmly nonexpansive; prerequisite of Ch. 23 (Bauschke & Combettes)","A",{e:"review"}),
    chap("w4-bc23","23: Resolvents of Monotone Operators (Bauschke & Combettes)","A",[
-     sub("w4-bc23-1","23.1: Basic Identities (Bauschke & Combettes)"),
-     sub("w4-bc23-2","23.2: Monotonicity and Firm Nonexpansiveness (Bauschke & Combettes)"),
-     sub("w4-bc23-3","23.3: Resolvent Calculus (Bauschke & Combettes)"),
-     sub("w4-bc23-4","23.4: Zeros of Monotone Operators (Bauschke & Combettes)"),
-     sub("w4-bc23-5","23.5: Asymptotic Behavior (Bauschke & Combettes)",{opt:true})]),
+     sub("w4-bc23-1","23.1: Basic Identities (Bauschke & Combettes)",{e:"deep"}),
+     sub("w4-bc23-2","23.2: Monotonicity and Firm Nonexpansiveness (Bauschke & Combettes)",{e:"deep"}),
+     sub("w4-bc23-3","23.3: Resolvent Calculus (Bauschke & Combettes)",{e:"review"}),
+     sub("w4-bc23-4","23.4: Zeros of Monotone Operators (Bauschke & Combettes)",{e:"deep"}),
+     sub("w4-bc23-5","23.5: Asymptotic Behavior (Bauschke & Combettes)",{opt:true,e:"review"})]),
    chap("w4-bc24","24: Proximity Operators (Bauschke & Combettes)","A",[
-     sub("w4-bc24-1","24.1: Characterizations (Bauschke & Combettes)"),
-     sub("w4-bc24-2","24.2: Basic Properties (Bauschke & Combettes)"),
-     sub("w4-bc24-3","24.3–24.8: Prox computation catalog — reference (Bauschke & Combettes)",{opt:true})]),
-   chap("w4-beck8","8: Primal and Dual Projected Subgradient Methods — bridge (Beck)","A",[
-     sub("w4-beck8-1","8.1: From Gradient Descent to Subgradient Descent (Beck)"),
-     sub("w4-beck8-2","8.2: The Projected Subgradient Method (Beck)")]),
+     sub("w4-bc24-1","24.1: Characterizations (Bauschke & Combettes)",{skim:true,e:"review"}),
+     sub("w4-bc24-2","24.2: Basic Properties (Bauschke & Combettes)",{skim:true,e:"review"}),
+     sub("w4-bc24-3","24.3–24.8: Prox computation catalog — reference (Bauschke & Combettes)",{opt:true,e:"review"})]),
+   chap("w4-beck8","8: Primal and Dual Projected Subgradient Methods — O3 only, deferred (Beck)","A",[
+     sub("w4-beck8-1","8.1: From Gradient Descent to Subgradient Descent (Beck)",{opt:true,e:"review"}),
+     sub("w4-beck8-2","8.2: The Projected Subgradient Method (Beck)",{opt:true,e:"review"})], {cut:true}),
    chap("w4-beck10","10: The Proximal Gradient Method (Beck)","A",[
-     sub("w4-beck10-1","10.1: The Composite Model (Beck)"),
-     sub("w4-beck10-2","10.2: The Proximal Gradient Method (Beck)"),
-     sub("w4-beck10-4","10.4: Analysis of the Proximal Gradient Method — The Convex Case (Beck)"),
-     sub("w4-beck10-5","10.5: The Proximal Point Method (Beck)"),
-     sub("w4-beck10-7","10.7: The Fast Proximal Gradient Method — FISTA (Beck)"),
-     sub("w4-beck10-8","10.8: Smoothing (Beck)",{opt:true})])
+     sub("w4-beck10-1","10.1: The Composite Model (Beck)",{e:"review"}),
+     sub("w4-beck10-2","10.2: The Proximal Gradient Method (Beck)",{e:"deep"}),
+     sub("w4-beck10-4","10.4: Analysis of the Proximal Gradient Method — The Convex Case (Beck)",{opt:true,e:"review"}),
+     sub("w4-beck10-5","10.5: The Proximal Point Method — backward Euler = prox step, the ProxDM bridge (Beck)",{e:"deep"}),
+     sub("w4-beck10-7","10.7: The Fast Proximal Gradient Method — FISTA — O3 only (Beck)",{opt:true,e:"review"}),
+     sub("w4-beck10-8","10.8: Smoothing (Beck)",{opt:true,e:"review"})])
   ]},
 
  {n:5, dates:DATELBL[4], title:"Diffusion models + convergence theory (Track B)", titleEs:"Modelos de difusión + teoría de convergencia (Track B)", tracks:["B","P"], obj:["O1","O2"],
@@ -712,7 +718,7 @@ function taskRow(task){
   const dc = doneCount(ids), tot=ids.length;
   const allDone = dc===tot, someDone = dc>0 && dc<tot;
   if(hideDone && allDone) return "";
-  const badges = (o)=> (o.skim?`<span class="minibadge b-skim">${TT('skim')}</span>`:'')+(o.opt?`<span class="minibadge b-opt">${TT('optional')}</span>`:'')+(o.cut?`<span class="minibadge b-cut">${TT('cuttable')}</span>`:'');
+  const badges = (o)=> (o.skim?`<span class="minibadge b-skim">${TT('skim')}</span>`:'')+(o.opt?`<span class="minibadge b-opt">${TT('optional')}</span>`:'')+(o.cut?`<span class="minibadge b-cut">${TT('cuttable')}</span>`:'')+(o.e?`<span class="minibadge b-${o.e}">${TT(o.e==='deep'?'deepBadge':'reviewBadge')}</span>`:'');
   const fmt = (lab)=>{ const i=lab.indexOf(':'); if(i>0 && i<7){ return `<span class="code" style="--ck:${ck}">${lab.slice(0,i+1)}</span>${lab.slice(i+1).replace(/\(([^)]+)\)\s*$/,'<span class="auth">($1)</span>')}`;} return lab.replace(/\(([^)]+)\)\s*$/,'<span class="auth">($1)</span>'); };
 
   if(!task.subs || !task.subs.length){
