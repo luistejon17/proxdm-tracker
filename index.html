@@ -141,6 +141,12 @@
   .b-review{background:#e2e7d3; color:#55663a}
   .tpct{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--softink); margin-left:auto; padding-left:10px; white-space:nowrap}
 
+  /* info buttons + popovers (auditoría Track B) */
+  .ibtn{display:inline-flex; align-items:center; justify-content:center; width:17px; height:17px; border-radius:50%; border:1px solid var(--line); background:var(--bg2); color:var(--C); font:600 11px/1 "Fraunces",serif; font-style:italic; cursor:pointer; margin-left:7px; vertical-align:-2px; padding:0; transition:.15s}
+  .ibtn:hover{background:var(--C); color:#fff; border-color:var(--C)}
+  .ipop{display:inline-block; width:100%; margin-top:7px; font-size:12.5px; line-height:1.5; color:#4a4235; background:var(--bg2); border:1px solid var(--line2); border-left:3px solid var(--C); border-radius:8px; padding:9px 12px; font-weight:400}
+  .ipop b{color:var(--ink)}
+
   /* resources + notes */
   .reslist{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:10px}
   .res{display:block; padding:12px 14px; border:1px solid var(--line); border-radius:10px; background:var(--bg2); text-decoration:none; color:var(--ink); transition:.15s}
@@ -235,16 +241,16 @@ const I18N = {
     kicker:"Intersemester · 30 h/week · 17 Jun – 17 Aug 2026",
     sub:"The proximal operator at three levels — resolvent of the subdifferential, Moreau–Yosida limit, and JKO in Wasserstein space — threaded through nine weeks toward the ProxDM paper and a thesis problem.",
     complete:"complete", tasks:"tasks",
-    parallelTracks:"Parallel tracks", parallelDesc:"Tracks now run mostly one at a time: convex analysis (A) in W1–2, SDE foundations (B) in W3, back to A to close the proximal core in W4, then diffusion (B), Γ-convergence (D), the ProxDM climax (P), and optimal transport (C). ProxDM gets three passes (W1, W5, W8).",
+    parallelTracks:"Parallel tracks", parallelDesc:"Weeks 1–4 (A + SDE foundations) are DONE. The audited Track B (audit 2026-07-11) now runs three weeks — W5 score canon, W6 reverse SDE + convergence machinery, W7 ProxDM deep read — then Γ-convergence (D) compressed into W8 and optimal transport (C) in W9. ProxDM passes: P1 ✓, P2 in W6, P3 in W7.",
     tracks:"Tracks", objectives:"Objectives", view:"View",
     hideCompleted:"Hide completed", expandAll:"Expand all", collapseAll:"Collapse all",
     exportBackup:"Export backup", importBackup:"Import backup", resetProgress:"Reset progress",
     readingList:"Reading list & downloads", readingDesc:"Books: five trunk texts (Baudoin added for SDE + diffusion semigroups) + Chewi for convergence theory + optional Särkkä; the diffusion papers link to free PDFs.",
     notes:"Notes",
     note1:"<b>Beck &amp; B&amp;C are complementary.</b> B&amp;C gives the abstract Hilbert-space view (prox = resolvent, monotone operators); Beck gives explicit prox computations + FISTA in ℝⁿ. Read both prox chapters — they do different jobs.",
-    note2:"<b>Weeks 5–6 are the tightest.</b> R&amp;W Ch. 7 (epi-convergence) genuinely requires Ch. 4 (set convergence), and §12.D ties it back to the prox. Skip proofs on a first reading if you fall behind.",
-    note3:"<b>Strict priority: O1 + O2 first; pure O3/O4 sits at the back.</b> <b>If time runs short, cut in this order:</b> (1) the OT block (weeks 8–9, O4 prep — keep Ch. 8, the JKO↔prox bridge); (2) Track D depth beyond 7.A–E + 12.D. <b>Never cut</b> Track A, Track B, the convergence block, or the three ProxDM passes — they close O1; R&amp;W (Track D) is the thesis angle (O2).",
-    note4:"<b>DEEP READ vs REVIEW — reading depth for the explanation mode (modo E).</b> <b>DEEP READ</b> = full pedagogical rewrite: every proof reconstructed and completed, longer text, extra effort — the load-bearing material for O1/O2. <b>REVIEW</b> = short rewrite: every definition and statement still covered (nothing omitted), but proofs as intuition/sketch only. Track A is fully categorized; tracks B/C/D/P get theirs when their weeks are revised.",
+    note2:"<b>Weeks 7–8 are the tightest.</b> Week 7 needs its texts digitized IN ADVANCE (gap G2: Chewi Ch. 8 + 12, Fang et al.), and Week 8 compresses two R&amp;W weeks into one (Ch. 7 genuinely requires Ch. 4; §12.D ties it back to the prox). Cut inside chapters, not whole chapters.",
+    note3:"<b>Strict priority: O1 + O2 first; pure O3/O4 sits at the back.</b> <b>If time runs short, cut in this order:</b> (1) the OT block (week 9, O4 prep — keep Santambrogio Ch. 8, the JKO↔prox bridge); (2) Track D breadth (4.C/4.D, then 7.C/7.D — never 7.B/7.E nor 12.D). <b>Never cut</b> Track B weeks 5–7, the ProxDM passes, or Fang et al. — they close O1/O2.",
+    note4:"<b>DEEP READ vs REVIEW — reading depth for the explanation mode (modo E).</b> <b>DEEP READ</b> = full pedagogical rewrite: every proof reconstructed and completed, longer text, extra effort — the load-bearing material for O1/O2. <b>REVIEW</b> = short rewrite: every definition and statement still covered (nothing omitted), but proofs as intuition/sketch only. All tracks are now categorized: A originally, B/P by the 2026-07-11 audit, D/C assigned in this reorganization. The ⓘ buttons carry audit findings useful for the /explica sessions.",
     footer:"Progress is saved automatically on this device · O1 understand ProxDM · O2 thesis problem · O3 Convex Optimization course · O4 Optimal Transport course",
     // dynamic
     track_A:"Proximal core", track_B:"Diffusion / SDE", track_C:"Wasserstein", track_D:"Γ-convergence", track_P:"ProxDM + synthesis",
@@ -267,16 +273,16 @@ const I18N = {
     kicker:"Intersemestral · 30 h/semana · 17 jun – 17 ago 2026",
     sub:"El operador proximal en tres niveles — resolvente del subdiferencial, límite de Moreau–Yosida y JKO en el espacio de Wasserstein — hilados a lo largo de nueve semanas hacia el paper ProxDM y un problema de tesis.",
     complete:"completado", tasks:"tareas",
-    parallelTracks:"Pistas paralelas", parallelDesc:"Las pistas ahora corren casi una a la vez: análisis convexo (A) en S1–2, fundamentos de SDE (B) en S3, vuelta a A para cerrar el núcleo proximal en S4, luego difusión (B), Γ-convergencia (D), el clímax de ProxDM (P) y transporte óptimo (C). ProxDM tiene tres pasadas (S1, S5, S8).",
+    parallelTracks:"Pistas paralelas", parallelDesc:"Las Semanas 1–4 (A + fundamentos de SDE) están HECHAS. El Track B auditado (auditoría 2026-07-11) corre ahora en tres semanas — S5 canon del score, S6 SDE reversa + maquinaria de convergencia, S7 lectura profunda de ProxDM — luego Γ-convergencia (D) comprimida en S8 y transporte óptimo (C) en S9. Pasadas de ProxDM: P1 ✓, P2 en S6, P3 en S7.",
     tracks:"Pistas", objectives:"Objetivos", view:"Vista",
     hideCompleted:"Ocultar completadas", expandAll:"Expandir todo", collapseAll:"Colapsar todo",
     exportBackup:"Exportar respaldo", importBackup:"Importar respaldo", resetProgress:"Reiniciar progreso",
     readingList:"Lecturas y descargas", readingDesc:"Libros: cinco textos del tronco (Baudoin añadido para SDE + semigrupos de difusión) + Chewi para teoría de convergencia + Särkkä opcional; los papers de difusión enlazan a PDFs gratuitos.",
     notes:"Notas",
     note1:"<b>Beck y B&amp;C son complementarios.</b> B&amp;C da la visión abstracta en espacios de Hilbert (prox = resolvente, operadores monótonos); Beck da cálculos explícitos de prox + FISTA en ℝⁿ. Lee ambos capítulos de prox — hacen cosas distintas.",
-    note2:"<b>Las semanas 5–6 son las más apretadas.</b> El cap. 7 de R&amp;W (epi-convergencia) requiere de verdad el cap. 4 (convergencia de conjuntos), y §12.D lo reconecta con el prox. Sáltate las demostraciones en una primera lectura si te atrasas.",
-    note3:"<b>Prioridad estricta: O1 + O2 primero; lo puro de O3/O4 queda al final.</b> <b>Si falta tiempo, recorta en este orden:</b> (1) el bloque de TO (semanas 8–9, prep. O4 — conserva el Cap. 8, el puente JKO↔prox); (2) profundidad de la pista D más allá de 7.A–E + 12.D. <b>Nunca recortes</b> la pista A, la pista B, el bloque de convergencia ni las tres pasadas de ProxDM — cierran O1; R&amp;W (pista D) es el ángulo de tesis (O2).",
-    note4:"<b>DEEP READ vs REVIEW — profundidad de lectura para el modo explicación (modo E).</b> <b>DEEP READ</b> = reescritura pedagógica completa: cada demostración reconstruida y completada, texto más largo, esfuerzo extra — el material que carga O1/O2. <b>REVIEW</b> = reescritura corta: toda definición y todo enunciado siguen cubiertos (nada se omite), pero las pruebas van solo como intuición/esqueleto. El Track A ya está categorizado por completo; las pistas B/C/D/P recibirán el suyo cuando se revisen sus semanas.",
+    note2:"<b>Las semanas 7–8 son las más apretadas.</b> La Semana 7 necesita sus textos digitalizados POR ADELANTADO (hueco G2: Chewi Cap. 8 + 12, Fang et al.), y la Semana 8 comprime dos semanas de R&amp;W en una (el Cap. 7 requiere de verdad el Cap. 4; §12.D lo reconecta con el prox). Recorta dentro de los capítulos, no capítulos enteros.",
+    note3:"<b>Prioridad estricta: O1 + O2 primero; lo puro de O3/O4 queda al final.</b> <b>Si falta tiempo, recorta en este orden:</b> (1) el bloque de TO (semana 9, prep. O4 — conserva Santambrogio Cap. 8, el puente JKO↔prox); (2) amplitud de la pista D (4.C/4.D, luego 7.C/7.D — nunca 7.B/7.E ni 12.D). <b>Nunca recortes</b> las semanas 5–7 del Track B, las pasadas de ProxDM ni Fang et al. — cierran O1/O2.",
+    note4:"<b>DEEP READ vs REVIEW — profundidad de lectura para el modo explicación (modo E).</b> <b>DEEP READ</b> = reescritura pedagógica completa: cada demostración reconstruida y completada, texto más largo, esfuerzo extra — el material que carga O1/O2. <b>REVIEW</b> = reescritura corta: toda definición y todo enunciado siguen cubiertos (nada se omite), pero las pruebas van solo como intuición/esqueleto. Todas las pistas están ya categorizadas: A desde el origen, B/P por la auditoría del 2026-07-11, D/C asignadas en esta reorganización. Los botones ⓘ llevan hallazgos de la auditoría útiles para las sesiones /explica.",
     footer:"El progreso se guarda automáticamente en este dispositivo · O1 entender ProxDM · O2 problema de tesis · O3 curso de Optimización Convexa · O4 curso de Transporte Óptimo",
     track_A:"Núcleo proximal", track_B:"Difusión / EDE", track_C:"Wasserstein", track_D:"Γ-convergencia", track_P:"ProxDM + síntesis",
     trackdesc_A:"Análisis convexo → operador proximal, envolvente de Moreau, resolventes y FISTA (Beck + B&C). El primer nivel de la columna proximal.",
@@ -324,10 +330,10 @@ const trackColor = t => TRACKS[t] ? TRACKS[t].raw : "#666";
 // span maps for the gantt (1..9). 'full' solid, 'fade' light.
 const GANTT = {
   A:{1:"full",2:"full",4:"full"},
-  B:{3:"full",5:"full",8:"full"},
-  D:{6:"full",7:"full"},
+  B:{3:"full",5:"full",6:"full",7:"full"},
+  D:{8:"full"},
   C:{9:"full"},
-  P:{1:"P1",5:"P2",8:"P3"}
+  P:{1:"P1",6:"P2",7:"P3",9:"O2"}
 };
 
 // week start dates (month is 0-indexed)
@@ -386,7 +392,7 @@ const WEEKS = [
   ]},
 
  {n:2, dates:DATELBL[1], title:"Convex analysis II — proximal operator (Track A)", titleEs:"Análisis convexo II — operador proximal (Track A)", tracks:["A"], obj:["O1","O3"],
-  note:"Beck part DONE. The pending B&C block (12.4, 13, 14.1) is demoted to a one-session skim: it re-proves in Hilbert what Beck already covered (13 ≈ Beck 4; 14.1 = Beck 6.6; 12.4 = Beck 6.7). Diffusion on-ramp (Step-by-Step) moved to Week 5.", noteEs:"Parte de Beck HECHA. El bloque B&C pendiente (12.4, 13, 14.1) queda degradado a un skim de una sesión: re-demuestra en Hilbert lo que Beck ya cubrió (13 ≈ Beck 4; 14.1 = Beck 6.6; 12.4 = Beck 6.7). La rampa de difusión (Step-by-Step) se movió a la Semana 5.",
+  note:"DONE in full — including the B&C block (12.4, 13, 14.1–14.5), explained in bc_12_14.tex. The tracker lagged behind the actual study; the audit reconciled it.", noteEs:"HECHA por completo — incluido el bloque B&C (12.4, 13, 14.1–14.5), explicado en bc_12_14.tex. El tracker iba retrasado respecto a lo estudiado; la auditoría lo reconcilió.",
   tasks:[
    chap("w2-beck4","4: Conjugate Functions (Beck)","A",[
      sub("w2-beck4-1","4.1: Definition and Basic Properties (Beck)",{e:"review"}),
@@ -423,7 +429,7 @@ const WEEKS = [
   ]},
 
  {n:3, dates:DATELBL[2], title:"SDE foundations — Baudoin + Brezis (semigroups)", titleEs:"Fundamentos de SDE — Baudoin + Brezis (semigrupos)", tracks:["B"], obj:["O1"],
-  note:"Consolidated foundations block: all of Baudoin (stochastic calculus, from zero) plus Brezis as the functional-analysis enabler for diffusion semigroups (the one gap Folland Ch. 5 leaves open — unbounded operators / Hille–Yosida). Reading order: Baudoin Ch. 1–3 need no Brezis; read Brezis §6.4 + §7.1/§7.4 before Baudoin Ch. 4 (§4.1 self-adjointness, §4.5 Hille–Yosida). Dense week — Malliavin (Baudoin Ch. 6) and the Brezis skims/extras are optional.", noteEs:"Bloque consolidado de fundamentos: todo Baudoin (cálculo estocástico, desde cero) más Brezis como habilitador de análisis funcional para los semigrupos de difusión (el único hueco que deja Folland Cap. 5 — operadores no acotados / Hille–Yosida). Orden de lectura: Baudoin Cap. 1–3 no necesitan Brezis; lee Brezis §6.4 + §7.1/§7.4 antes de Baudoin Cap. 4 (§4.1 autoadjunción, §4.5 Hille–Yosida). Semana densa — Malliavin (Baudoin Cap. 6) y los skims/extras de Brezis son opcionales.",
+  note:"DONE in full — all of Baudoin Ch. 1–6 (incl. Malliavin) and the whole Brezis semigroup block, explained in baudoin_1…6_3.tex + apendice_operadores.tex. For ProxDM nothing is missing from here (audit §4: Itô multidim, Girsanov, OU + log-Sobolev all covered).", noteEs:"HECHA por completo — todo Baudoin Cap. 1–6 (incl. Malliavin) y el bloque entero de semigrupos de Brezis, explicados en baudoin_1…6_3.tex + apendice_operadores.tex. Para ProxDM no falta nada de aquí (auditoría §4: Itô multidim., Girsanov, OU + log-Sobolev cubiertos).",
   tasks:[
    chap("w3-baudoin","Baudoin — Diffusion Processes & Stochastic Calculus, Ch. 1–6 (SDE foundations, from zero)","B",[
      sub("w3-bd-1","Ch. 1: Stochastic Processes (Baudoin)"),
@@ -447,7 +453,7 @@ const WEEKS = [
   ]},
 
  {n:4, dates:DATELBL[3], title:"Close the proximal core — resolvents · FISTA (Track A)", titleEs:"Cerrar el núcleo proximal — resolventes · FISTA (Track A)", tracks:["A"], obj:["O1","O3"],
-  note:"Closing of Track A, trimmed for O1/O2. Irreducible core: B&C §4.1 → 20 → 23 + Beck 10.1/10.2/10.5 (proximal point = backward Euler — the ProxDM bridge). B&C 16 and 24.1–24.2 are skims (Beck 3 / 6.5 already covered them); Minty's theorem (21.1), which Ch. 23 leans on, is already covered by Brezis §7.1 (read ✓). Beck 8 and FISTA (10.7) are O3-only and deferred. Can still spill into Week 5 if needed.", noteEs:"Cierre del Track A, recortado para O1/O2. Núcleo irreducible: B&C §4.1 → 20 → 23 + Beck 10.1/10.2/10.5 (punto proximal = Euler hacia atrás — el puente a ProxDM). B&C 16 y 24.1–24.2 quedan en skim (Beck 3 / 6.5 ya los cubrió); el teorema de Minty (21.1), del que depende el Cap. 23, ya está cubierto por Brezis §7.1 (leído ✓). Beck 8 y FISTA (10.7) son solo-O3 y se difieren. Aún puede derramarse a la Semana 5 si hace falta.",
+  note:"DONE in full — the whole proximal-core closing is explained: bc_16.tex, bc_20.tex, bc_4.tex (§4.1), bc_23.tex, bc_24.tex, plus beck_8.tex and beck_10.tex (§10.1–10.8, incl. 10.5 — proximal point = backward Euler, the ProxDM bridge — and FISTA). Audit §5 verdict: the proximal arsenal ProxDM touches is fully covered with written explanations.", noteEs:"HECHA por completo — todo el cierre del núcleo proximal está explicado: bc_16.tex, bc_20.tex, bc_4.tex (§4.1), bc_23.tex, bc_24.tex, más beck_8.tex y beck_10.tex (§10.1–10.8, incl. 10.5 — punto proximal = Euler hacia atrás, el puente a ProxDM — y FISTA). Veredicto de la auditoría §5: el arsenal proximal que ProxDM toca está cubierto y con explicación escrita.",
   tasks:[
    chap("w4-bc16","16: Subdifferentiability of Convex Functions — light pass: the target is ∂f maximally monotone (→ 20.2) (Bauschke & Combettes)","A",[
      sub("w4-bc16-1","16.1: Basic Properties (Bauschke & Combettes)",{skim:true,e:"review"}),
@@ -481,101 +487,127 @@ const WEEKS = [
      sub("w4-beck10-8","10.8: Smoothing (Beck)",{opt:true,e:"review"})])
   ]},
 
- {n:5, dates:DATELBL[4], title:"Diffusion models + convergence theory (Track B)", titleEs:"Modelos de difusión + teoría de convergencia (Track B)", tracks:["B","P"], obj:["O1","O2"],
-  note:"With SDE foundations (Week 3) in hand: the diffusion-model on-ramp (Step-by-Step, Song) and the convergence machinery (Tweedie, Anderson, Chewi Ch. 4). ProxDM Pass 2 follows the score ↔ prox correspondence. The continuous-time foundations now come from Baudoin Ch. 3–4; only Chewi's discrete-time analysis remains here.", noteEs:"Con los fundamentos de SDE (Semana 3) listos: la rampa de modelos de difusión (Step-by-Step, Song) y la maquinaria de convergencia (Tweedie, Anderson, Chewi Cap. 4). ProxDM Pase 2 sigue la correspondencia score ↔ prox. Los fundamentos en tiempo continuo ahora salen de Baudoin Cap. 3–4; aquí solo queda el análisis en tiempo discreto de Chewi.",
+ {n:5, dates:DATELBL[4], title:"Score canon & diffusion jargon (Track B — revised plan 1/3)", titleEs:"Canon del score y jerga de difusión (Track B — plan revisado 1/3)", tracks:["B"], obj:["O1","O2"],
+  note:"Track B rebuilt after the 2026-07-11 audit (explicaciones/auditoria_track_B.md), fitted to 3 weeks (≈17 h here). Order respects the dependency graph: Step-by-Step (jargon) → Song (the canon ProxDM cites) → Tweedie §II → the NEW Fokker–Planck mini-module (gap G1), which must precede Anderson §4–5 and Chewi §4.2 next week. Cut for good: Step-by-Step §3.7/§4/§5/App. B; Song §4.4/§5/App. C, D.2–D.5, F–I; Tweedie §III–V.", noteEs:"Track B reconstruido tras la auditoría del 2026-07-11 (explicaciones/auditoria_track_B.md), ajustado a 3 semanas (≈17 h aquí). El orden respeta el grafo de dependencias: Step-by-Step (jerga) → Song (el canon que ProxDM cita) → Tweedie §II → el NUEVO mini-módulo Fokker–Planck (hueco G1), que debe ir ANTES de Anderson §4–5 y Chewi §4.2 la próxima semana. Se corta definitivamente: Step-by-Step §3.7/§4/§5/Ap. B; Song §4.4/§5/Ap. C, D.2–D.5, F–I; Tweedie §III–V.",
   tasks:[
-   chap("w5-sbs","Step-by-Step Diffusion — tutorial on-ramp (Nakkiran et al.)","B",[
-     sub("w5-sbs-1","§1: Fundamentals of Diffusion (Step-by-Step Diffusion)"),
-     sub("w5-sbs-2","§2: Stochastic Sampling — DDPM, incl. §2.4 Diffusions as SDEs (Step-by-Step Diffusion)"),
-     sub("w5-sbs-3","§3: Deterministic Sampling — DDIM (Step-by-Step Diffusion)"),
-     sub("w5-sbs-4","§4: Flow Matching (Step-by-Step Diffusion)",{skim:true})]),
-   chap("w5-song","Song et al. 2021 — Score-Based Generative Modeling through SDEs","B",[
-     sub("w5-song-1","§1–2: Introduction & background — score matching, DDPM as discrete (Song et al. 2021)",{skim:true}),
-     sub("w5-song-3","§3: Score-based modeling with SDEs — forward, reverse-time SDE, score estimation (Song et al. 2021)"),
-     sub("w5-song-4","§4: Solving the reverse SDE — predictor–corrector, probability-flow ODE (Song et al. 2021)"),
-     sub("w5-song-5","§5: Controllable generation / inverse problems (Song et al. 2021)",{skim:true})]),
-   leaf("w5-sarkka","Särkkä & Solin — Applied SDEs: §5 Fokker–Planck + §8 Euler–Maruyama, numerics complement (Särkkä & Solin)","B",{opt:true}),
-   chap("w5-rwt","Random Walks with Tweedie — unified diffusion framework","B",[
-     sub("w5-rwt-1","Part 1: Tweedie's formula & the denoiser ↔ score connection (Random Walks with Tweedie)"),
-     sub("w5-rwt-2","Part 2: reverse-time / random-walk sampling & main results (Random Walks with Tweedie)")]),
-   chap("w5-anderson","Anderson 1982 — Reverse-time diffusion equation models","B",[
-     sub("w5-and-1","§1–2: Introduction & forward model setup (Anderson 1982)"),
-     sub("w5-and-3","§3–4: Reverse-time diffusion model & main theorem (Anderson 1982)"),
-     sub("w5-and-5","§5: Discussion / nonlinear case (Anderson 1982)",{skim:true})]),
-   leaf("w5-chewi4","Chewi Ch. 4: Analysis of Langevin Monte Carlo — interpolation argument + Girsanov (builds on Baudoin Ch. 3–5) (Chewi)","B"),
-   leaf("w5-proxdm2","ProxDM — Pass 2: medium, careful read following score ↔ prox (ProxDM)","P")
+   chap("w5-sbs","Step-by-Step Diffusion — jargon & algorithms ramp, ~4 h (Nakkiran et al.)","B",[
+     sub("w5-sbs-1","§1: Fundamentals of Diffusion (Step-by-Step Diffusion)",{e:"review",info:"Fact 1 (posterior ≈ gaussiana) es la intuición del Euler–Maruyama. Aquí se fija el vocabulario y el porqué del denoiser."}),
+     sub("w5-sbs-2","§2.1–2.3: DDPM — correctness & variance reduction (Step-by-Step Diffusion)",{e:"review"}),
+     sub("w5-sbs-24","§2.4: Diffusions as SDEs (Step-by-Step Diffusion)",{skim:true,info:"Skim de 15 min: tras Baudoin es trivial; solo fija el diccionario discreto↔continuo. Su heurística de la SDE reversa NO sustituye a Anderson (Semana 6)."}),
+     sub("w5-sbs-3","§3.1–3.6: DDIM — deterministic sampling (Step-by-Step Diffusion)",{e:"review",info:"R11: ProxDM se compara contra el «score ODE sampler»; DDIM ≙ discretización del probability-flow ODE (la derivación rigurosa la da Song App. D.1)."})],
+     {info:"COMPLEMENTO (rampa barata). Con Baudoin 1–6 digerido, esto ya no es la puerta al cálculo estocástico sino a la <b>jerga y los algoritmos</b> (DDPM, DDIM, ε-prediction, x₀-prediction, NFE) que ProxDM §2–3 y sus experimentos dan por sabidos. Se corta: §3.7, §4 (flow matching — ProxDM solo lo menciona como related work en App. A.1), §5 y apéndices B."}),
+   chap("w5-song","Song et al. 2021 — Score-Based Generative Modeling through SDEs, ~6.5 h","B",[
+     sub("w5-song-12","§1–2: intro, SMLD/DDPM as discrete (Song et al. 2021)",{skim:true,e:"review"}),
+     sub("w5-song-3","§3.1–3.4: forward SDE, reverse-time SDE, score matching, VE/VP/sub-VP (Song et al. 2021)",{e:"review",info:"NÚCLEO (R1, R2-enunciado, R4): la notación α_t, β(t) de ProxDM sale de aquí. La prueba de la SDE reversa NO está aquí — la da Anderson (Semana 6)."}),
+     sub("w5-song-4","§4.1–4.3: solvers, predictor–corrector, probability-flow ODE (Song et al. 2021)",{e:"review",info:"NÚCLEO (R3, R11): ProxDM §5 se compara contra el sampler SDE (reverse diffusion) y el ODE de aquí."}),
+     sub("w5-song-app","App. B + D.1 + E: VP/VE/sub-VP · PF-ODE derivation · reverse diffusion sampler (Song et al. 2021)",{e:"review",info:"Los tres apéndices que ProxDM §3-Remarks y App. F citan explícitamente («[75, Appx. E]», «[75, Appx. G]»). La tabla unificadora de Tweedie §III (cortada) se reconstruye en 10 min desde App. B."})],
+     {info:"NÚCLEO — es la referencia [75] de ProxDM, citada en casi cada página: la forward VP SDE (1) es su Eq. (11), la reversa (2) su Eq. (6), el objetivo de score matching (3) su Eq. (7). Se corta: §4.4 (arquitecturas), §5 (problemas inversos) y App. C, D.2–D.5, F–I."}),
+   chap("w5-rwt","Random Walks with Tweedie — ~2.5 h","B",[
+     sub("w5-rwt-a","§II.A: Tweedie's formula — with proof (Random Walks with Tweedie)",{e:"deep",info:"R5. La prueba de Tweedie más limpia de las tres lecturas que la traen; es corta — deep barato."}),
+     sub("w5-rwt-b","§II.B: MMSE denoisers (Random Walks with Tweedie)",{e:"review",info:"R14: MMSE = esperanza condicional = argmin de regresión L² (ya sólido por Shao/Pollard, prerrequisitos)."}),
+     sub("w5-rwt-cd","§II.C–D: Langevin random walks + annealing (Random Walks with Tweedie)",{e:"review",info:"Da la intuición Langevin que conecta con Chewi Cap. 4 (Semana 6)."}),
+     sub("w5-rwt-3","§III: unified templates — NCSN/DDPM/SGM-SDE (Random Walks with Tweedie)",{opt:true,info:"Unificación elegante pero redundante con Song §3–4; con 3 semanas no paga su costo (auditoría §3)."})],
+     {info:"COMPLEMENTO. Justifica R5 (Tweedie) y R14 (MMSE): el contraste denoiser MMSE (score) vs denoiser MAP (prox) de ProxDM §2 — el corazón conceptual de la correspondencia score↔prox de la tesis. OJO: como framework deriva el muestreo SIN la SDE reversa de Anderson (§II.C–D, random walks recocidos) — exactamente la ruta que ProxDM NO toma. Se corta: §IV–V."}),
+   chap("w5-fpe","NEW — Fokker–Planck mini-module (gap G1), ~4 h","B",[
+     sub("w5-fpe-1","Derive ∂ₜp = ∇·[∇·(pG) − pf] from multidimensional Itô + integration by parts — own modo-E appendix",{e:"deep",info:"Ruta autocontenida (2–3 págs., todas las piezas ya estudiadas): fórmula de Itô multidimensional (baudoin_5.tex) + integración por partes contra funciones test (Folland, prerrequisitos). Contraste: el enunciado en la generalidad exacta está impreso en Anderson Eqs. (3.8)–(3.9). Norris §2.1 (P′ = PQ, Apuntes Prerequisitos) es la intuición en espacio de estados finito."}),
+     sub("w5-fpe-2","Särkkä & Solin §5.1–5.2 (Fokker–Planck–Kolmogorov equation) — if the PDF is obtained, ~2 h",{opt:true,e:"review",info:"[Juicio limitado a TOC] Referencia hecha a medida para G1; estilo «sin teoría de la medida» = lectura rápida. El resto de Särkkä (§8, filtrado, Kalman, GP) se corta. Nota: su casilla vieja apareció marcada — probable click accidental, ya des-marcada."})],
+     {info:"El hueco más serio de la auditoría (G1): la FPE con matriz de difusión G(x,t) la usan SIN derivarla ProxDM App. C.2 (prueba del Lemma 5, primera línea) y App. D.7 (Lemma 14), Chewi Prop. 4.2.4 y Anderson §4–5. Baudoin no la trae («Fokker» no aparece en baudoin_*.tex ni en sus .mmd) y el inventario de prerrequisitos la lista como CERO. Sin esto, esos pasos quedan de caja negra — lo contrario del deep read (E14)."})
   ]},
 
- {n:6, dates:DATELBL[5], title:"Γ / epi-convergence I — foundations (Rockafellar & Wets)", titleEs:"Γ / epi-convergencia I — fundamentos (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
-  note:"Thesis direction (b): Γ/epi-convergence of the γ-problem whose limit recovers the prox — the γ→0 limit of proximal matching [Fang et al.]. Needs the Moreau material from Track A (Weeks 1–4). Ch. 7 (Week 7) requires this Ch. 4.", noteEs:"Dirección de tesis (b): Γ/epi-convergencia del problema-γ cuyo límite recupera el prox — el límite γ→0 de proximal matching [Fang et al.]. Requiere el Moreau del Track A (Semanas 1–4). El Cap. 7 (Semana 7) necesita este Cap. 4.",
+ {n:6, dates:DATELBL[5], title:"Reverse-time SDE & convergence machinery (Track B — 2/3)", titleEs:"SDE reversa y maquinaria de convergencia (Track B — plan revisado 2/3)", tracks:["B","P"], obj:["O1","O2"],
+  note:"≈18 h. Anderson is the theorem that guarantees ProxDM's Eq. (2); Chewi Ch. 4 teaches the PROOF METHOD of ProxDM's Theorem 1 (§4.2 = the exact template of App. C). Anderson §3/§5 and Chewi §4.2 both lean on the Week-5 FPE module. Cut: Anderson §6; Chewi §4.3 (first) and §4.1 (second, only if squeezed).", noteEs:"≈18 h. Anderson es el teorema que garantiza la Eq. (2) de ProxDM; Chewi Cap. 4 enseña el MÉTODO DE PRUEBA del Teorema 1 (su §4.2 = plantilla exacta del App. C). Anderson §3/§5 y Chewi §4.2 se apoyan en el módulo FPE de la Semana 5. Se corta: Anderson §6; Chewi §4.3 (primero) y §4.1 (segundo, solo si aprieta).",
   tasks:[
-   chap("w6-rw1","1: Max and Min — targeted sections (Rockafellar & Wets)","D",[
-     sub("w6-rw1-b","1.B: Epigraphs and Semicontinuity (Rockafellar & Wets)"),
-     sub("w6-rw1-g","1.G: Moreau Envelopes (Rockafellar & Wets)")]),
-   chap("w6-rw4","4: Set Convergence (Rockafellar & Wets)","D",[
-     sub("w6-rw4-a","4.A: Inner and Outer Limits (Rockafellar & Wets)"),
-     sub("w6-rw4-b","4.B: Painlevé–Kuratowski Convergence (Rockafellar & Wets)"),
-     sub("w6-rw4-c","4.C: Pompeiu–Hausdorff Distance (Rockafellar & Wets)"),
-     sub("w6-rw4-d","4.D: Cones and Convex Sets (Rockafellar & Wets)")])
+   chap("w6-anderson","Anderson 1982 — Reverse-time diffusion equation models, ~5 h","B",[
+     sub("w6-and-12","§1–2: introduction + linear-Gaussian case (Anderson 1982)",{e:"review",info:"Motivación; el caso lineal-gaussiano es digerible con Norris (§2.1, Apuntes Prerequisitos) y Baudoin."}),
+     sub("w6-and-3","§3: reverse-time model + main theorem (Anderson 1982)",{e:"deep",info:"R2: el drift reverso f − (1/p)∇·(p gg′), evaluado en g = √β·I, da exactamente la Eq. (2) de ProxDM. Además sus Eqs. (3.8)–(3.9) enuncian Kolmogorov forward/backward en la generalidad exacta (difusión dependiente de x) que la prueba de ProxDM necesita — el contraste del módulo G1."}),
+     sub("w6-and-4","§4: proof via Kolmogorov of the joint process (Anderson 1982)",{skim:true,info:"Larga y computacional: basta seguir el Lemma 1 (factorización p(x,w̄) = p(x)·φ(w̄)). La prueba que sí se reconstruye es la del §5."}),
+     sub("w6-and-5","§5: «Another approach to the main result» — the short proof, read IN FULL (Anderson 1982)",{e:"deep",info:"PROMOVIDA por la auditoría: es otra demostración, más simple, del teorema principal — mejor relación esfuerzo/valor que §4. OJO: el tracker viejo la etiquetaba «Discussion (skim)» por un error de mapeo de secciones (la discusión real es el §6, que se corta)."})],
+     {info:"NÚCLEO: todo ProxDM descansa sobre la existencia de la SDE reversa (su Eq. (2)); Anderson es el teorema que la garantiza (R2). Se corta §6 (misceláneos, caso lineal §6.5)."}),
+   chap("w6-chewi4","Chewi — Log-Concave Sampling, Ch. 4: Analysis of Langevin Monte Carlo, ~8.5 h","B",[
+     sub("w6-chewi4-0","Preliminaries + Lemma 4.0.1 (Chewi)",{e:"deep",info:"Las cotas E‖∇V‖² ≤ βd reaparecen como C_p en ProxDM."}),
+     sub("w6-chewi4-1","§4.1: Wasserstein coupling (Chewi)",{e:"review",info:"Técnica alternativa — cultura de tesis (W₂ aparece como métrica en la Fig. 1 del paper). Si el tiempo aprieta, es el SEGUNDO corte del capítulo (tras §4.3)."}),
+     sub("w6-chewi4-2","§4.2: the interpolation argument — THE most important section of the whole track (Chewi)",{e:"deep",info:"Plantilla exacta de ProxDM App. C: interpolating process + Fokker–Planck + derivada temporal de la KL + Young/Cauchy–Schwarz (R18, R19). La Prop. 4.2.4 y el Cor. 4.2.5 son el caso G≡I con potencial fijo — reconstruir CADA paso. El propio paper: «the proof strategy is inspired by the analysis of the Proximal Langevin algorithm from [79]» (= Wibisono, la fuente que §4.2 reelabora). La Prop. 4.2.4 arranca con «satisfies the Fokker-Planck equation» — de ahí el módulo G1."}),
+     sub("w6-chewi4-3","§4.3: proof via convex optimization (Chewi)",{opt:true,info:"Mejora tasas de LMC; ProxDM no la usa. PRIMER corte del capítulo."}),
+     sub("w6-chewi4-4","§4.4: Girsanov (Chewi)",{e:"review",info:"ProxDM NO usa Girsanov en su prueba, pero conecta con Baudoin §5.10 (Teo. 5.72, baudoin_5.tex — incluida su caja conexion con cotas de muestreo) y es herramienta estándar del área para la tesis."})],
+     {info:"NÚCLEO: el único texto del track que enseña el método de prueba del Teorema 1 de ProxDM. Justifica R18, R19 y de paso R10."}),
+   leaf("w6-proxdm2","ProxDM — Pass 2: §1–3 carefully + §4 statements (no appendices), ~4.5 h (ProxDM)","P",{e:"review",info:"Seguir la correspondencia score↔prox con Tweedie §II fresco (MMSE vs MAP). Matiz para el modo E (caja «ojo»): la log-Sobolev se usa para el <i>forward</i> OU (inicialización, Baudoin Cap. 4 ya explicado), mientras el paper presume de NO exigir LSI a la target p₀."})
   ]},
 
- {n:7, dates:DATELBL[6], title:"Γ / epi-convergence II — epigraphical limits (Rockafellar & Wets)", titleEs:"Γ / epi-convergencia II — límites epigráficos (Rockafellar & Wets)", tracks:["D"], obj:["O2"],
-  note:"The most demanding D week. §12.D (graphical convergence of subdifferentials/resolvents) is the formal language of 'parametrized solutions → prox' — the core of thesis direction (b). First cut if behind: read 7.A–E, skim 12.", noteEs:"La semana D más exigente. §12.D (convergencia gráfica de subdiferenciales/resolventes) es el lenguaje formal de 'soluciones parametrizadas → prox' — el corazón de la dirección de tesis (b). Primer recorte si vas atrasado: lee 7.A–E, ojea el 12.",
+ {n:7, dates:DATELBL[6], title:"ProxDM deep read & its mirror (Track B/P — 3/3)", titleEs:"Lectura profunda de ProxDM y su espejo (Track B/P — plan revisado 3/3)", tracks:["P","B"], obj:["O1","O2"],
+  note:"≈19 h — the O1+O2 climax, pulled forward from old Week 8. LOGISTICS FIRST (gap G2): the Chewi .mmd only contains Ch. 4 — digitize Ch. 8 + Ch. 12 (chewisinho.github.io/main.pdf) and Fang et al. (arXiv:2310.14344) BEFORE the week starts. If it overflows: sacrifice first ProxDM's hybrid pair D.8/D.10, second Chewi §12.3 depth (demote to review) — NEVER Fang et al. Hours for Ch. 8/12 and Fang are [LOW CONFIDENCE] (TOC only); overflow comes out of the Week-9 buffer.", noteEs:"≈19 h — el clímax de O1+O2, adelantado desde la vieja Semana 8. LOGÍSTICA PRIMERO (hueco G2): el .mmd de Chewi solo trae el Cap. 4 — digitalizar Cap. 8 + Cap. 12 (chewisinho.github.io/main.pdf) y Fang et al. (arXiv:2310.14344) ANTES de empezar la semana. Si desborda: primer sacrificio el par hybrid D.8/D.10 de ProxDM, segundo la profundidad de Chewi §12.3 (bajarlo a review) — NUNCA Fang et al. Las horas de Cap. 8/12 y Fang son [BAJA CONFIANZA] (solo TOC); el desborde sale del colchón de la Semana 9.",
   tasks:[
-   chap("w7-rw7","7: Epigraphical Limits (Rockafellar & Wets)","D",[
-     sub("w7-rw7-a","7.A: Pointwise Convergence (Rockafellar & Wets)"),
-     sub("w7-rw7-b","7.B: Epi-Convergence (Rockafellar & Wets)"),
-     sub("w7-rw7-c","7.C: Continuous and Uniform Convergence (Rockafellar & Wets)"),
-     sub("w7-rw7-d","7.D: Generalized Differentiability (Rockafellar & Wets)"),
-     sub("w7-rw7-e","7.E: Convergence in Minimization (Rockafellar & Wets)")]),
-   chap("w7-rw12","12: Monotone Mappings — light (Rockafellar & Wets)","D",[
-     sub("w7-rw12-b","12.B: Minty Parameterization (Rockafellar & Wets)"),
-     sub("w7-rw12-d","12.D: Graphical Convergence (Rockafellar & Wets)")])
+   chap("w7-chewi812","Chewi Ch. 8 + Ch. 12 — the mirror of ProxDM's §4 proof, ~7 h (Chewi)","B",[
+     sub("w7-chewi-8","Ch. 8: The Proximal Sampler (Chewi)",{e:"deep",info:"El análogo directo de la discretización backward de ProxDM. Conecta con lo ya escrito: prox = resolvente (bc_23.tex), punto proximal = backward Euler (beck_10.tex §10.5)."}),
+     sub("w7-chewi-12","Ch. 12: Diffusion Generative Models — §12.1–12.3, discretization analysis (Chewi)",{e:"deep",info:"Las comparaciones de ProxDM §4 con [6] y [81] se entienden mejor tras §12.3 (nota final de la auditoría). Si la semana desborda, ESTE baja a review (segundo sacrificio)."})],
+     {info:"NÚCLEO para la Pass 3 y para la tesis: el espejo exacto de ProxDM (que usa la ruta Fokker–Planck / Itô multidimensional, no Girsanov). G2: NO está digitalizado aún — conseguirlo antes de la semana."}),
+   chap("w7-pm","Fang et al. — proximal matching & Learned Proximal Networks, ~4.5 h — NEVER cut","P",[
+     sub("w7-pm-1","ℓ_PM loss + Theorem 3.2: recovery of the prox as γ→0 (Fang et al.)",{e:"deep",info:"El objeto cuya Γ-convergencia quieres estudiar (dirección (b) de la tesis): la pérdida ℓ_PM recupera el prox cuando γ→0. Alimenta directamente el lenguaje de R&W (Semana 8)."}),
+     sub("w7-pm-2","Learned Proximal Networks — exact prox parametrization via ICNN (Fang et al.)",{e:"review"})],
+     {info:"NÚCLEO absoluto para O2: es R13, el motor del método (ProxDM §3.2 usa su Teorema 3.2 tal cual) y la semilla declarada de la dirección (b) de la tesis. G2: conseguir/digitalizar el paper (arXiv:2310.14344)."}),
+   chap("w7-proxdm3","ProxDM — Pass 3: deep, rigorous read, ~7.5 h (ProxDM)","P",[
+     sub("w7-p3-bc","App. B–C in full — Theorem 1: interpolating process + FPE + d/dt of KL (ProxDM)",{e:"deep",info:"App. C = generalización directa de Chewi §4.2 (allí G≡I). Hueco G4 para el deep read: la Assumption 2 (integrabilidad, frontera, convergencia dominada — Folland Caps. 2–3 ya sólidos) es un punto delicado que el propio paper admite implícitamente asumido «in many existing results [6, 79, 41, 78]» — señalarlo en la explicación; posible ángulo menor de tesis."}),
+     sub("w7-p3-d14","App. D.1–D.4 reconstructed (ProxDM)",{e:"deep",info:"D.1: Itô multidimensional (baudoin_5.tex, vía Øksendal 4.2). D.3–D.4: proceso OU + convergencia exponencial en KL = exactamente la log-Sobolev del semigrupo OU de Baudoin Cap. 4 (baudoin_4.tex). Caja «ojo»: LSI solo para el forward OU, no para la target."}),
+     sub("w7-p3-d512","App. D.5–D.12 selectively: D.7 & D.9 yes; hybrids D.6/D.8/D.10 as quick verification (ProxDM)",{e:"deep",info:"D.7 (Lemma 14) aplica la FPE al proceso OU — el módulo G1 otra vez. Si la semana desborda: primer sacrificio = par D.8/D.10 (hybrid)."}),
+     sub("w7-p3-fg","App. F–G: extensions (VE, PF ODE, samplers) + proximal point ↔ Langevin (ProxDM)",{e:"review",info:"App. F remite a Song App. E/G (Semana 5); App. G = punto proximal ↔ backward Euler ↔ Langevin proximal (beck_10.tex §10.5, ya explicado)."})],
+     {info:"Con todo el arsenal en mano: prox (Track A), SDE (Baudoin), reversa (Anderson), FPE (módulo G1), interpolación (Chewi §4.2). Nota de fidelidad de la auditoría: el paper NO usa Girsanov ni transporte óptimo, ni exige log-concavidad/LSI a la target."})
   ]},
 
- {n:8, dates:DATELBL[7], title:"ProxDM deep read · proximal matching · thesis", titleEs:"Lectura profunda ProxDM · proximal matching · tesis", tracks:["P","B"], obj:["O1","O2"],
-  note:"Climax for O1 + O2. Read Chewi Ch. 8 (proximal sampler) + Ch. 12 (diffusion models) alongside Pass 3 — they mirror ProxDM's §4 proof (which uses the Fokker–Planck / multidimensional-Itô route, not Girsanov). Proximal matching [Fang et al.] is both the method's engine (§3.2) and the seed of thesis direction (b): its loss recovers the prox as γ→0.", noteEs:"Clímax de O1 + O2. Lee Chewi Cap. 8 (proximal sampler) + Cap. 12 (modelos de difusión) junto al Pase 3 — son el espejo de la prueba de la §4 de ProxDM (que usa la ruta Fokker–Planck / Itô multidimensional, no Girsanov). Proximal matching [Fang et al.] es a la vez el motor del método (§3.2) y la semilla de la dirección de tesis (b): su pérdida recupera el prox cuando γ→0.",
+ {n:8, dates:DATELBL[7], title:"Γ / epi-convergence — R&W compressed (Track D)", titleEs:"Γ / epi-convergencia — R&W comprimido (Track D)", tracks:["D"], obj:["O2"],
+  note:"Old Weeks 6–7 compressed into one: thesis direction (b) — Γ/epi-convergence of the γ-problem whose limit recovers the prox (the γ→0 limit of Fang's proximal matching, fresh from Week 7). If behind, cut in this order: 4.C/4.D, then 7.C/7.D — never 7.B/7.E nor 12.D. NEW per audit gap G3: a short stop at prox-regularity (Ch. 13). E-categories for this track assigned in this reorg (they were outside the audit's scope).", noteEs:"Las viejas Semanas 6–7 comprimidas en una: dirección de tesis (b) — Γ/epi-convergencia del problema-γ cuyo límite recupera el prox (el límite γ→0 del proximal matching de Fang, fresco de la Semana 7). Si vas atrasado, recorta en este orden: 4.C/4.D, luego 7.C/7.D — nunca 7.B/7.E ni 12.D. NUEVO por el hueco G3 de la auditoría: parada corta en prox-regularidad (Cap. 13). Las categorías E de esta pista se asignan en esta reorganización (quedaban fuera del alcance de la auditoría).",
   tasks:[
-   leaf("w8-proxdm3","ProxDM — Pass 3: deep, rigorous read with prox + SDE + convergence theory in hand (ProxDM)","P"),
-   chap("w8-chewi","Chewi — Log-Concave Sampling: proximal sampler & diffusion models (Chewi)","B",[
-     sub("w8-chewi-8","Ch. 8: The Proximal Sampler — the direct analog of ProxDM's backward discretization (Chewi)"),
-     sub("w8-chewi-12","Ch. 12: Diffusion Generative Models — §12.3 discretization analysis (Chewi)")]),
-   chap("w8-pm","Learned Proximal Networks & proximal matching (Fang et al.)","P",[
-     sub("w8-pm-1","Proximal-matching loss & recovery of the prox as γ→0 (Fang et al.)"),
-     sub("w8-pm-2","Learned Proximal Networks (LPN) — ICNN-based exact prox parametrization (Fang et al.)")]),
-   chap("w8-frontier","Frontier / open-problem tracking","P",[
-     sub("w8-fr-1","ProxT2I (2025) — proximal text-to-image"),
-     sub("w8-fr-2","MYULA — Durmus, Moulines & Pereyra (proximal / Moreau–Yosida Langevin sampling)")]),
-   leaf("w8-thesis","Draft 3–4 thesis-problem candidates (Moreau-envelope sampling + Γ-convergence)","P"),
-   leaf("w8-buffer","Buffer / catch up on anything deferred","P")
+   chap("w8-rw1","1: Max and Min — targeted sections (Rockafellar & Wets)","D",[
+     sub("w8-rw1-b","1.B: Epigraphs and Semicontinuity (Rockafellar & Wets)",{e:"review"}),
+     sub("w8-rw1-g","1.G: Moreau Envelopes (Rockafellar & Wets)",{e:"deep",info:"El objeto del ángulo γ→0; ya lo conoces por Beck 6.7 y B&C 12.4 (beck_4_6.tex, bc_12_14.tex) — aquí en el marco variacional general (sin convexidad)."})]),
+   chap("w8-rw4","4: Set Convergence (Rockafellar & Wets)","D",[
+     sub("w8-rw4-a","4.A: Inner and Outer Limits (Rockafellar & Wets)",{e:"deep"}),
+     sub("w8-rw4-b","4.B: Painlevé–Kuratowski Convergence (Rockafellar & Wets)",{e:"deep"}),
+     sub("w8-rw4-c","4.C: Pompeiu–Hausdorff Distance (Rockafellar & Wets)",{e:"review"}),
+     sub("w8-rw4-d","4.D: Cones and Convex Sets (Rockafellar & Wets)",{e:"review"})]),
+   chap("w8-rw7","7: Epigraphical Limits (Rockafellar & Wets)","D",[
+     sub("w8-rw7-a","7.A: Pointwise Convergence (Rockafellar & Wets)",{e:"review"}),
+     sub("w8-rw7-b","7.B: Epi-Convergence (Rockafellar & Wets)",{e:"deep",info:"Epi-convergencia = Γ-convergencia en este contexto: el lenguaje de la dirección (b) de la tesis."}),
+     sub("w8-rw7-c","7.C: Continuous and Uniform Convergence (Rockafellar & Wets)",{e:"review"}),
+     sub("w8-rw7-d","7.D: Generalized Differentiability (Rockafellar & Wets)",{e:"review"}),
+     sub("w8-rw7-e","7.E: Convergence in Minimization (Rockafellar & Wets)",{e:"deep",info:"Convergencia de minimizadores — el teorema que hace útil la Γ-convergencia para el límite γ→0 de ℓ_PM."})]),
+   chap("w8-rw12","12: Monotone Mappings — light (Rockafellar & Wets)","D",[
+     sub("w8-rw12-b","12.B: Minty Parameterization (Rockafellar & Wets)",{e:"review"}),
+     sub("w8-rw12-d","12.D: Graphical Convergence (Rockafellar & Wets)",{e:"deep",info:"Convergencia gráfica de subdiferenciales/resolventes = el lenguaje formal de «soluciones parametrizadas → prox», corazón de la dirección (b). Fondo ya escrito: resolventes (bc_23.tex), monótonos maximales (bc_20.tex)."})]),
+   leaf("w8-rw13","13: Prox-regularity — short stop, gap G3 (Rockafellar & Wets)","D",{e:"review",info:"ProxDM, nota al pie 3: el prox de −ln p₀ está bien definido si f es weakly-convex o prox-regular [63 = R&W]. El Track A solo cubrió prox de convexas (Beck 6.1, beck_4_6.tex). Para leer el paper basta aceptar la nota; para la TESIS (γ→0 del prox de una −ln p no convexa) es fondo real. La auditoría lo colocó aquí (no en el Track B) porque alimenta el lenguaje de la dirección (b)."})
   ]},
 
- {n:9, dates:DATELBL[8], title:"Optimal transport — Wasserstein + JKO (course prep) · buffer", titleEs:"Transporte óptimo — Wasserstein + JKO (prep. curso) · colchón", tracks:["C"], obj:["O4","O2"],
-  note:"Prep for the OT course (O4), deprioritized to the back. The paper does not use static OT or Wasserstein (except W₂ as a metric in one plot). Most of this is cuttable EXCEPT Santambrogio Ch. 8 (JKO → Fokker-Planck), the third level of the proximal column — direct value for O1/O2.", noteEs:"Preparación para el curso de TO (O4), deprioritizado al final. El paper no usa TO estático ni Wasserstein (salvo W₂ como métrica en una gráfica). Casi todo es recortable EXCEPTO Santambrogio Cap. 8 (JKO → Fokker-Planck), el tercer nivel de la columna proximal — valor directo para O1/O2.",
+ {n:9, dates:DATELBL[8], title:"Optimal transport (course prep) · thesis drafting · buffer", titleEs:"Transporte óptimo (prep. curso) · borradores de tesis · colchón", tracks:["C","P"], obj:["O4","O2"],
+  note:"OT prep (O4), deprioritized: the paper uses no static OT (W₂ only as a metric in Fig. 1 — the audit confirms postponing Track C). Everything cuttable EXCEPT Santambrogio Ch. 8 (JKO ↔ prox, the third level of the proximal column). Also parked here: thesis-problem drafting, the frontier skims (deferred by the audit), and the buffer that absorbs Week-7 overflow.", noteEs:"Prep. de TO (O4), deprioritizada: el paper no usa TO estático (W₂ solo como métrica en la Fig. 1 — la auditoría confirma posponer el Track C). Todo recortable EXCEPTO Santambrogio Cap. 8 (JKO ↔ prox, el tercer nivel de la columna proximal). También viven aquí: los borradores de problema de tesis, los skims de frontera (diferidos por la auditoría) y el colchón que absorbe el desborde de la Semana 7.",
   tasks:[
    chap("w9-santa1","1: Primal and Dual Problems (Santambrogio)","C",[
-     sub("w9-s1-1","1.1: Kantorovich and Monge Problems (Santambrogio)"),
-     sub("w9-s1-2","1.2: Duality (Santambrogio)"),
-     sub("w9-s1-3","1.3: The case c(x,y)=h(x−y), h strictly convex, and existence of an optimal T (Santambrogio)"),
-     sub("w9-s1-6","1.6: c-concavity, duality and optimality (Santambrogio)",{skim:true})], {cut:true}),
-   leaf("w9-santa412","4.1.2: The Continuity Equation (Santambrogio)","C",{cut:true}),
+     sub("w9-s1-1","1.1: Kantorovich and Monge Problems (Santambrogio)",{e:"review"}),
+     sub("w9-s1-2","1.2: Duality (Santambrogio)",{e:"review"}),
+     sub("w9-s1-3","1.3: The case c(x,y)=h(x−y), h strictly convex, and existence of an optimal T (Santambrogio)",{e:"review"}),
+     sub("w9-s1-6","1.6: c-concavity, duality and optimality (Santambrogio)",{skim:true,e:"review"})], {cut:true}),
+   leaf("w9-santa412","4.1.2: The Continuity Equation (Santambrogio)","C",{cut:true,e:"review"}),
    chap("w9-santa5","5: Wasserstein Spaces (Santambrogio)","C",[
-     sub("w9-s5-1","5.1: Definition and Triangle Inequality (Santambrogio)"),
-     sub("w9-s5-2","5.2: Topology Induced by Wp (Santambrogio)"),
-     sub("w9-s5-3","5.3: Curves in Wp and Continuity Equation (Santambrogio)"),
-     sub("w9-s5-4","5.4: Constant-Speed Geodesics in Wp (Santambrogio)")], {cut:true}),
+     sub("w9-s5-1","5.1: Definition and Triangle Inequality (Santambrogio)",{e:"review"}),
+     sub("w9-s5-2","5.2: Topology Induced by Wp (Santambrogio)",{e:"review"}),
+     sub("w9-s5-3","5.3: Curves in Wp and Continuity Equation (Santambrogio)",{e:"review"}),
+     sub("w9-s5-4","5.4: Constant-Speed Geodesics in Wp (Santambrogio)",{e:"review"})], {cut:true}),
    chap("w9-survey1","Survey — {Euclidean, Metric, Wasserstein} Gradient Flows, 1st half (Santambrogio)","C",[
-     sub("w9-sv-1","Gradient flows in Euclidean spaces (Survey)"),
-     sub("w9-sv-2","Gradient flows in metric spaces (Survey)")], {cut:true}),
+     sub("w9-sv-1","Gradient flows in Euclidean spaces (Survey)",{e:"review"}),
+     sub("w9-sv-2","Gradient flows in metric spaces (Survey)",{e:"review"})], {cut:true}),
    chap("w9-santa7","7: Functionals over Probabilities (Santambrogio)","C",[
-     sub("w9-s7-1","7.1: Semi-continuity (Santambrogio)"),
-     sub("w9-s7-2","7.2: Convexity, First Variations, and Subdifferentials (Santambrogio)"),
-     sub("w9-s7-3","7.3: Displacement Convexity (Santambrogio)")], {cut:true}),
+     sub("w9-s7-1","7.1: Semi-continuity (Santambrogio)",{e:"review"}),
+     sub("w9-s7-2","7.2: Convexity, First Variations, and Subdifferentials (Santambrogio)",{e:"review"}),
+     sub("w9-s7-3","7.3: Displacement Convexity (Santambrogio)",{e:"review"})], {cut:true}),
    chap("w9-santa8","8: Gradient Flows (Santambrogio)","C",[
-     sub("w9-s8-1","8.1: Gradient Flows in Rd and in Metric Spaces (Santambrogio)"),
-     sub("w9-s8-2","8.2: Gradient Flows in W2, Derivation of the PDE (Santambrogio)"),
-     sub("w9-s8-3","8.3: Analysis of the Fokker-Planck Case (Santambrogio)")]),
-   leaf("w9-survey2","Survey — Wasserstein gradient flows, 2nd half (Santambrogio)","C",{cut:true})
+     sub("w9-s8-1","8.1: Gradient Flows in Rd and in Metric Spaces (Santambrogio)",{e:"review"}),
+     sub("w9-s8-2","8.2: Gradient Flows in W2, Derivation of the PDE (Santambrogio)",{e:"deep"}),
+     sub("w9-s8-3","8.3: Analysis of the Fokker-Planck Case (Santambrogio)",{e:"deep",info:"JKO → Fokker–Planck: el prox en W₂ genera la FPE — cierra el círculo con el módulo G1 (Semana 5) y con ProxDM. El puente JKO↔prox es lo único NO recortable del bloque de TO."})],
+     {info:"El tercer nivel de la columna proximal (prox como paso JKO en el espacio de Wasserstein). Valor directo para O1/O2 — lo único que la nota global protege del recorte en esta semana."}),
+   leaf("w9-survey2","Survey — Wasserstein gradient flows, 2nd half (Santambrogio)","C",{cut:true,e:"review"}),
+   chap("w9-frontier","Frontier / open-problem tracking — deferred by the audit","P",[
+     sub("w9-fr-1","ProxT2I (2025) — proximal text-to-image",{opt:true}),
+     sub("w9-fr-2","MYULA — Durmus, Moulines & Pereyra (proximal / Moreau–Yosida Langevin sampling)",{opt:true})],
+     {info:"OPCIONAL/cortar según la auditoría: seguimiento de frontera, no prerrequisito de nada. Máximo 1 h de skim de abstracts, o diferir a después del Track B. MYULA conecta con la envolvente de Moreau (beck_4_6.tex) — dirección (a) de la tesis."}),
+   leaf("w9-thesis","Draft 3–4 thesis-problem candidates (Moreau-envelope sampling + Γ-convergence)","P",{info:"Con Fang (S7) y R&W (S8) frescos: dirección (a) muestreo vía envolvente de Moreau, dirección (b) Γ-convergencia del límite γ→0 de ℓ_PM. Ángulo menor extra detectado por la auditoría (G4): las condiciones de regularidad de la Assumption 2 de ProxDM, que «many existing results» asumen implícitamente."}),
+   leaf("w9-buffer","Buffer / catch up (absorbs Week-7 overflow) ","P")
   ]}
 ];
 
@@ -587,7 +619,7 @@ const RESOURCES = [
   {t:"Baudoin — Diffusion Processes and Stochastic Calculus (EMS, 2014)", l:"ems.press/books/etb/196", u:"https://ems.press/books/etb/196"},
   {t:"Brezis — Functional Analysis, Sobolev Spaces and PDEs (optional: Ch. 6–7 Hille–Yosida / semigroups, backs Baudoin Ch. 3–4)", l:"uploaded PDF"},
   {t:"Chewi — Log-Concave Sampling (convergence-theory book)", l:"chewisinho.github.io/main.pdf", u:"https://chewisinho.github.io/main.pdf"},
-  {t:"Särkkä & Solin — Applied SDEs (optional: numerics + Fokker–Planck)", l:"users.aalto.fi/~ssarkka/pub/sde_book.pdf", u:"https://users.aalto.fi/~ssarkka/pub/sde_book.pdf"},
+  {t:"Särkkä & Solin — Applied SDEs (optional: §5.1–5.2 = tailor-made FPE reference for gap G1)", l:"users.aalto.fi/~ssarkka/pub/sde_book.pdf", u:"https://users.aalto.fi/~ssarkka/pub/sde_book.pdf"},
   {t:"Step-by-Step Diffusion (arXiv:2406.08929)", l:"arxiv.org/pdf/2406.08929", u:"https://arxiv.org/pdf/2406.08929"},
   {t:"Random Walks with Tweedie (arXiv:2411.18702)", l:"arxiv.org/pdf/2411.18702", u:"https://arxiv.org/pdf/2411.18702"},
   {t:"Song et al. 2021 — Score-SDE (arXiv:2011.13456)", l:"arxiv.org/pdf/2011.13456", u:"https://arxiv.org/pdf/2011.13456"},
@@ -719,6 +751,8 @@ function taskRow(task){
   const allDone = dc===tot, someDone = dc>0 && dc<tot;
   if(hideDone && allDone) return "";
   const badges = (o)=> (o.skim?`<span class="minibadge b-skim">${TT('skim')}</span>`:'')+(o.opt?`<span class="minibadge b-opt">${TT('optional')}</span>`:'')+(o.cut?`<span class="minibadge b-cut">${TT('cuttable')}</span>`:'')+(o.e?`<span class="minibadge b-${o.e}">${TT(o.e==='deep'?'deepBadge':'reviewBadge')}</span>`:'');
+  const ibtn = (o)=> o.info?`<button class="ibtn" data-ipop="${o.id}" aria-label="info">i</button>`:'';
+  const ipop = (o)=> o.info?`<div class="ipop hidden" data-ipopbox="${o.id}">${o.info}</div>`:'';
   const fmt = (lab)=>{ const i=lab.indexOf(':'); if(i>0 && i<7){ return `<span class="code" style="--ck:${ck}">${lab.slice(0,i+1)}</span>${lab.slice(i+1).replace(/\(([^)]+)\)\s*$/,'<span class="auth">($1)</span>')}`;} return lab.replace(/\(([^)]+)\)\s*$/,'<span class="auth">($1)</span>'); };
 
   if(!task.subs || !task.subs.length){
@@ -726,7 +760,7 @@ function taskRow(task){
       <div class="row ${done[task.id]?'done':''}">
         <span class="twist spacer"></span>
         <input type="checkbox" class="cb" style="--ck:${ck}" data-leaf="${task.id}" ${done[task.id]?'checked':''}>
-        <div class="tlabel">${fmt(task.label)}${badges(task)}</div>
+        <div class="tlabel">${fmt(task.label)}${badges(task)}${ibtn(task)}${ipop(task)}</div>
       </div></div>`;
   }
   const closed = closedT[task.id];
@@ -734,13 +768,13 @@ function taskRow(task){
     if(hideDone && done[s.id]) return "";
     return `<div class="row sub ${done[s.id]?'done':''}">
       <input type="checkbox" class="cb" style="--ck:${ck}" data-leaf="${s.id}" ${done[s.id]?'checked':''}>
-      <div class="tlabel">${fmt(s.label)}${badges(s)}</div></div>`;
+      <div class="tlabel">${fmt(s.label)}${badges(s)}${ibtn(s)}${ipop(s)}</div></div>`;
   }).join("");
   return `<div class="task ${closed?'closed':''}" data-track="${task.track}">
     <div class="row parent ${allDone?'done':''}">
       <button class="twist" data-toggletask="${task.id}">▾</button>
       <input type="checkbox" class="cb" style="--ck:${ck}" data-parent="${task.id}">
-      <div class="tlabel">${fmt(task.label)}${badges(task)}</div>
+      <div class="tlabel">${fmt(task.label)}${badges(task)}${ibtn(task)}${ipop(task)}</div>
       <span class="tpct">${dc}/${tot}</span>
     </div>
     <div class="subs">${subhtml}</div>
@@ -808,6 +842,11 @@ function bindWeekEvents(){
   document.querySelectorAll("[data-toggletask]").forEach(b=>b.onclick=(e)=>{
     e.stopPropagation(); const id=b.dataset.toggletask; closedT[id]=!closedT[id]; save();
     b.closest(".task").classList.toggle("closed");
+  });
+  document.querySelectorAll("[data-ipop]").forEach(b=>b.onclick=(e)=>{
+    e.stopPropagation();
+    const box=document.querySelector(`[data-ipopbox="${b.dataset.ipop}"]`);
+    if(box) box.classList.toggle("hidden");
   });
   document.querySelectorAll("input[data-leaf]").forEach(cb=>cb.onchange=()=>{
     const id=cb.dataset.leaf; if(cb.checked) done[id]=true; else delete done[id];
