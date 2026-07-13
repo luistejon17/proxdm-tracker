@@ -431,6 +431,17 @@ const WEEKS = [
  {n:3, dates:DATELBL[2], title:"SDE foundations — Baudoin + Brezis (semigroups)", titleEs:"Fundamentos de SDE — Baudoin + Brezis (semigrupos)", tracks:["B"], obj:["O1"],
   note:"DONE in full — all of Baudoin Ch. 1–6 (incl. Malliavin) and the whole Brezis semigroup block, explained in baudoin_1…6_3.tex + apendice_operadores.tex. For ProxDM nothing is missing from here (audit §4: Itô multidim, Girsanov, OU + log-Sobolev all covered).", noteEs:"HECHA por completo — todo Baudoin Cap. 1–6 (incl. Malliavin) y el bloque entero de semigrupos de Brezis, explicados en baudoin_1…6_3.tex + apendice_operadores.tex. Para ProxDM no falta nada de aquí (auditoría §4: Itô multidim., Girsanov, OU + log-Sobolev cubiertos).",
   tasks:[
+   chap("w3-brezis","Brezis — Hille–Yosida & semigroups: functional-analysis backing for Baudoin Ch. 3–4 (fills the gap Folland Ch. 5 leaves open). Skim the prerequisite chapters first — Brezis's notation differs.","B",[
+     sub("w3-brz-1","1: The Hahn–Banach Theorems & conjugate convex functions — prerequisite, skim for notation (you have this from Folland Ch. 5) (Brezis)",{skim:true}),
+     sub("w3-brz-2","2: Uniform Boundedness & Closed Graph Theorems — prerequisite, skim for notation (Folland Ch. 5) (Brezis)",{skim:true}),
+     sub("w3-brz-5","5: Hilbert Spaces — prerequisite, skim for notation: projection, Lax–Milgram, adjoint (Folland §5.5) (Brezis)",{skim:true}),
+     sub("w3-brz-63","6.1–6.3: Compact Operators, Riesz–Fredholm, the Spectrum — skim to ground §6.4 (Brezis)",{skim:true}),
+     sub("w3-brz-64","6.4: Spectral Decomposition of Self-Adjoint Compact Operators — needed for §7.4 (Brezis)"),
+     sub("w3-brz-71","7.1: Maximal Monotone Operators — resolvent Jλ & Yosida regularization (also backs B&C Ch. 20/23) (Brezis)"),
+     sub("w3-brz-72","7.2: Evolution problem du/dt+Au=0 — existence & uniqueness = semigroup generation (Brezis)"),
+     sub("w3-brz-73","7.3: Regularity (Brezis)",{opt:true}),
+     sub("w3-brz-74","7.4: The Self-Adjoint Case — exactly the diffusion-semigroup setting (Baudoin §4.1, §4.5); needs §6.4 (Brezis)"),
+     sub("w3-brz-101","10.1: The Heat Equation — existence/uniqueness/regularity, the diffusion semigroup in action (Brezis)",{opt:true})]),
    chap("w3-bd-1","Ch. 1: Stochastic Processes (Baudoin)","B",[
      sub("w3-bd-1-2","1.2: Stochastic processes — the path space (Baudoin)",{e:"review"}),
      sub("w3-bd-1-3","1.3: Filtrations (Baudoin)",{e:"review"}),
@@ -478,18 +489,7 @@ const WEEKS = [
      sub("w3-bd-6-4","6.4: The strong Markov property of solutions (Baudoin)",{e:"review"}),
      sub("w3-bd-6-5","6.5: Stratonovitch SDEs and the language of vector fields (Baudoin)",{e:"review"}),
      sub("w3-bd-6m","6.6: Malliavin calculus — optional (Baudoin)",{opt:true,e:"review"}),
-     sub("w3-bd-6-7","6.7: Existence of a smooth density — optional (Baudoin)",{opt:true,e:"review"})]),
-   chap("w3-brezis","Brezis — Hille–Yosida & semigroups: functional-analysis backing for Baudoin Ch. 3–4 (fills the gap Folland Ch. 5 leaves open). Skim the prerequisite chapters first — Brezis's notation differs.","B",[
-     sub("w3-brz-1","1: The Hahn–Banach Theorems & conjugate convex functions — prerequisite, skim for notation (you have this from Folland Ch. 5) (Brezis)",{skim:true}),
-     sub("w3-brz-2","2: Uniform Boundedness & Closed Graph Theorems — prerequisite, skim for notation (Folland Ch. 5) (Brezis)",{skim:true}),
-     sub("w3-brz-5","5: Hilbert Spaces — prerequisite, skim for notation: projection, Lax–Milgram, adjoint (Folland §5.5) (Brezis)",{skim:true}),
-     sub("w3-brz-63","6.1–6.3: Compact Operators, Riesz–Fredholm, the Spectrum — skim to ground §6.4 (Brezis)",{skim:true}),
-     sub("w3-brz-64","6.4: Spectral Decomposition of Self-Adjoint Compact Operators — needed for §7.4 (Brezis)"),
-     sub("w3-brz-71","7.1: Maximal Monotone Operators — resolvent Jλ & Yosida regularization (also backs B&C Ch. 20/23) (Brezis)"),
-     sub("w3-brz-72","7.2: Evolution problem du/dt+Au=0 — existence & uniqueness = semigroup generation (Brezis)"),
-     sub("w3-brz-73","7.3: Regularity (Brezis)",{opt:true}),
-     sub("w3-brz-74","7.4: The Self-Adjoint Case — exactly the diffusion-semigroup setting (Baudoin §4.1, §4.5); needs §6.4 (Brezis)"),
-     sub("w3-brz-101","10.1: The Heat Equation — existence/uniqueness/regularity, the diffusion semigroup in action (Brezis)",{opt:true})])
+     sub("w3-bd-6-7","6.7: Existence of a smooth density — optional (Baudoin)",{opt:true,e:"review"})])
   ]},
 
  {n:4, dates:DATELBL[3], title:"Close the proximal core — resolvents · FISTA (Track A)", titleEs:"Cerrar el núcleo proximal — resolventes · FISTA (Track A)", tracks:["A"], obj:["O1","O3"],
@@ -501,10 +501,10 @@ const WEEKS = [
      sub("w4-bc16-3","16.3: Lower Semicontinuous Convex Functions (Bauschke & Combettes)",{skim:true,e:"review"}),
      sub("w4-bc16-4","16.4: Subdifferential Calculus — statements; proofs lean on Ch. 15, skip them (Bauschke & Combettes)",{e:"review"}),
      sub("w4-bc16-5","16.5: The Subdifferential of a Composition (Bauschke & Combettes)",{opt:true,e:"review"})]),
+   leaf("w4-bc41","4.1: Nonexpansive and Firmly Nonexpansive Operators — prox is firmly nonexpansive; prerequisite of Ch. 23 (Bauschke & Combettes)","A",{e:"review"}),
    chap("w4-bc20","20: Monotone Operators — basics only (Bauschke & Combettes)","A",[
      sub("w4-bc20-1","20.1: Monotone Operators (Bauschke & Combettes)",{e:"deep"}),
      sub("w4-bc20-2","20.2: Maximally Monotone Operators — incl. ∂f maximally monotone (Bauschke & Combettes)",{e:"deep"})]),
-   leaf("w4-bc41","4.1: Nonexpansive and Firmly Nonexpansive Operators — prox is firmly nonexpansive; prerequisite of Ch. 23 (Bauschke & Combettes)","A",{e:"review"}),
    chap("w4-bc23","23: Resolvents of Monotone Operators (Bauschke & Combettes)","A",[
      sub("w4-bc23-1","23.1: Basic Identities (Bauschke & Combettes)",{e:"deep"}),
      sub("w4-bc23-2","23.2: Monotonicity and Firm Nonexpansiveness (Bauschke & Combettes)",{e:"deep"}),
